@@ -1,0 +1,14 @@
+*~
+~*
+build*
+*.slxc
+*.autosave
+*.bak
+*.mexw64
+*.mexa64
+slprj*
+*.zip
+*_ert_rtw
+cache*
+codegen*
+derived*
