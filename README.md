@@ -2,7 +2,7 @@ Alexandria
 ==========
 
 ## 🌿 Repository structure
-This repository is organized based upon the following multiple parallel (i.e. orphan in Git jargon) branches:
+This repository is organized based upon the following branches:
 - 🔘 [`master`](../../tree/master) contains the source code of the Alexandria Prokect
 
 ### 🔽 How to clone specific branches locally
