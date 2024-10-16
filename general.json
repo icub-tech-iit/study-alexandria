@@ -1,0 +1,11 @@
+{
+    "iCub": [
+        {
+            "robotName": "iCubErzelli03",
+            "robotVersion": "1.0",
+            "parts": [
+                "head"
+            ]
+        }
+    ]
+}
