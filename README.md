@@ -10,3 +10,30 @@ This repository is organized based upon the following branches:
 git clone https://github.com/icub-tech-iit/study-alexandria.git
 ```
 
+## Usage
+⚠️ This project is currently under development ⚠️
+
+### Dependencies
+
+- [Python](https://www.python.org/)
+- [lxml](https://pypi.org/project/lxml/)
+
+### Installation
+
+After installing [Python](https://www.python.org/downloads/) based on your OS, to install Python packages [`pip`](https://pip.pypa.io/en/stable/installation/) is typically used (if you want to avoid conflicts between package versions, please use a virtual environment).
+
+```console
+pip install lxml
+```
+
+### How it works
+
+To generate the XML files for the robots listed in [**`general.json`**](https://github.com/icub-tech-iit/study-alexandria/blob/master/general.json), please run:
+
+```console
+python3 sysml2xml.py --config sysml
+```
+
+where `sysml` is the folder where the SysML templates are stored.
+
+This script will create a folder for each of the listed robots, mirroring the architecture of [`robots-configuration`](https://github.com/robotology/robots-configuration).

@@ -10,6 +10,9 @@ package AtomicComponents {
 		attribute Phase : phase [4];
 	}
 	part embObjMotionControl {}
+	part embObjIMU {}
 	part parametricCalibratorEth {}
 	part def service {}
 }
+
+import SERVICE::*;

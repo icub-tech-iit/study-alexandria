@@ -6,16 +6,24 @@ part SERVICE {
         part ETHBOARD {
             attribute type : VectorValue;
         }
-        part CANBOARDS {
-            attribute type : VectorValue;
-            part PROTOCOL {
-                attribute major : VectorValue;
-                attribute minor : VectorValue;
+        part JOINTMAPPING {
+            part ACTUATOR {
+                attribute type : VectorValue;
+                attribute portName : VectorValue;
             }
-            part FIRMWARE {
-                attribute major : VectorValue;
-                attribute minor : VectorValue;
-                attribute build : VectorValue;
+            part ENCODER1 {
+                attribute type : VectorValue;
+                attribute portName : VectorValue;
+                attribute position : VectorValue;
+                attribute resolution : VectorValue;
+                attribute tolerance : VectorValue;
+            }
+            part ENCODER2 {
+                attribute type : VectorValue;
+                attribute portName : VectorValue;
+                attribute position : VectorValue;
+                attribute resolution : VectorValue;
+                attribute tolerance : VectorValue;
             }
         }
     }
