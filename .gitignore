@@ -12,3 +12,7 @@ slprj*
 cache*
 codegen*
 derived*
+
+# Generated
+iCub*/
+ergoCub*/
