@@ -13,6 +13,9 @@ cache*
 codegen*
 derived*
 
+# python
+__pycache__
+
 # Generated
 iCub*/
 ergoCub*/
