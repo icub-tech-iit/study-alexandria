@@ -52,7 +52,7 @@ pip install lxml
 To generate the XML files for the robots listed in [**`general.json`**](./general.json), please run:
 
 ```console
-python3 sysml2xml.py --config sysml
+python3 src/main.py --config sysml
 ```
 
 where `sysml` is the folder where the SysML templates are stored.
