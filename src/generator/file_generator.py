@@ -1,7 +1,7 @@
 import os
+from lxml import etree
 from pathlib import Path
 from parsers.sysml_parser import SysMLParser
-from parsers.xml_writer import XMLWriter
 from models.robot import Robot
 from models.part import Part
 
@@ -12,6 +12,13 @@ class FileGenerator:
 
     def load_sysml_files(self):
         return [f for f in os.listdir(self.config_path) if f.endswith('.sysml')]
+    
+    def write_xml_to_file(self, root, output_filename):
+        etree.indent(root, space='    ')
+        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
+        with open(output_filename, "wb") as writer:
+            writer.write(xml_object)
 
     def generate_files_for_robot(self, robot: Robot, part_data):
         sysml_files = self.load_sysml_files()
@@ -29,5 +36,5 @@ class FileGenerator:
                         with open(sysml_file_path, 'r') as f:
                             sysml_lines = f.readlines()
                         xml_root = self.sysml_parser.parse_sysml_to_xml(sysml_lines, robot.name)
-                        XMLWriter.write_xml_to_file(xml_root, file_path)
+                        self.write_xml_to_file(xml_root, file_path)
 
