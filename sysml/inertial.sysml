@@ -1,6 +1,6 @@
 import ScalarValues::*;
 import VectorValues::*;
-part inertial : device = embObjIMU {
+part inertial : device {
     part SERVICE {
         attribute type : VectorValue;
         part PROPERTIES {

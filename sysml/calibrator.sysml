@@ -1,7 +1,6 @@
-import AtomicComponents::*;
 import ScalarValues::*;
 import VectorValues::*;
-part calibrator : device = parametricCalibratorEth {
+part calibrator : device {
     part GENERAL {
         attribute joints : Integer;
         attribute deviceName : String;
@@ -21,5 +20,5 @@ part calibrator : device = parametricCalibratorEth {
         attribute calibrationDelta : VectorValue;
     }
     attribute CALIB_ORDER : String;
-    attribute phase : AtomicComponents::phase [3];
+    attribute phase : phase [3];
 }

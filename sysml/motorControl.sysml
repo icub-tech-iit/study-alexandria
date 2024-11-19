@@ -1,6 +1,6 @@
 import ScalarValues::*;
 import VectorValues::*;
-part motorControl : device = embObjMotionControl {
+part motorControl : device {
     part LIMITS {
         attribute jntPosMin : VectorValue;
         attribute jntPosMax : VectorValue;
