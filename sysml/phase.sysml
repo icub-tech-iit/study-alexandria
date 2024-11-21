@@ -1,5 +1,5 @@
 attribute def phase {
-    attribute level : Integer;
-    attribute type : String;
-    attribute target : String;
+    attribute level : Integer = 10;
+    attribute type : String = "foo";
+    attribute target : String = "foo";
 }
