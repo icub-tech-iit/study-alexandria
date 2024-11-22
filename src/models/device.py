@@ -2,6 +2,5 @@ from dataclasses import dataclass
 
 @dataclass
 class Device:
-    type = str
-    name = str
-        
+    type: str
+    name: str

@@ -13,9 +13,9 @@ class Phase:
         with open(file_path, 'r') as file:
             sysml_str = file.read()
 
-            level_pattern = r'attribute level : Integer = (\d+);'
-            type_pattern = r'attribute type : String = "([^"]+)";'
-            target_pattern = r'attribute target : String = "([^"]+)";'
+            level_pattern = r'attribute level : Integer default (\d+);'
+            type_pattern = r'attribute type : String default "([^"]+)";'
+            target_pattern = r'attribute target : String default "([^"]+)";'
 
             level_match = re.search(level_pattern, sysml_str)
             type_match = re.search(type_pattern, sysml_str)

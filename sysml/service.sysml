@@ -11,20 +11,8 @@ part SERVICE {
                 attribute type : VectorValue;
                 attribute portName : VectorValue;
             }
-            part ENCODER1 {
-                attribute type : VectorValue;
-                attribute portName : VectorValue;
-                attribute position : VectorValue;
-                attribute resolution : VectorValue;
-                attribute tolerance : VectorValue;
-            }
-            part ENCODER2 {
-                attribute type : VectorValue;
-                attribute portName : VectorValue;
-                attribute position : VectorValue;
-                attribute resolution : VectorValue;
-                attribute tolerance : VectorValue;
-            }
+            part ENCODER1 :> ENCODER;
+            part ENCODER2 :> ENCODER;
         }
     }
 }
