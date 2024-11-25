@@ -1,8 +1,4 @@
-	part def device {
-		variation attribute type : String {
-			variant attribute = "embObjIMU";
-			variant attribute = "embObjMotionControl";
-			variant attribute = "parametricCalibratorEth";
-		}
-		attribute Phase : phase [4];
-	}
+part device {
+	attribute type : String default "dev";
+	attribute name : String default "dev_name";
+}

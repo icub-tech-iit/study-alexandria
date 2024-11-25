@@ -2,8 +2,8 @@ import ScalarValues::*;
 import VectorValues::*;
 part calibrator : device {
     part GENERAL {
-        attribute joints : Integer;
-        attribute deviceName : String;
+        attribute joints : Integer default 1;
+        attribute deviceName : String default "foo";
     }
     part HOME {
         attribute positionHome : VectorValue;

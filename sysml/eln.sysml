@@ -3,11 +3,11 @@ import VectorValues::*;
 part electronics {
     part ETH_BOARD {
         part ETH_BOARD_PROPERTIES {
-            attribute IpAddress : String;
-            attribute IpPort : Integer = 12345;
-            attribute Type : String;
-            attribute maxSizeRXpacket : String;
-            attribute maxSizeROP : String;
+            attribute IpAddress : String default "foo";
+            attribute IpPort : Integer default 12345;
+            attribute Type : String default "foo";
+            attribute maxSizeRXpacket : String default "foo";
+            attribute maxSizeROP : String default "foo";
         }
         part ETH_BOARD_SETTINGS {
             attribute Name : String;

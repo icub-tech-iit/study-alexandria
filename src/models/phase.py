@@ -3,28 +3,33 @@ import re
 
 @dataclass
 class Phase:
-    def __init__(self, level, type, target):
-        self.level = level
-        self.type = type
-        self.target = target
+    level: int
+    type: str
+    target: str
 
     @classmethod
     def from_sysml(cls, file_path):
         with open(file_path, 'r') as file:
             sysml_str = file.read()
 
-            level_pattern = r'attribute level : Integer default (\d+);'
-            type_pattern = r'attribute type : String default "([^"]+)";'
-            target_pattern = r'attribute target : String default "([^"]+)";'
+            patterns = {
+                'level': r'attribute level : Integer default (\d+);',
+                'type': r'attribute type : String default "([^"]+)";',
+                'target': r'attribute target : String default "([^"]+)";',
+            }
 
-            level_match = re.search(level_pattern, sysml_str)
-            type_match = re.search(type_pattern, sysml_str)
-            target_match = re.search(target_pattern, sysml_str)
+            attributes = {}
+            for key, pattern in patterns.items():
+                match = re.search(pattern, sysml_str)
+                if match:
+                    attributes[key] = match.group(1)
+                else:
+                    raise ValueError(f"Pattern for {key} not found in the file")
+            return cls(**attributes)
 
-            if level_match and type_match and target_match:
-                level = int(level_match.group(1))
-                type = str(type_match.group(1))
-                target = str(target_match.group(1))
-                return cls(level, type, target)
-            else:
-                raise ValueError("Invalid sysml file format")
+def main():
+    ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/phase.sysml')
+    print(ph)
+
+if __name__ == '__main__':
+    main()
