@@ -1,42 +1,114 @@
 import ScalarValues::*;
-import VectorValues::*;
+
 part motorControl : device {
     part LIMITS {
-        attribute jntPosMin : VectorValue;
-        attribute jntPosMax : VectorValue;
-        attribute jntVelMax : VectorValue;
-        attribute motorOverloadCurrents : VectorValue;
-        attribute motorNominalCurrents : VectorValue;
-        attribute motorPeakCurrents : VectorValue;
-        attribute MotorPwmLimit : VectorValue;
+        attribute jntPosMin : Array {
+            :>> dimensions default 2; 
+            :>> elements : Integer[dimensions] default (-30, -20);
+        }
+        attribute jntPosMax : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (30, 20);
+        }
+        attribute jntVelMax : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (1000, 1000);
+        }
+        attribute motorOverloadCurrents : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (5000, 5000);
+        }
+        attribute motorNominalCurrents : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (1500, 1500);
+        }
+        attribute motorPeakCurrents : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3000, 3000);
+        }
+        attribute motorPwmLimit : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360, 3360);
+        }
     }
     part TIMEOUTS {
-        attribute velocity : VectorValue;
+        attribute velocity : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (100, 100);
+        }
     }
     part IMPEDANCE {
-        attribute stiffness : VectorValue;
-        attribute damping : VectorValue;
+        attribute stiffness : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (0.0, 0.0);
+        }
+        attribute damping : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (0.0, 0.0);
+        }
     }
     part CONTROL {
-        attribute positionControl : VectorValue;
-        attribute velocityControl : VectorValue;
-        attribute mixedControl : VectorValue;
-        attribute torqueControl : VectorValue;
-        attribute currentPid : VectorValue;
-        attribute speedPid : VectorValue;
+        attribute positionControl : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("POS_PID_DEFAULT", "POS_PID_DEFAULT");
+        }
+        attribute velocityControl : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("POS_PID_DEFAULT, POS_PID_DEFAULT");
+        }
+        attribute mixedControl : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("POS_PID_DEFAULT, POS_PID_DEFAULT");
+        }
+        attribute torqueControl : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("none", "none");
+        }
+        attribute currentPid : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("none", "none");
+        }
+        attribute speedPid : Array {
+            :>> dimensions default 2;
+            :>> elements : String[dimensions] default ("none", "none");
+        }
     }
     part POS_PID_DEFAULT {
-        attribute controlLaw : String = "minjerk";
-        attribute outputType : String = "pwm";
-        attribute fbkControlUnits : String = "metric_units";
-        attribute outputControlUnits : String = "machine_units";
-        attribute kp : VectorValue;
-        attribute kd : VectorValue;
-        attribute ki : VectorValue;
-        attribute maxOutput : VectorValue;
-        attribute maxInt : VectorValue;
-        attribute stictionUp : VectorValue;
-        attribute stictionDown : VectorValue;
-        attribute kff : VectorValue;
+        attribute controlLaw : String default "minjerk";
+        attribute outputType : String default "pwm";
+        attribute fbkControlUnits : String default "metric_units";
+        attribute outputControlUnits : String default "machine_units";
+        attribute kp : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (-300, 300);
+        }
+        attribute kd : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute ki : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (-100, +100);
+        }
+        attribute maxOutput : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute maxInt : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360, 3360);
+        }
+        attribute stictionUp : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute stictionDown : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute kff : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
     }
 }

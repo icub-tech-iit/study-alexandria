@@ -1,5 +1,4 @@
 import re
-import os
 from dataclasses import dataclass
 from phase import Phase
 from device import Device
@@ -37,56 +36,59 @@ class Calibrator(Device):
     
         def extract_attributes(block, pattern):
             matches = re.findall(pattern, block)
-            print(matches)
-            return {k: eval(v) if v.isdigit() or '.' in v else v.strip('"') for k, v in matches}
+            attributes = {}
+            for match in matches:
+                key = match[0]
+                value = None
+                if match[1]:
+                    try:
+                        value = float(match[1])
+                    except ValueError:
+                        value = match[1]
+                elif match[2]:
+                    value = int(match[2])
+                else:
+                    value = match[3]
+                attributes[key] = value
+            return attributes
         
-        general_pattern = r'attribute (\w+) : \w+ default (\w+);'
-        vector_pattern = r'attribute (\w+) : VectorValue default \[(.+?)\];'
-        calib_order_pattern = r'attribute CALIB_ORDER : String default (\w+);'
-        phase_pattern = r'attribute phase : phase \[\d+\];'
+        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
+        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
+        phase_pattern = r'attribute (\w+) : \w+ (\[\d+\]);'
 
         calib = cls(None, None, None)
-        general_block = re.search(r'part GENERAL {([^}]*)}', sysml_str)
-        home_block = re.search(r'part HOME {([^}]*)}', sysml_str)   
-        calibration_block = re.search(r'part CALIBRATION {([^}]*)}', sysml_str)
-        calib_order_match = re.search(calib_order_pattern, sysml_str)
-        phase_match = re.search(phase_pattern, sysml_str)
+        device = Device(None, None).from_sysml('/home/mgloria/iit/study-alexandria/sysml/device.sysml')
+        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern) | extract_attributes(sysml_str, phase_pattern)
 
-        if general_block:
-            general_attrs = extract_attributes(general_block.group(1), general_pattern)
-            calib.general = cls.GENERAL(
-                joints = int(general_attrs['joints']),
-                deviceName = str(general_attrs['deviceName'])
-                # deviceName = super().from_sysml('/home/mgloria/iit/study-alexandria/sysml/device.sysml')
-            )
-        if home_block:
-            home_attrs = extract_attributes(home_block.group(1), vector_pattern)
-            calib.home = cls.HOME(
-                positionHome=[float(x) for x in home_attrs['positionHome']],
-                velocityHome=[float(x) for x in home_attrs['velocityHome']]
-            )
-        if calibration_block:
-            calib_attrs = extract_attributes(calibration_block.group(1), vector_pattern)
-            calib.calibration = cls.CALIBRATION(
-                calibrationType=[float(x) for x in calib_attrs['calibrationType']],
-                calibration1=[float(x) for x in calib_attrs['calibration1']],
-                calibration2=[float(x) for x in calib_attrs['calibration2']],
-                calibration3=[float(x) for x in calib_attrs['calibration3']],
-                calibration4=[float(x) for x in calib_attrs['calibration4']],
-                calibration5=[float(x) for x in calib_attrs['calibration5']],
-                calibrationZero=[float(x) for x in calib_attrs['calibrationZero']],
-                calibrationDelta=[float(x) for x in calib_attrs['calibrationDelta']],
-            )
-        if calib_order_match:
-            calib.CALIB_ORDER = calib_order_match.group(1).split()
-        if phase_match:
-            calib.phase = Phase(cls.level, cls.type, cls.target)
+        calib.general = cls.GENERAL(
+            joints = attr['joints'],
+            deviceName = device.name
+        )
+
+        calib.home = cls.HOME(
+            positionHome = [attr['positionHome']],
+            velocityHome = [attr['velocityHome']]
+        )
+
+        calib.calibration = cls.CALIBRATION(
+            calibrationType = [attr['calibrationType']],
+            calibration1 = [attr['calibration1']],
+            calibration2 = [attr['calibration2']],
+            calibration3 = [attr['calibration3']],
+            calibration4 = [attr['calibration4']],
+            calibration5 = [attr['calibration5']],
+            calibrationZero = [attr['calibrationZero']],
+            calibrationDelta = [attr['calibrationDelta']],
+        )
+
+        calib.CALIB_ORDER = attr['CALIB_ORDER']
+        calib.phase = [Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/phase.sysml') for i in attr['phase']]
 
         return calib
 
 def main():
     calibrator = Calibrator.from_sysml('/home/mgloria/iit/study-alexandria/sysml/calibrator.sysml')
-    print(calibrator)
+    print(calibrator.general.deviceName)
 
 if __name__ == "__main__":
     main()

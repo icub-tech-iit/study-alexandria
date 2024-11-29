@@ -28,49 +28,47 @@ class SERVICE:
         with open(file_path, 'r') as file:
             sysml_str = file.read()
 
-        patterns = {
-            'type': r'attribute type :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);\s*}',
-            'portName': r'attribute portName :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);\s*}',
-        }
+        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
+        enc_pattern = r'attribute (\w+) :> (\w+);'
+        ser = cls(None)
 
-        block_patterns = {
-            # 'SERVICE': r'part SERVICE {([^}]*)}',
-            'PROPERTIES': r'part PROPERTIES {([^}]*)}',
-            'ETHBOARD': r'part ETHBOARD {([^}]*)}',
-            'JOINTMAPPING': r'part JOINTMAPPING {([^}]*)}',
-            'ACTUATOR': r'part ACTUATOR {([^}]*)}',
-        }
-
-        attributes = {}
-        parts = {}
-        for key_block, pattern_block in block_patterns.items():
-            match_block = re.search(pattern_block, sysml_str)
-            if match_block:
-                parts[key_block] = match_block.group(1)
-
-        # Extract attributes within each part
-        for part_name, part_content in parts.items():
-            attributes[part_name] = {}
-            for key, pattern in patterns.items():
-                match = re.search(pattern, part_content)
-                if match:
-                    attributes[part_name][key] = match.group(1)
-                    print(attributes)
+        def extract_attributes(block, pattern):
+            matches = re.findall(pattern, block)
+            attributes = {}
+            for match in matches:
+                key = match[0]
+                value = None
+                if match[1]:
+                    try:
+                        value = float(match[1])
+                    except ValueError:
+                        value = match[1]
+                elif match[2]:
+                    value = int(match[2])
                 else:
-                    raise ValueError(f"Pattern for {key} not found in the part {part_name}")
-                        
-        # return cls(**parts)
-                # match = re.search(pattern, sysml_str)
-                # if match:
-                #     attributes[key] = match.group(1)
-                # else:
-                #     raise ValueError(f"Pattern for {key} not found in the file")
+                    value = match[3]
+                attributes[key] = value
+            return attributes
+                
+        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, enc_pattern)
+        ser.type = attr['service_type']
 
-            # return cls(**parts)
-        
+        ser.ethboard = cls.PROPERTIES().ETHBOARD(
+            type = [attr['eth_type']]
+        )
+
+        ser.actuator = cls.PROPERTIES().JOINTMAPPING().ACTUATOR(
+            type = [attr['actuator_type']],
+            port = [attr['portName']]
+        )
+
+        ser.encoder1 = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+        ser.encoder2 = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+        return ser
+    
 def main():
     serv = SERVICE.from_sysml('/home/mgloria/iit/study-alexandria/sysml/service.sysml')
-    print(serv)
+    print(serv.encoder2.position)
 
 if __name__ == '__main__':
     main()

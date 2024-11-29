@@ -1,18 +1,19 @@
+import Collections::*;
 part SERVICE {
-    attribute type : Array {
+    attribute service_type : Array {
         :>> dimensions default 1; 
         :>> elements : String[dimensions] default ("type"); 
         }
     part PROPERTIES {
         part ETHBOARD {
-            attribute type : Array {
+            attribute eth_type : Array {
                 :>> dimensions default 1; 
                 :>> elements : String[dimensions] default ("type_ethboard"); 
                 }
         }
         part JOINTMAPPING {
             part ACTUATOR {
-                attribute type : Array {
+                attribute actuator_type : Array {
                     :>> dimensions default 1; 
                     :>> elements : String[dimensions] default ("type_actuator"); 
                     }

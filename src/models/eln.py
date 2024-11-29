@@ -1,15 +1,14 @@
 from dataclasses import dataclass
 import re
 class Electronics:
-    @dataclass
     class ETH_BOARD:
         @dataclass
         class ETH_BOARD_PROPERTIES:
             IpAddress: str
             IpPort: int
             Type: str
-            maxSizeRXpacket: str
-            maxSizeROP: str
+            maxSizeRXpacket: int
+            maxSizeROP: int
         @dataclass
         class ETH_BOARD_SETTINGS:
             Name: str
@@ -20,7 +19,6 @@ class Electronics:
                 maxTimeOfDOactivity: int
                 maxTimeOfTXactivity: int
                 TXrateOfRegularROPs: int
-        @dataclass
         class ETH_BOARD_ACTIONS:
             @dataclass
             class MONITOR_ITS_PRESENCE:
@@ -35,44 +33,53 @@ class Electronics:
     
         def extract_attributes(block, pattern):
             matches = re.findall(pattern, block)
-            return {k: eval(v) if v.isdigit() or '.' in v else v.strip('"') for k, v in matches}
+            attributes = {}
+            for match in matches:
+                key = match[0]
+                if match[1]:
+                    value = float(match[1])
+                elif match[2]:
+                    value = int(match[2])
+                else:
+                    value = match[3]
+                attributes[key] = value
+            return attributes
         
-        general_pattern = r'attribute (\w+) : \w+ default \[(.+?)\];'
+        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
+        # general_pattern = r'attribute (\w+) : \w+ default (?:(\d+)|"([^"]*)");'
         board = cls()
+        attr = extract_attributes(sysml_str, general_pattern)
 
-        ethboard_block = re.search(r'part ETH_BOARD {([^}]*)}', sysml_str)
-        properties_block = re.search(r'part ETH_BOARD_PROPERTIES {([^}]*)}', sysml_str)
-        settings_block = re.search(r'part ETH_BOARD_SETTINGS {([^}]*)}', sysml_str)
-        runningmode_block = re.search(r'part RUNNINGMODE {([^}]*)}', sysml_str)
-        actions_block = re.search(r'part ETH_BOARD_ACTIONS {([^}]*)}', sysml_str)
-        monitor_block = re.search(r'part MONITOR_ITS_PRESENCE {([^}]*)}', sysml_str)
+        board.eth_board = cls.ETH_BOARD.ETH_BOARD_PROPERTIES(
+            IpAddress = attr['IpAddress'],
+            IpPort = attr['IpPort'],
+            Type = attr['Type'],
+            maxSizeRXpacket = attr['maxSizeRXpacket'],
+            maxSizeROP = attr['maxSizeROP']
+        )
 
-        if ethboard_block:
-            if properties_block:
-                ethboard_attrs = extract_attributes(properties_block.group(1), general_pattern)
-                print(ethboard_attrs)
-                board.ethboard = cls.ETH_BOARD.ETH_BOARD_PROPERTIES(
-                    IpAddress = str(ethboard_attrs['IpAddress']),
-                    IpPort = int(ethboard_attrs['IpPort']),
-                    Type = str(ethboard_attrs['Type']),
-                    maxSizeRXpacket = str(ethboard_attrs['maxSizeRXpacket']),
-                    maxSizeROP = str(ethboard_attrs['maxSizeROP'])
-                )
+        board.ethboard_settings = cls.ETH_BOARD.ETH_BOARD_SETTINGS(
+            Name = attr['Name']
+        )
+        board.running_mode = cls.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE(
+            period = attr['period'],
+            maxTimeOfRXactivity = attr['maxTimeOfRXactivity'],
+            maxTimeOfDOactivity = attr['maxTimeOfDOactivity'],
+            maxTimeOfTXactivity = attr['maxTimeOfTXactivity'],
+            TXrateOfRegularROPs = attr['TXrateOfRegularROPs']
+        )
 
-        if settings_block:
-            settings_attrs = extract_attributes(settings_block.group(1), sysml_str)
-            # print(settings_block.group(1))
-            # print(general_pattern)
-            # print(settings_attrs)
-            # board.settings = cls.ETH_BOARD.ETH_BOARD_SETTINGS(
-            #     Name = str(settings_attrs['Name'])
-            # )
+        board.monitor_its_presence = cls.ETH_BOARD.ETH_BOARD_ACTIONS.MONITOR_ITS_PRESENCE(
+            enabled = attr['enabled'],
+            timeout = attr['timeout'],
+            periodOfMissingReport = attr['periodOfMissingReport']
+        )
 
         return board
 
 def main():
     eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/eln.sysml')
-    print(eln)
+    print(eln.eth_board.Type)
 
 if __name__ == "__main__":
     main()
