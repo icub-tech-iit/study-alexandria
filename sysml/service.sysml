@@ -1,30 +1,29 @@
-import ScalarValues::*;
-import VectorValues::*;
+import Collections::*;
 part SERVICE {
-    attribute type : VectorValue;
+    attribute service_type : Array {
+        :>> dimensions default 1; 
+        :>> elements : String[dimensions] default ("type"); 
+        }
     part PROPERTIES {
         part ETHBOARD {
-            attribute type : VectorValue;
+            attribute eth_type : Array {
+                :>> dimensions default 1; 
+                :>> elements : String[dimensions] default ("type_ethboard"); 
+                }
         }
         part JOINTMAPPING {
             part ACTUATOR {
-                attribute type : VectorValue;
-                attribute portName : VectorValue;
+                attribute actuator_type : Array {
+                    :>> dimensions default 1; 
+                    :>> elements : String[dimensions] default ("type_actuator"); 
+                    }
+                attribute portName : Array {
+                    :>> dimensions default 1; 
+                    :>> elements : String[dimensions] default ("portName"); 
+                    }
             }
-            part ENCODER1 {
-                attribute type : VectorValue;
-                attribute portName : VectorValue;
-                attribute position : VectorValue;
-                attribute resolution : VectorValue;
-                attribute tolerance : VectorValue;
-            }
-            part ENCODER2 {
-                attribute type : VectorValue;
-                attribute portName : VectorValue;
-                attribute position : VectorValue;
-                attribute resolution : VectorValue;
-                attribute tolerance : VectorValue;
-            }
+            part ENCODER1 :> ENCODER;
+            part ENCODER2 :> ENCODER;
         }
     }
 }

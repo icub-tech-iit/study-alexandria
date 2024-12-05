@@ -1,7 +1,6 @@
 {
     "head": {
         "calibrator": {
-            "count": 2,
             "path": "calibrators",
             "files": [
                 "face-calib.xml",
@@ -9,7 +8,6 @@
             ]
         },
         "eln": {
-            "count": 3,
             "path": "hardware/electronics",
             "files": [
                 "face-eb22-j0-eln.xml",
@@ -18,23 +16,20 @@
             ]
         },
         "inertial": {
-            "count": 1,
             "path": "hardware/inertials",
             "files": [
                 "head-inertial.xml"
             ]
         },
         "mec": {
-            "count": 2,
             "path": "hardware/mechanicals",
             "files": [
                 "face-eb22-j0-mec.xml",
                 "head-eb20-j0_1-mec.xml",
                 "head-eb21-j2_5-mec.xml"
-          ]
+            ]
         },
         "motorControl": {
-            "count": 3,
             "path": "hardware/motorControl",
             "files": [
                 "face-eb22-j0-mc.xml",
@@ -43,7 +38,6 @@
             ]
         },
         "service": {
-            "count": 3,
             "path": "hardware/motorControl",
             "files": [
                 "face-eb22-j0-mc_service.xml",
@@ -52,7 +46,6 @@
             ]
         },
         "wrapper": {
-            "count": 3,
             "path": "wrappers/motorControl",
             "files": [
                 "face-mc_wrapper.xml",
@@ -60,7 +53,6 @@
             ]
         },
         "remapper": {
-            "count": 2,
             "path": "wrappers/motorControl",
             "files": [
                 "face-mc_remapper.xml",

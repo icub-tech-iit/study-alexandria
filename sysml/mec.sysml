@@ -1,37 +1,92 @@
 import ScalarValues::*;
-import VectorValues::*;
-part GENERAL {
-	attribute MotioncontrolVersion : Integer;
-	attribute Joints : Integer;
-	attribute AxisMap : VectorValue;
-	attribute AxisName : VectorValue;
-	attribute AxisType : VectorValue;
-	attribute Encoder : VectorValue;
-	attribute fullscalePWM : VectorValue;
-	attribute ampsToSensor : VectorValue;
-	attribute Gearbox_M2J : VectorValue;
-	attribute Gearbox_E2J : VectorValue;
-	attribute useMotorSpeedFbk : VectorValue;
-	attribute MotorType : VectorValue;
-	attribute Verbose : Integer;
-}
-part LIMITS {
-	attribute hardwareJntPosMin : VectorValue;
-	attribute hardwareJntPosMax : VectorValue;
-	attribute rotorPosMin : VectorValue;
-	attribute rotorPosMax : VectorValue;
-}
-part COUPLINGS {
-	attribute matrixJ2M : VectorValue;
-	attribute matrixM2J : VectorValue;
-	attribute matrixE2J : VectorValue;
-}
-part JOINTSET_CFG {
-	attribute numberofsets : Integer;
-	part JOINTSET [2] {
-		attribute listofjoints : VectorValue;
-		attribute constraintName : String;
-		attribute param1 : Integer;
-		attribute param2 : Integer;
+part mechanical {
+	part GENERAL {
+		attribute MotioncontrolVersion : Integer default 6;
+		attribute Joints : Integer default 2;
+		attribute AxisMap : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 1); 
+		}
+		attribute AxisName : Array {
+			:>> dimensions default 2; 
+			:>> elements : String[dimensions] default ("axis1", "axis2"); 
+		}
+		attribute AxisType : Array {
+			:>> dimensions default 2; 
+			:>> elements : String[dimensions] default ("revolute", "revolute"); 
+		}
+		attribute Encoder : Array {
+			:>> dimensions default 2; 
+			:>> elements : Real[dimensions] default (0.0, 0.0); 
+		}
+		attribute fullscalePWM : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute ampsToSensor : Array {
+			:>> dimensions default 2; 
+			:>> elements : Real[dimensions] default (0.0, 0.0); 
+		}
+		attribute Gearbox_M2J : Array {
+			:>> dimensions default 2; 
+			:>> elements : Real[dimensions] default (0.0, 0.0); 
+		}
+		attribute Gearbox_E2J : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (1, 1); 
+		}
+		attribute useMotorSpeedFbk : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (1, 1); 
+		}
+		attribute MotorType : Array {
+			:>> dimensions default 2; 
+			:>> elements : String[dimensions] default ("DC", "DC"); 
+		}
+		attribute Verbose : Integer default 0;
+	}
+	part LIMITS {
+		attribute hardwareJntPosMin : Array	{
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (-30, -30); 
+		}
+		attribute hardwareJntPosMax : Array	{
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (30, 30); 
+		}
+		attribute rotorPosMin : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute rotorPosMax : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+	}
+	part COUPLINGS {
+		attribute matrixJ2M : Array {
+			:>> dimensions default 3; 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+		}
+		attribute matrixM2J : Array {
+			:>> dimensions default 3; 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+		}
+		attribute matrixE2J : Array {
+			:>> dimensions default 3; 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+		}
+	}
+	part JOINTSET_CFG {
+		attribute numberofsets : Integer default 1;
+		part JOINTSET_0 {
+			attribute listofjoints : Array {
+				:>> dimensions default 2; 
+				:>> elements : Integer[dimensions] default (0, 1); 
+			}
+			attribute constraintName : String default "none";
+			attribute param1 : Integer default 0;
+			attribute param2 : Integer default 0;
+		}
 	}
 }

@@ -1,25 +1,54 @@
-import AtomicComponents::*;
 import ScalarValues::*;
-import VectorValues::*;
-part calibrator : device = parametricCalibratorEth {
+
+part calibrator : device {
     part GENERAL {
-        attribute joints : Integer;
-        attribute deviceName : String;
+        attribute joints : Integer default 1;
+        attribute deviceName : String default "foo";
     }
     part HOME {
-        attribute positionHome : VectorValue;
-        attribute velocityHome : VectorValue;
+        attribute positionHome : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute velocityHome : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (10);
+        }
     }
     part CALIBRATION {
-        attribute calibrationType : VectorValue;
-        attribute calibration1 : VectorValue;
-        attribute calibration2 : VectorValue;
-        attribute calibration3 : VectorValue;
-        attribute calibration4 : VectorValue;
-        attribute calibration5 : VectorValue;
-        attribute calibrationZero : VectorValue;
-        attribute calibrationDelta : VectorValue;
+        attribute calibrationType : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (10);
+        }
+        attribute calibration1 : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibration2 : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibration3 : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibration4 : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibration5 : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibrationZero : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute calibrationDelta : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
     }
-    attribute CALIB_ORDER : String;
-    attribute phase : AtomicComponents::phase [3];
+    attribute CALIB_ORDER : String default "(0)";
+    attribute phase : phase [3];
 }
