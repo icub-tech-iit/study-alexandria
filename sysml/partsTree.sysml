@@ -44,8 +44,14 @@ package PartsTree {
 
         /*Define service*/
         part service [3] :> SERVICE;
-        part service1 subsets service = "face-eb22-j0-mc_service.xml";
-        part service2 subsets service = "head-eb20-j0_1-mc_service.xml";
-        part service3 subsets service = "head-eb21-j2_5-mc_service.xml";
+        part service1 subsets service = "face-eb22-j0-mc_service.xml" {
+            :>> service_type = "eomn_serv_MC_mc4plus";
+        }
+        part service2 subsets service = "head-eb20-j0_1-mc_service.xml" {
+            :>> service_type = "eomn_serv_MC_mc4plus";
+        }
+        part service3 subsets service = "head-eb21-j2_5-mc_service.xml" {
+            :>> service_type = "eomn_serv_MC_mc4plus";
+        }
     }
 }   

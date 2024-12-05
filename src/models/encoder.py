@@ -10,8 +10,8 @@ class Encoder:
     tolerance: list[float]
 
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
 
         patterns = {
@@ -33,7 +33,7 @@ class Encoder:
         return cls(**attributes)
         
 def main():
-    enc = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+    enc = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml', '/encoder.sysml')
     print(enc.position)
 
 if __name__ == '__main__':

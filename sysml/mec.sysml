@@ -66,15 +66,15 @@ part mechanical {
 	part COUPLINGS {
 		attribute matrixJ2M : Array {
 			:>> dimensions default 3; 
-			:>> elements : VectorValue[dimensions] default ((0.0, 0.0, 0,0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)); 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
 		}
 		attribute matrixM2J : Array {
 			:>> dimensions default 3; 
-			:>> elements : VectorValue[dimensions] default ((0.0, 0.0, 0,0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)); 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
 		}
 		attribute matrixE2J : Array {
 			:>> dimensions default 3; 
-			:>> elements : VectorValue[dimensions] default ((0.0, 0.0, 0,0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)); 
+			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
 		}
 	}
 	part JOINTSET_CFG {

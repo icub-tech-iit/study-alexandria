@@ -27,8 +27,8 @@ class Electronics:
                 periodOfMissingReport: float
     
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
     
         def extract_attributes(block, pattern):
@@ -78,7 +78,7 @@ class Electronics:
         return board
 
 def main():
-    eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/eln.sysml')
+    eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml','/eln.sysml')
     print(eln.eth_board.Type)
 
 if __name__ == "__main__":

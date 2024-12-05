@@ -7,8 +7,8 @@ class Device:
     name: str
 
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
 
             patterns = {
@@ -26,8 +26,8 @@ class Device:
             return cls(**attributes)
 
 def main():
-    dev = Device.from_sysml('/home/mgloria/iit/study-alexandria/sysml/device.sysml')
-    print(dev.name)
+    dev = Device.from_sysml('/home/mgloria/iit/study-alexandria/sysml", "/device.sysml')
+    print(dev)
 
 if __name__ == '__main__':
     main()

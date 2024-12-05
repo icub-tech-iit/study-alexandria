@@ -4,6 +4,8 @@ import re
 
 @dataclass
 class SERVICE:
+    def __init__(self, root_path):
+        self.root_path = root_path
     type: list[str]
     class PROPERTIES:
         @dataclass
@@ -16,21 +18,21 @@ class SERVICE:
                 port: list[str]
             class ENCODER1(Encoder):
                 def __init__(self):
-                    encoder1 = Encoder().from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+                    encoder1 = Encoder().from_sysml(self.root_path,'/encoder.sysml')
                     super().__init__(**encoder1.__dict__)
             class ENCODER2(Encoder):
                 def __init__(self):
-                    encoder2 = Encoder().from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+                    encoder2 = Encoder().from_sysml(self.root_path,'/encoder.sysml')
                     super().__init__(**encoder2.__dict__)
         
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
 
         vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
         enc_pattern = r'attribute (\w+) :> (\w+);'
-        ser = cls(None)
+        ser = cls(root_path)
 
         def extract_attributes(block, pattern):
             matches = re.findall(pattern, block)
@@ -62,12 +64,12 @@ class SERVICE:
             port = [attr['portName']]
         )
 
-        ser.encoder1 = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
-        ser.encoder2 = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/encoder.sysml')
+        ser.encoder1 = Encoder.from_sysml(root_path,'/encoder.sysml')
+        ser.encoder2 = Encoder.from_sysml(root_path,'/encoder.sysml')
         return ser
     
 def main():
-    serv = SERVICE.from_sysml('/home/mgloria/iit/study-alexandria/sysml/service.sysml')
+    serv = SERVICE('/home/mgloria/iit/study-alexandria/sysml/').from_sysml('/home/mgloria/iit/study-alexandria/sysml','/service.sysml')
     print(serv.encoder2.position)
 
 if __name__ == '__main__':

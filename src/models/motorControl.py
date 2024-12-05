@@ -3,8 +3,10 @@ from device import Device
 import re
 
 class motorControl(Device):
-    def __init__(self):
-        super().__init__(None, None)
+    def __init__(self, root_path):
+        self.root_path = root_path
+        device = Device.from_sysml(root_path, '/device.sysml')
+        super().__init__(**device.__dict__)
 
     @dataclass
     class LIMITS:
@@ -50,8 +52,8 @@ class motorControl(Device):
         kff: list[int]
 
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
 
         def extract_attributes(block, pattern):
@@ -74,7 +76,7 @@ class motorControl(Device):
         
         general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
         vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-        mc = cls()
+        mc = cls(root_path)
 
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
         mc.limits = cls.LIMITS(
@@ -118,7 +120,7 @@ class motorControl(Device):
         return mc
 
 def main():
-    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml/motorControl.sysml')
+    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml','/motorControl.sysml')
     print(motor_control.controls.positionControl)
 
 if __name__ == "__main__":

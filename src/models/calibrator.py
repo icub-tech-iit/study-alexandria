@@ -4,10 +4,11 @@ from phase import Phase
 from device import Device
 
 class Calibrator(Device):
-    def __init__(self, level, type, target):
-        super().__init__(None, None)
+    def __init__(self, root_path):
+        device = Device.from_sysml(root_path, "/device.sysml")
+        super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
-        self.phase = list[Phase(level, type, target)]
+        self.phase = list[Phase]
     
     @dataclass
     class GENERAL:
@@ -30,8 +31,8 @@ class Calibrator(Device):
         calibrationDelta: list[float]
 
     @classmethod
-    def from_sysml(cls, file_path):
-        with open(file_path, 'r') as file:
+    def from_sysml(cls, root_path, file_path):
+        with open(root_path+file_path, 'r') as file:
             sysml_str = file.read()
     
         def extract_attributes(block, pattern):
@@ -56,13 +57,12 @@ class Calibrator(Device):
         vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
         phase_pattern = r'attribute (\w+) : \w+ (\[\d+\]);'
 
-        calib = cls(None, None, None)
-        device = Device(None, None).from_sysml('/home/mgloria/iit/study-alexandria/sysml/device.sysml')
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern) | extract_attributes(sysml_str, phase_pattern)
+        calib = cls(root_path)
 
         calib.general = cls.GENERAL(
             joints = attr['joints'],
-            deviceName = device.name
+            deviceName = calib.name
         )
 
         calib.home = cls.HOME(
@@ -82,13 +82,15 @@ class Calibrator(Device):
         )
 
         calib.CALIB_ORDER = attr['CALIB_ORDER']
-        calib.phase = [Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/phase.sysml') for i in attr['phase']]
+        calib.phase = [Phase.from_sysml(root_path,'/phase.sysml') for i in attr['phase']]
 
         return calib
 
 def main():
-    calibrator = Calibrator.from_sysml('/home/mgloria/iit/study-alexandria/sysml/calibrator.sysml')
+    root_path = "/home/mgloria/iit/study-alexandria/sysml"
+    calibrator = Calibrator(root_path).from_sysml(root_path, '/calibrator.sysml')
     print(calibrator.general.deviceName)
+    print(calibrator)
 
 if __name__ == "__main__":
     main()
