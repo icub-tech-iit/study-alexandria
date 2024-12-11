@@ -8,8 +8,8 @@ class Phase:
     target: str
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/phase.sysml', 'r') as file:
             sysml_str = file.read()
 
             patterns = {
@@ -28,7 +28,7 @@ class Phase:
             return cls(**attributes)
 
 def main():
-    ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/','phase.sysml')
+    ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
     print(ph)
 
 if __name__ == '__main__':

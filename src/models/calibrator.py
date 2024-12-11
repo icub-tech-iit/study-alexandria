@@ -5,7 +5,7 @@ from device import Device
 
 class Calibrator(Device):
     def __init__(self, root_path):
-        device = Device.from_sysml(root_path, "/device.sysml")
+        device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
         self.phase = list[Phase]
@@ -31,8 +31,8 @@ class Calibrator(Device):
         calibrationDelta: list[float]
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/calibrator.sysml', 'r') as file:
             sysml_str = file.read()
     
         def extract_attributes(block, pattern):
@@ -82,13 +82,13 @@ class Calibrator(Device):
         )
 
         calib.CALIB_ORDER = attr['CALIB_ORDER']
-        calib.phase = [Phase.from_sysml(root_path,'/phase.sysml') for i in attr['phase']]
+        calib.phase = [Phase.from_sysml(root_path) for i in attr['phase']]
 
         return calib
 
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml"
-    calibrator = Calibrator(root_path).from_sysml(root_path, '/calibrator.sysml')
+    calibrator = Calibrator(root_path).from_sysml(root_path)
     print(calibrator.general.deviceName)
     print(calibrator)
 

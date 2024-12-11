@@ -14,8 +14,8 @@ class Parts:
         self.service = list[SERVICE]
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/partsTree.sysml', 'r') as file:
             sysml_str = file.read()
 
         part = cls()
@@ -25,22 +25,22 @@ class Parts:
 
         for match in part_matches:
             if match[2] == 'calibrator':
-                part.calibration = [calibrator.from_sysml(root_path,'/calibrator.sysml') for i in range(0, int(match[1]))]
+                part.calibration = [calibrator.from_sysml(root_path) for i in range(0, int(match[1]))]
             elif match[2] == 'electronics':
-                part.eln = [electronics.from_sysml(root_path,'/eln.sysml') for i in range(0, int(match[1]))]
+                part.eln = [electronics.from_sysml(root_path) for i in range(0, int(match[1]))]
             elif match[2] == 'mechanical':
-                part.mechanicals = [mechanical.from_sysml(root_path, '/mec.sysml') for i in range(0, int(match[1]))]
+                part.mechanicals = [mechanical.from_sysml(root_path) for i in range(0, int(match[1]))]
             elif match[2] == 'motorControl':
-                part.motorcontrol = [motorControl.from_sysml(root_path, '/motorControl.sysml') for i in range(0, int(match[1]))]
+                part.motorcontrol = [motorControl.from_sysml(root_path) for i in range(0, int(match[1]))]
             elif match[2] == 'SERVICE':
-                part.service = [SERVICE.from_sysml(root_path, '/service.sysml') for i in range(0, int(match[1]))]
+                part.service = [SERVICE.from_sysml(root_path) for i in range(0, int(match[1]))]
             else:
                 print("No match found")
 
         return part
 
 def main():
-    part = Parts.from_sysml('/home/mgloria/iit/study-alexandria/sysml', '/partsTree.sysml')
+    part = Parts.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     print(part.__dict__)
 
 if __name__ == "__main__":

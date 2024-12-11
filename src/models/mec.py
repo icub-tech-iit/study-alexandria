@@ -38,8 +38,8 @@ class Mechanicals:
             param2: int
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/mec.sysml', 'r') as file:
             sysml_str = file.read()
     
         def extract_attributes(block, pattern):
@@ -107,7 +107,7 @@ class Mechanicals:
         return mec
 
 def main():
-    mec = Mechanicals.from_sysml('/home/mgloria/iit/study-alexandria/sysml','/mec.sysml')
+    mec = Mechanicals.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     print(mec.jointset_0.constraintName)
 
 if __name__ == "__main__":

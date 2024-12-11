@@ -5,7 +5,7 @@ import re
 class motorControl(Device):
     def __init__(self, root_path):
         self.root_path = root_path
-        device = Device.from_sysml(root_path, '/device.sysml')
+        device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
 
     @dataclass
@@ -52,8 +52,8 @@ class motorControl(Device):
         kff: list[int]
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/motorControl.sysml', 'r') as file:
             sysml_str = file.read()
 
         def extract_attributes(block, pattern):
@@ -120,7 +120,7 @@ class motorControl(Device):
         return mc
 
 def main():
-    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml','/motorControl.sysml')
+    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     print(motor_control.controls.positionControl)
 
 if __name__ == "__main__":
