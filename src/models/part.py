@@ -1,4 +1,5 @@
 import re
+from lxml import etree
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
 from mec import Mechanicals as mechanical 
@@ -38,6 +39,15 @@ class Parts:
                 print("No match found")
 
         return part
+
+    @classmethod
+    def to_xml(root_path):
+        etree.indent(root_path, space='    ')
+        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        xml_object = etree.tostring(root_path, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
+        with open(root_path+'/', "wb") as writer:
+            writer.write(xml_object)
+
 
 def main():
     part = Parts.from_sysml('/home/mgloria/iit/study-alexandria/sysml')

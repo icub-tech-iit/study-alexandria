@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import re
+import lxml.etree as etree
 
 @dataclass
 class Phase:
@@ -30,6 +31,7 @@ class Phase:
 def main():
     ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
     print(ph)
+    # Phase.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == '__main__':
     main()
