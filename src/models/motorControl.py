@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, is_dataclass, asdict, fields
+from lxml import etree
 from device import Device
 import re
 
@@ -118,10 +119,28 @@ class motorControl(Device):
             kff = [attr['kff']]
         )
         return mc
+    
+    def to_xml(self, root_path):
+        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+
+        for attr_name, attr_value in self.__dict__.items():
+            if is_dataclass(attr_value):
+                group_elem = etree.SubElement(root, "group", {"name": attr_name.upper()})
+                for key, value in asdict(attr_value).items():
+                    param = etree.SubElement(group_elem, "param", {"name": key})
+                    param.text = " ".join(map(str, value)) if isinstance(value, list) else str(value)
+
+        etree.indent(root, space='    ')
+        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
+        with open(root_path+'motorControl.xml', "wb") as writer:
+            writer.write(xml_object)
 
 def main():
     motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     print(motor_control.controls.positionControl)
+    motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == "__main__":
     main()

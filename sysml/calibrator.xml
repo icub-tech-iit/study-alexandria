@@ -1,24 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
-<device xmlns:xi="http://www.w3.org/2001/XInclude" name=" " type="type">
+<device xmlns:xi="http://www.w3.org/2001/XInclude" name=" " type="device_type">
     <group name="GENERAL">
-        <param name="joints"/>
-        <param name="deviceName"/>
+        <param name="joints">1.0</param>
+        <param name="deviceName">dev_name</param>
     </group>
     <group name="HOME">
-        <param name="positionHome"/>
+        <param name="positionHome">0.0</param>
+        <param name="velocityHome">10.0</param>
     </group>
-    <param name="velocityHome"/>
     <group name="CALIBRATION">
-        <param name="calibrationType"/>
+        <param name="calibrationType">10.0</param>
+        <param name="calibration1">0.0</param>
+        <param name="calibration2">0.0</param>
+        <param name="calibration3">0.0</param>
+        <param name="calibration4">0.0</param>
+        <param name="calibration5">0.0</param>
+        <param name="calibrationZero">0.0</param>
+        <param name="calibrationDelta">0.0</param>
     </group>
-    <param name="calibration1"/>
-    <param name="calibration2"/>
-    <param name="calibration3"/>
-    <param name="calibration4"/>
-    <param name="calibration5"/>
-    <param name="calibrationZero"/>
-    <param name="calibrationDelta"/>
-    <param name="CALIB_ORDER"/>
-    <param name="phase" multiplicity="3"/>
 </device>

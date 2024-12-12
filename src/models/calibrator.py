@@ -1,6 +1,6 @@
 import re
 from lxml import etree
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict, is_dataclass
 from phase import Phase
 from device import Device
 
@@ -87,69 +87,16 @@ class Calibrator(Device):
 
         return calib
 
-    def to_xml(root_path):
-        with open(root_path+'/calibrator.sysml', 'r') as file:
-            lines = file.readlines()
-            
-        def create_xml_node(parent, tag, attrib=None, text=None):
-            element = etree.SubElement(parent, tag, attrib if attrib else {})
-            if text:
-                element.text = text
-            return element
+    def to_xml(self, root_path):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('params', {'robot': 'icub', 'build': '1'}, nsmap=nsmap)
-        current_part, current_attribute = None, None
-        stack, count = [], 0
+        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
 
-        for line in lines:
-            line = line.strip()
-            element = line.split()[0]
-            match element:
-                case "import":
-                    include_name = line.split()[1].strip('::*;')
-                    if not include_name[0].istitle():
-                        root.insert(0, etree.Element('{http://www.w3.org/2001/XInclude}include', {'href': f"{include_name}.xml"}))
-                case "part":
-                    c = count
-                    while lines[c-1].startswith("attribute") or lines[c-1].strip().startswith("}"): # Fix indentation
-                        stack.pop() if stack else None
-                        c-=1
-                    tokens = line.split()
-                    name = tokens[1].strip(':')
-                    datatype = None
-                    attrib = {'name': name}
-                    if datatype:
-                        attrib['type'] = datatype
-                    if '[' in line and ']' in line:  # Handle multiplicity
-                        multiplicity = line[line.index('[') + 1:line.index(']')]
-                        # current_part.set('multiplicity', multiplicity)
-                    if ':' in tokens: # Verify if the part is a specification 
-                        inher = tokens[3].strip(':')
-                        if inher == 'device':
-                        #     device_type = tokens[5].strip("=")
-                            root = etree.Element('device', {'name': ' ', 'type': 'type'}, nsmap=nsmap)
-                    else:
-                        current_part = create_xml_node(stack[-1] if len(stack) > 0 else root, 'group', attrib)
-                        stack.append(current_part)
-                case "attribute":
-                    c = count
-                    while lines[c-1].startswith("attribute") or lines[c-1].strip().startswith("}"): # Fix indentation
-                        stack.pop() if stack else None
-                        c-=1
-                    tokens = line.split()
-                    name = tokens[1]
-                    datatype = None
-                    value = None
-                    if '='  in line: # The attribute has a default value
-                        value = tokens[5].strip(';') if len(tokens) > 5 else None
-                    attrib = {'name': name}
-                    if datatype:
-                        attrib['type'] = datatype
-                    current_attribute = create_xml_node(stack[-1] if len(stack) > 0 else root, 'param', attrib, value)
-                    if '[' in line and ']' in line:  # Handle multiplicity
-                        multiplicity = line[line.index('[') + 1:line.index(']')]
-                        current_attribute.set('multiplicity', multiplicity)
-            count += 1
+        for attr_name, attr_value in self.__dict__.items():
+            if is_dataclass(attr_value):
+                group_elem = etree.SubElement(root, "group", {"name": attr_name.upper()})
+                for key, value in asdict(attr_value).items():
+                    param = etree.SubElement(group_elem, "param", {"name": key})
+                    param.text = " ".join(map(str, value)) if isinstance(value, list) else str(value)
 
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
@@ -159,8 +106,8 @@ class Calibrator(Device):
 
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
-    # calibrator = Calibrator(root_path).from_sysml(root_path)
-    Calibrator.to_xml(root_path)
+    calibrator = Calibrator(root_path).from_sysml(root_path)
+    calibrator.to_xml(root_path)
 
 if __name__ == "__main__":
     main()
