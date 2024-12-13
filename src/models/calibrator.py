@@ -1,6 +1,6 @@
 import re
 from lxml import etree
-from dataclasses import dataclass, asdict, is_dataclass
+from dataclasses import dataclass, fields, is_dataclass
 from phase import Phase
 from device import Device
 
@@ -90,18 +90,38 @@ class Calibrator(Device):
     def to_xml(self, root_path):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        
+        def _dataclass_to_xml(parent, name, dataclass_instance):
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+
+            for field in fields(dataclass_instance):
+                field_name = field.name
+                field_value = getattr(dataclass_instance, field_name)
+                
+                if is_dataclass(field_value):
+                    _dataclass_to_xml(group_elem, field_name, field_value) 
+                elif isinstance(field_value, list):
+                    if any(isinstance(i, list) for i in field_value):
+                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        formatted_text = "\n".join(
+                            "   ".join(map(str, row)) for row in field_value
+                        )
+                        param.text = f"\n{formatted_text}\n"
+                    else:
+                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param.text = "   ".join(map(str, field_value))
+                else:
+                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):
-                group_elem = etree.SubElement(root, "group", {"name": attr_name.upper()})
-                for key, value in asdict(attr_value).items():
-                    param = etree.SubElement(group_elem, "param", {"name": key})
-                    param.text = " ".join(map(str, value)) if isinstance(value, list) else str(value)
+                _dataclass_to_xml(root, attr_name, attr_value)
 
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'calibrator.xml', "wb") as writer:
+        with open(root_path + 'calibrator.xml', "wb") as writer:
             writer.write(xml_object)
 
 def main():

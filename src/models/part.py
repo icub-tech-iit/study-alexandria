@@ -48,7 +48,6 @@ class Parts:
         with open(root_path+'/', "wb") as writer:
             writer.write(xml_object)
 
-
 def main():
     part = Parts.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     print(part.__dict__)

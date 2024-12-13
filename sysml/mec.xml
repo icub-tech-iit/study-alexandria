@@ -29,11 +29,11 @@
     </group>
     <group name="JOINTSET_CFG">
         <param name="numberofsets">1.0</param>
-    </group>
-    <group name="JOINTSET_0">
-        <param name="listofjoints">0, 1</param>
-        <param name="constraintName">none</param>
-        <param name="param1">0.0</param>
-        <param name="param2">0.0</param>
+        <group name="JOINTSET_0">
+            <param name="listofjoints">0, 1</param>
+            <param name="constraintName">none</param>
+            <param name="param1">0.0</param>
+            <param name="param2">0.0</param>
+        </group>
     </group>
 </params>
