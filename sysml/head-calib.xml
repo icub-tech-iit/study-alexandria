@@ -19,4 +19,14 @@
         <param name="calibrationZero">0</param>
         <param name="calibrationDelta">0</param>
     </group>
+    <param name="CALIB_ORDER">( 0 )</param>
+    <action phase="foo" level="10" type="foo">
+        <param name="target">foo</param>
+    </action>
+    <action phase="foo" level="10" type="foo">
+        <param name="target">foo</param>
+    </action>
+    <action phase="foo" level="10" type="foo">
+        <param name="target">foo</param>
+    </action>
 </device>

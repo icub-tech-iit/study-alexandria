@@ -21,6 +21,7 @@ package PartsTree {
         part eln1 subsets eln = "face-eb22-j0-eln.xml";
         part eln2 subsets eln = "head-eb20-j0_1-eln.xml";
         part eln3 subsets eln = "head-eb21-j2_5-eln.xml";
+        part pc104 subsets pc104 = "pc104.xml";
 
         /*Define inertials*/
         part inertials :> inertial {

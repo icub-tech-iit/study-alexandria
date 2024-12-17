@@ -117,6 +117,12 @@ class Calibrator(Device):
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
+        
+        calib_order = etree.SubElement(root, "param", {"name": "CALIB_ORDER"})
+        calib_order.text = " ".join(map(str, self.CALIB_ORDER))
+
+        for i in range(0, len(self.phase)):
+            root.append(etree.XML(self.phase[i].to_xml()))
 
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
@@ -127,7 +133,7 @@ class Calibrator(Device):
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
     calibrator = Calibrator(root_path).from_sysml(root_path)
-    # calibrator.to_xml("/home/mgloria/iit/study-alexandria/xml/")
+    calibrator.to_xml("/home/mgloria/iit/study-alexandria/xml/", "calibrator.xml")
 
 if __name__ == "__main__":
     main()

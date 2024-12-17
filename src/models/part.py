@@ -7,7 +7,7 @@ from mec import Mechanicals as mechanical
 from motorControl import motorControl
 from mc_service import Service as service
 
-class Parts:
+class Part:
     def __init__(self):
         self.calibration = list[calibrator]
         self.eln = list[electronics]
@@ -65,7 +65,7 @@ class Parts:
                 print("No match found for part", match[0])
 
 def main():
-    part = Parts.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
+    part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     part.to_xml('/home/mgloria/iit/study-alexandria/sysml')
 
 if __name__ == "__main__":
