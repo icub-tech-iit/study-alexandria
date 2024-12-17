@@ -44,7 +44,7 @@ class Calibrator(Device):
                 value = None
                 if match[1]:
                     try:
-                        value = float(match[1])
+                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
                     except ValueError:
                         value = match[1]
                 elif match[2]:
@@ -87,7 +87,7 @@ class Calibrator(Device):
 
         return calib
 
-    def to_xml(self, root_path):
+    def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
         
@@ -121,13 +121,13 @@ class Calibrator(Device):
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path + 'calibrator.xml', "wb") as writer:
+        with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
 
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
     calibrator = Calibrator(root_path).from_sysml(root_path)
-    calibrator.to_xml(root_path)
+    # calibrator.to_xml("/home/mgloria/iit/study-alexandria/xml/")
 
 if __name__ == "__main__":
     main()

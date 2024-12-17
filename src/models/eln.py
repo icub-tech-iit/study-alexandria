@@ -90,7 +90,7 @@ class Electronics:
 
         return board
 
-    def to_xml(self, root_path):
+    def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         
@@ -124,12 +124,12 @@ class Electronics:
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path + 'eln.xml', "wb") as writer:
+        with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
 
 def main():
     eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    eln.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
+    # eln.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == "__main__":
     main()

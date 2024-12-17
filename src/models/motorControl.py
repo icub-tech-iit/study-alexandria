@@ -120,7 +120,7 @@ class motorControl(Device):
         )
         return mc
     
-    def to_xml(self, root_path):
+    def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
         
@@ -154,12 +154,12 @@ class motorControl(Device):
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path + 'motorControl.xml', "wb") as writer:
+        with open(root_path+'/'+file_name, "wb") as writer:
             writer.write(xml_object)
 def main():
     motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    print(motor_control.controls.positionControl)
-    motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
+    # print(motor_control.controls.positionControl)
+    # motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == "__main__":
     main()

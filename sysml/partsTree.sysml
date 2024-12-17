@@ -13,8 +13,8 @@ package PartsTree {
                 :>> type = "abort";
             }
         }
-        part calibrator1 subsets calibration = "face-calib.xml";
-        part calibrator2 subsets calibration = "head-calib.xml";
+        part calibrator1 subsets calibrator = "face-calib.xml";
+        part calibrator2 subsets calibrator = "head-calib.xml";
         
         /*Define electronics*/
         part eln [3] :> electronics;
@@ -30,9 +30,9 @@ package PartsTree {
 
         /*Define mechanicals*/
         part mechanicals [3] :> mechanical;
-        part mech1 subsets mechanicals = "face-eb22-j0-mec.xml";
-        part mech2 subsets mechanicals = "head-eb20-j0_1-mec.xml";
-        part mech3 subsets mechanicals = "head-eb21-j2_5-mec.xml";
+        part mech1 subsets mechanical = "face-eb22-j0-mec.xml";
+        part mech2 subsets mechanical = "head-eb20-j0_1-mec.xml";
+        part mech3 subsets mechanical = "head-eb21-j2_5-mec.xml";
 
         /*Define motorControl*/
         part motorcontrol [3] :> motorControl {

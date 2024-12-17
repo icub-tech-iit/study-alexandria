@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">
+<device xmlns:xi="http://www.w3.org/2001/XInclude" name=" " type="device_type">
+    <group name="GENERAL">
+        <param name="joints">1</param>
+        <param name="deviceName">dev_name</param>
+    </group>
+    <group name="HOME">
+        <param name="positionHome">0</param>
+        <param name="velocityHome">10</param>
+    </group>
+    <group name="CALIBRATION">
+        <param name="calibrationType">10</param>
+        <param name="calibration1">0</param>
+        <param name="calibration2">0</param>
+        <param name="calibration3">0</param>
+        <param name="calibration4">0</param>
+        <param name="calibration5">0</param>
+        <param name="calibrationZero">0</param>
+        <param name="calibrationDelta">0</param>
+    </group>
+</device>
