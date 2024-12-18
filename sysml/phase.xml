@@ -1,3 +1,0 @@
-<action phase="foo" level="10" type="foo">
-  <param name="target">foo</param>
-</action>

@@ -1,11 +1,10 @@
 import re
-from lxml import etree
-from dataclasses import is_dataclass, fields
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
 from mec import Mechanicals as mechanical 
 from motorControl import motorControl
 from mc_service import Service as service
+from pc104 import PC104 as pc104
 
 class Part:
     def __init__(self):
@@ -14,6 +13,7 @@ class Part:
         self.mechanicals = list[mechanical]
         self.motorcontrol = list[motorControl]
         self.service = list[service]
+        self.pc104 = list[pc104]
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -45,6 +45,8 @@ class Part:
             sysml_str = file.read()
 
         subset_pattern = r'part \w+ subsets (\w+) = "([^"]+)"'
+        parts_pattern = r'abstract part (\w+)'
+
         for match in re.findall(subset_pattern, sysml_str):
             if match[0] == 'calibrator':
                 for calibrator in self.calibration:

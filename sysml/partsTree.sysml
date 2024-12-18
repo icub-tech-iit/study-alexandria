@@ -55,4 +55,8 @@ package PartsTree {
             :>> service_type = "eomn_serv_MC_mc4plus";
         }
     }
+
+    abstract part torso {
+        part calibrator1 subsets calibrator = "torso-calib.xml";
+    }
 }   
