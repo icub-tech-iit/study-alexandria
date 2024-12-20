@@ -20,19 +20,9 @@ class Service:
                 class ACTUATOR:
                     type: list[str]
                     port: list[str]
-                @dataclass
-                class ENCODER1(Encoder):
-                    def __init__(self):
-                        encoder1 = Encoder().from_sysml(self.root_path)
-                        super().__init__(**encoder1.__dict__)
-                class ENCODER2(Encoder):
-                    def __init__(self):
-                        encoder2 = Encoder().from_sysml(self.root_path)
-                        super().__init__(**encoder2.__dict__)
-            
                 actuator: ACTUATOR
-                encoder1: ENCODER1
-                encoder2: ENCODER2
+                encoder1: Encoder
+                encoder2: Encoder
             ethboard: ETHBOARD
             jointmapping: JOINTMAPPING
         properties: PROPERTIES
@@ -44,7 +34,7 @@ class Service:
             sysml_str = file.read()
 
         vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-        enc_pattern = r'attribute (\w+) :> (\w+);'
+        enc_pattern = r'part (\w+) :> (\w+);'
         ser = cls(root_path)
 
         def extract_attributes(block, pattern):
@@ -95,9 +85,10 @@ class Service:
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
-                
-                if is_dataclass(field_value):
-                    _dataclass_to_xml(group_elem, field_name, field_value) 
+                if isinstance(field_value, Encoder):
+                    group_elem.append(etree.XML(field_value.to_xml(field_name.upper())))
+                elif is_dataclass(field_value):
+                    _dataclass_to_xml(group_elem, field_name, field_value)
                 elif isinstance(field_value, list):
                     if any(isinstance(i, list) for i in field_value):
                         param = etree.SubElement(group_elem, "param", {"name": field_name})
@@ -124,5 +115,7 @@ class Service:
         
 def main():
     serv = Service('/home/mgloria/iit/study-alexandria/sysml').from_sysml('/home/mgloria/iit/study-alexandria/sysml')
+    serv.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'service.xml')
+
 if __name__ == '__main__':
     main()

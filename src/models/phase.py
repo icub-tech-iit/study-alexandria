@@ -36,6 +36,7 @@ class Phase:
         element.text = self.target
         
         return etree.tostring(root, pretty_print=True)
+    
 def main():
     ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
     # ph.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
