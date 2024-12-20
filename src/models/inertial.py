@@ -10,38 +10,43 @@ class Inertial(Device):
         self.type = str
 
     @dataclass
-    class PROPERTIES:
+    class SERVICE:
+        type: str
         @dataclass
-        class CANBOARDS:
-            type: list[str]
+        class PROPERTIES:
+            @dataclass
+            class CANBOARDS:
+                type: list[str]
+
+                @dataclass
+                class PROTOCOL:
+                    major : list[int]
+                    minor : list[int]
+                
+                @dataclass
+                class FIRMWARE:
+                    major: list[int]
+                    minor: list[int]
+                    build: list[int]
+
+                protocol: PROTOCOL
+                firmware: FIRMWARE
 
             @dataclass
-            class PROTOCOL:
-                major : list[int]
-                minor : list[int]
-            
+            class SENSORS:
+                id: list[str]
+                type: list[str]
+                boardType: list[str]
+                location: list[str]
             @dataclass
-            class FIRMWARE:
-                major: list[int]
-                minor: list[int]
-                build: list[int]
-
-            protocol: PROTOCOL
-            firmware: FIRMWARE
-
-        @dataclass
-        class SENSORS:
-            id: list[str]
-            type: list[str]
-            boardType: list[str]
-            location: list[str]
-        @dataclass
-        class SETTINGS:
-            acquisitionRate: int
-            enabledSensors: list[str]
-        canboards: CANBOARDS
-        sensors: SENSORS
-        settings: SETTINGS
+            class SETTINGS:
+                acquisitionRate: int
+                enabledSensors: list[str]
+            canboards: CANBOARDS
+            sensors: SENSORS
+            settings: SETTINGS
+        properties: PROPERTIES
+    service: SERVICE
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -73,30 +78,34 @@ class Inertial(Device):
         inertial = cls(root_path)
 
         inertial.type = attr['type']
-        inertial.properties = cls.PROPERTIES(
-            canboards = cls.PROPERTIES.CANBOARDS(
-                type = [item.strip() for item in attr['serv_type'].split(",")],
-                protocol = cls.PROPERTIES.CANBOARDS.PROTOCOL(
-                    major = [attr['major']],
-                    minor = [attr['minor']],
+        inertial.service = cls.SERVICE(
+            type = attr['serv_type'],
+            properties = cls.SERVICE.PROPERTIES(
+                canboards = cls.SERVICE.PROPERTIES.CANBOARDS(
+                    type = [item.strip() for item in attr['type'].split(",")],
+                    protocol = cls.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL(
+                        major = [attr['major']],
+                        minor = [attr['minor']],
+                    ),
+                    firmware = cls.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE(
+                        major = [attr['major']],
+                        minor = [attr['minor']],
+                        build = [attr['build']]
+                    )
                 ),
-                firmware = cls.PROPERTIES.CANBOARDS.FIRMWARE(
-                    major = [attr['major']],
-                    minor = [attr['minor']],
-                    build = [attr['build']]
+                sensors = cls.SERVICE.PROPERTIES.SENSORS(
+                    id = [item.strip() for item in attr['id'].split(",")],
+                    type = [item.strip() for item in attr['type'].split(",")],
+                    boardType = [item.strip() for item in attr['boardType'].split(",")],
+                    location = [item.strip() for item in attr['location'].split(",")]
+                ),
+                settings = cls.SERVICE.PROPERTIES.SETTINGS(
+                    acquisitionRate = attr['acquisitionRate'],
+                    enabledSensors = [item.strip() for item in attr['enabledSensors'].split(",")]
                 )
-            ),
-            sensors = cls.PROPERTIES.SENSORS(
-                id = [item.strip() for item in attr['id'].split(",")],
-                type = [item.strip() for item in attr['type'].split(",")],
-                boardType = [item.strip() for item in attr['boardType'].split(",")],
-                location = [item.strip() for item in attr['location'].split(",")]
-            ),
-            settings = cls.PROPERTIES.SETTINGS(
-                acquisitionRate = attr['acquisitionRate'],
-                enabledSensors = [item.strip() for item in attr['enabledSensors'].split(",")]
             )
         )
+        cls.type = attr['serv_type']
         return inertial
 
     def to_xml(self, root_path, file_name):
