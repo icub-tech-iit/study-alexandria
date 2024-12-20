@@ -1,5 +1,4 @@
 import ScalarValues::*;
-
 part calibrator : device {
     part GENERAL {
         attribute joints : Integer default 1;

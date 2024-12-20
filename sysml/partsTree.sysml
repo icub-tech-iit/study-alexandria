@@ -13,14 +13,15 @@ package PartsTree {
                 :>> type = "abort";
             }
         }
-        part calibrator1 subsets calibration = "face-calib.xml";
-        part calibrator2 subsets calibration = "head-calib.xml";
+        part calibrator1 subsets calibrator = "face-calib.xml";
+        part calibrator2 subsets calibrator = "head-calib.xml";
         
         /*Define electronics*/
         part eln [3] :> electronics;
         part eln1 subsets eln = "face-eb22-j0-eln.xml";
         part eln2 subsets eln = "head-eb20-j0_1-eln.xml";
         part eln3 subsets eln = "head-eb21-j2_5-eln.xml";
+        part pc104 subsets pc104 = "pc104.xml";
 
         /*Define inertials*/
         part inertials :> inertial {
@@ -30,9 +31,9 @@ package PartsTree {
 
         /*Define mechanicals*/
         part mechanicals [3] :> mechanical;
-        part mech1 subsets mechanicals = "face-eb22-j0-mec.xml";
-        part mech2 subsets mechanicals = "head-eb20-j0_1-mec.xml";
-        part mech3 subsets mechanicals = "head-eb21-j2_5-mec.xml";
+        part mech1 subsets mechanical = "face-eb22-j0-mec.xml";
+        part mech2 subsets mechanical = "head-eb20-j0_1-mec.xml";
+        part mech3 subsets mechanical = "head-eb21-j2_5-mec.xml";
 
         /*Define motorControl*/
         part motorcontrol [3] :> motorControl {
@@ -53,5 +54,9 @@ package PartsTree {
         part service3 subsets service = "head-eb21-j2_5-mc_service.xml" {
             :>> service_type = "eomn_serv_MC_mc4plus";
         }
+    }
+
+    abstract part torso {
+        part calibrator1 subsets calibrator = "torso-calib.xml";
     }
 }   

@@ -1,11 +1,12 @@
 import re
-from dataclasses import dataclass
+from lxml import etree
+from dataclasses import dataclass, fields, is_dataclass
 from phase import Phase
 from device import Device
 
 class Calibrator(Device):
     def __init__(self, root_path):
-        device = Device.from_sysml(root_path, "/device.sysml")
+        device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
         self.phase = list[Phase]
@@ -31,8 +32,8 @@ class Calibrator(Device):
         calibrationDelta: list[float]
 
     @classmethod
-    def from_sysml(cls, root_path, file_path):
-        with open(root_path+file_path, 'r') as file:
+    def from_sysml(cls, root_path):
+        with open(root_path+'/calibrator.sysml', 'r') as file:
             sysml_str = file.read()
     
         def extract_attributes(block, pattern):
@@ -43,7 +44,7 @@ class Calibrator(Device):
                 value = None
                 if match[1]:
                     try:
-                        value = float(match[1])
+                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
                     except ValueError:
                         value = match[1]
                 elif match[2]:
@@ -82,15 +83,57 @@ class Calibrator(Device):
         )
 
         calib.CALIB_ORDER = attr['CALIB_ORDER']
-        calib.phase = [Phase.from_sysml(root_path,'/phase.sysml') for i in attr['phase']]
+        calib.phase = [Phase.from_sysml(root_path) for i in attr['phase']]
 
         return calib
 
+    def to_xml(self, root_path, file_name):
+        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        
+        def _dataclass_to_xml(parent, name, dataclass_instance):
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+
+            for field in fields(dataclass_instance):
+                field_name = field.name
+                field_value = getattr(dataclass_instance, field_name)
+                
+                if is_dataclass(field_value):
+                    _dataclass_to_xml(group_elem, field_name, field_value) 
+                elif isinstance(field_value, list):
+                    if any(isinstance(i, list) for i in field_value):
+                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        formatted_text = "\n".join(
+                            "   ".join(map(str, row)) for row in field_value
+                        )
+                        param.text = f"\n{formatted_text}\n"
+                    else:
+                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param.text = "   ".join(map(str, field_value))
+                else:
+                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param.text = str(field_value)
+
+        for attr_name, attr_value in self.__dict__.items():
+            if is_dataclass(attr_value):
+                _dataclass_to_xml(root, attr_name, attr_value)
+        
+        calib_order = etree.SubElement(root, "param", {"name": "CALIB_ORDER"})
+        calib_order.text = " ".join(map(str, self.CALIB_ORDER))
+
+        for i in range(0, len(self.phase)):
+            root.append(etree.XML(self.phase[i].to_xml()))
+
+        etree.indent(root, space='    ')
+        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
+        with open(root_path+"/"+file_name, "wb") as writer:
+            writer.write(xml_object)
+
 def main():
-    root_path = "/home/mgloria/iit/study-alexandria/sysml"
-    calibrator = Calibrator(root_path).from_sysml(root_path, '/calibrator.sysml')
-    print(calibrator.general.deviceName)
-    print(calibrator)
+    root_path = "/home/mgloria/iit/study-alexandria/sysml/"
+    calibrator = Calibrator(root_path).from_sysml(root_path)
+    calibrator.to_xml("/home/mgloria/iit/study-alexandria/xml/", "calibrator.xml")
 
 if __name__ == "__main__":
     main()

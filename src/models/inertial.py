@@ -1,62 +1,53 @@
-from dataclasses import dataclass, is_dataclass, asdict, fields
-from lxml import etree
-from device import Device
 import re
+from lxml import etree
+from dataclasses import dataclass, fields, is_dataclass
+from device import Device
 
-class motorControl(Device):
+class Inertial(Device):
     def __init__(self, root_path):
-        self.root_path = root_path
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
+        self.type = str
 
     @dataclass
-    class LIMITS:
-        jntPosMin: list[int]
-        jntPosMax: list[int]
-        jntVelMax: list[int]
-        motorOverloadCurrents: list[int]
-        motorNominalCurrents: list[int]
-        motorPeakCurrents: list[int]
-        motorPwmLimit: list[int]
-    
-    @dataclass
-    class TIMEOUTS:
-        velocity: list[int]
+    class PROPERTIES:
+        @dataclass
+        class CANBOARDS:
+            type: list[str]
 
-    @dataclass
-    class IMPEDANCE:
-        stiffness: list[float]
-        damping: list[float]
+            @dataclass
+            class PROTOCOL:
+                major : list[int]
+                minor : list[int]
+            
+            @dataclass
+            class FIRMWARE:
+                major: list[int]
+                minor: list[int]
+                build: list[int]
 
-    @dataclass
-    class CONTROLS:
-        positionControl: list[str]
-        velocityControl: list[str]
-        mixedControl: list[str]
-        torqueControl: list[str]
-        currentPid: list[str]
-        speedPid: list[str]
+            protocol: PROTOCOL
+            firmware: FIRMWARE
 
-    @dataclass
-    class POS_PID_DEFAULT:
-        controlLaw: str
-        outputType: str
-        fbkControlUnits: str
-        outputControlUnits: str
-        kp: list[int]
-        kd: list[int]
-        ki: list[int]
-        maxOutput: list[int]
-        maxInt: list[int]
-        stictionUp: list[int]
-        stictionDown: list[int]
-        kff: list[int]
+        @dataclass
+        class SENSORS:
+            id: list[str]
+            type: list[str]
+            boardType: list[str]
+            location: list[str]
+        @dataclass
+        class SETTINGS:
+            acquisitionRate: int
+            enabledSensors: list[str]
+        canboards: CANBOARDS
+        sensors: SENSORS
+        settings: SETTINGS
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/motorControl.sysml', 'r') as file:
+        with open(root_path+'inertial.sysml', 'r') as file:
             sysml_str = file.read()
-
+    
         def extract_attributes(block, pattern):
             matches = re.findall(pattern, block)
             attributes = {}
@@ -65,7 +56,7 @@ class motorControl(Device):
                 value = None
                 if match[1]:
                     try:
-                        value = float(match[1])
+                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
                     except ValueError:
                         value = match[1]
                 elif match[2]:
@@ -77,49 +68,37 @@ class motorControl(Device):
         
         general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
         vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-        mc = cls(root_path)
 
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
-        mc.limits = cls.LIMITS(
-            jntPosMin = [attr['jntPosMin']],
-            jntPosMax = [attr['jntPosMax']],
-            jntVelMax = [attr['jntVelMax']],
-            motorOverloadCurrents = [attr['motorOverloadCurrents']],
-            motorNominalCurrents = [attr['motorNominalCurrents']],
-            motorPeakCurrents = [attr['motorPeakCurrents']],
-            motorPwmLimit = [attr['motorPwmLimit']]
+        inertial = cls(root_path)
+
+        inertial.type = attr['type']
+        inertial.properties = cls.PROPERTIES(
+            canboards = cls.PROPERTIES.CANBOARDS(
+                type = [item.strip() for item in attr['serv_type'].split(",")],
+                protocol = cls.PROPERTIES.CANBOARDS.PROTOCOL(
+                    major = [attr['major']],
+                    minor = [attr['minor']],
+                ),
+                firmware = cls.PROPERTIES.CANBOARDS.FIRMWARE(
+                    major = [attr['major']],
+                    minor = [attr['minor']],
+                    build = [attr['build']]
+                )
+            ),
+            sensors = cls.PROPERTIES.SENSORS(
+                id = [item.strip() for item in attr['id'].split(",")],
+                type = [item.strip() for item in attr['type'].split(",")],
+                boardType = [item.strip() for item in attr['boardType'].split(",")],
+                location = [item.strip() for item in attr['location'].split(",")]
+            ),
+            settings = cls.PROPERTIES.SETTINGS(
+                acquisitionRate = attr['acquisitionRate'],
+                enabledSensors = [item.strip() for item in attr['enabledSensors'].split(",")]
+            )
         )
-        mc.timeouts = cls.TIMEOUTS(
-            velocity = [attr['velocity']]
-        )
-        mc.impedance = cls.IMPEDANCE(
-            stiffness = [attr['stiffness']],
-            damping = [attr['damping']]
-        )
-        mc.controls = cls.CONTROLS(
-            positionControl = [attr['positionControl']],
-            velocityControl = [attr['velocityControl']],
-            mixedControl = [attr['mixedControl']],
-            torqueControl = [attr['torqueControl']],
-            currentPid = [attr['currentPid']],
-            speedPid = [attr['speedPid']]
-        )
-        mc.pos_pid = cls.POS_PID_DEFAULT(
-            controlLaw = attr['controlLaw'],
-            outputType = attr['outputType'],
-            fbkControlUnits = attr['fbkControlUnits'],
-            outputControlUnits = attr['outputControlUnits'],
-            kp = [attr['kp']],
-            kd = [attr['kd']],
-            ki = [attr['ki']],
-            maxOutput = [attr['maxOutput']],
-            maxInt = [attr['maxInt']],
-            stictionUp = [attr['stictionUp']],
-            stictionDown = [attr['stictionDown']],
-            kff = [attr['kff']]
-        )
-        return mc
-    
+        return inertial
+
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
@@ -154,12 +133,12 @@ class motorControl(Device):
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'/'+file_name, "wb") as writer:
+        with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
-def main():
-    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    # print(motor_control.controls.positionControl)
-    # motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
+def main():
+    root_path = "/home/mgloria/iit/study-alexandria/sysml/"
+    inertial = Inertial(root_path).from_sysml(root_path)
+    inertial.to_xml(root_path, "inertial.xml")
 if __name__ == "__main__":
     main()
