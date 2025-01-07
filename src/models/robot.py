@@ -42,8 +42,7 @@ class Robot:
 
     def to_xml(self, root_path):
         for part in self.parts:
-            print(part)
-            part.to_xml(root_path, str(part))
+            part.to_xml(root_path)
 def main():
     robot = Robot.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     robot.to_xml('/home/mgloria/iit/study-alexandria/sysml')

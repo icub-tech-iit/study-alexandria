@@ -1,8 +1,10 @@
 import re
+import os
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
 from phase import Phase
 from device import Device
+from utils import Utils
 
 class Calibrator(Device):
     def __init__(self, root_path):
@@ -91,6 +93,8 @@ class Calibrator(Device):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
         
+        Utils.check_subfolders_existance(root_path, file_name)
+
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
 

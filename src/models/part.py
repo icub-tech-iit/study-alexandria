@@ -4,16 +4,19 @@ from eln import Electronics as electronics
 from mec import Mechanicals as mechanical 
 from motorControl import motorControl
 from mc_service import Service as service
+from inertial import Inertial as inertial
 from pc104 import PC104 as pc104
 
 class Part:
     def __init__(self):
+        self.part_name = list[str]
         self.calibration = list[calibrator]
         self.eln = list[electronics]
         self.mechanicals = list[mechanical]
         self.motorcontrol = list[motorControl]
         self.service = list[service]
-        self.pc104 = list[pc104]
+        self.inertials = list[inertial]
+        self.pc104 = pc104
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -35,6 +38,10 @@ class Part:
                 part.motorcontrol = [motorControl.from_sysml(root_path) for i in range(0, int(match[1]))]
             elif match[2] == 'SERVICE':
                 part.service = [service.from_sysml(root_path) for i in range(0, int(match[1]))]
+            elif match[2] == 'inertial':
+                part.inertials = [inertial.from_sysml(root_path) for i in range(0, int(match[1]))]
+            elif match[2] == 'pc104':
+                part.pc104 = pc104.from_sysml(root_path)
             else:
                 print("No match found")
 
@@ -47,28 +54,35 @@ class Part:
         subset_pattern = r'part \w+ subsets (\w+) = "([^"]+)"'
         parts_pattern = r'abstract part (\w+)'
 
-        for match in re.findall(subset_pattern, sysml_str):
-            if match[0] == 'calibrator':
-                for calibrator in self.calibration:
-                    calibrator.to_xml(root_path, match[1])
-            elif match[0] == 'eln':
-                for electronics in self.eln:
-                    electronics.to_xml(root_path, match[1])
-            elif match[0] == 'mechanical':
-                for mechanical in self.mechanicals:
-                    mechanical.to_xml(root_path, match[1])
-            elif match[0] == 'motorcontrol':
-                for motorControl in self.motorcontrol:
-                    motorControl.to_xml(root_path, match[1])
-            elif match[0] == 'service':
-                for service in self.service:
-                    service.to_xml(root_path, match[1])
-            else:
-                print("No match found for part", match[0])
+        for match in re.findall(parts_pattern, sysml_str):
+            
+            for match in re.findall(subset_pattern, sysml_str):
+                if match[0] == 'calibrator':
+                    for calibrator in self.calibration:
+                        calibrator.to_xml(root_path, match[1])
+                elif match[0] == 'eln':
+                    for electronics in self.eln:
+                        electronics.to_xml(root_path, match[1])
+                elif match[0] == 'mechanical':
+                    for mechanical in self.mechanicals:
+                        mechanical.to_xml(root_path, match[1])
+                elif match[0] == 'motorcontrol':
+                    for motorControl in self.motorcontrol:
+                        motorControl.to_xml(root_path, match[1])
+                elif match[0] == 'service':
+                    for service in self.service:
+                        service.to_xml(root_path, match[1])
+                elif match[0] == 'inertials':
+                        for inertial in self.inertials:
+                            inertial.to_xml(root_path, match[1])
+                elif match[0] == 'pc104':
+                    self.pc104.to_xml(root_path, match[1])
+                else:
+                    print("No match found for part", match[0])
 
 def main():
     part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    part.to_xml('/home/mgloria/iit/study-alexandria/sysml')
+    part.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == "__main__":
     main()
