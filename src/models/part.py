@@ -1,4 +1,6 @@
 import re
+import os
+from utils import Utils
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
 from mec import Mechanicals as mechanical 
@@ -6,26 +8,31 @@ from motorControl import motorControl
 from mc_service import Service as service
 from inertial import Inertial as inertial
 from pc104 import PC104 as pc104
+from pyparsing import nestedExpr
 
 class Part:
     def __init__(self):
-        self.part_name = list[str]
-        self.calibration = list[calibrator]
-        self.eln = list[electronics]
-        self.mechanicals = list[mechanical]
-        self.motorcontrol = list[motorControl]
-        self.service = list[service]
-        self.inertials = list[inertial]
+        self.part_name = str
+        self.calibration = [calibrator]
+        self.eln = [electronics]
+        self.mechanicals = [mechanical]
+        self.motorcontrol = [motorControl]
+        self.service = [service]
+        self.inertials = [inertial]
         self.pc104 = pc104
 
     @classmethod
-    def from_sysml(cls, root_path):
-        with open(root_path+'/partsTree.sysml', 'r') as file:
+    def from_sysml(cls, root_path, part):
+        with open(root_path+'/'+part+'.sysml', 'r') as file:
             sysml_str = file.read()
 
         part = cls()
         part_pattern = r'part\s+(\w+)\s+\[(\d+)\]\s+:\>\s+(\w+)'
+        parts_name_pattern = r'abstract part (\w+)'
         part_matches = re.findall(part_pattern, sysml_str)
+        name_matches = re.findall(parts_name_pattern, sysml_str, re.DOTALL)
+
+        part.part_name = name_matches[0]
 
         for match in part_matches:
             if match[2] == 'calibrator':
@@ -47,42 +54,44 @@ class Part:
 
         return part
 
-    def to_xml(self, root_path):
-        with open(root_path+'/partsTree.sysml', 'r') as file:
+    def to_xml(self, root_path, part, robot_name):
+        with open(root_path+'/'+part+'.sysml', 'r') as file:
             sysml_str = file.read()
 
-        subset_pattern = r'part \w+ subsets (\w+) = "([^"]+)"'
-        parts_pattern = r'abstract part (\w+)'
+        Utils.check_subfolders_existance(root_path, robot_name)
+        robot_path = os.path.join(root_path, robot_name)
 
-        for match in re.findall(parts_pattern, sysml_str):
-            
-            for match in re.findall(subset_pattern, sysml_str):
-                if match[0] == 'calibrator':
-                    for calibrator in self.calibration:
-                        calibrator.to_xml(root_path, match[1])
-                elif match[0] == 'eln':
-                    for electronics in self.eln:
-                        electronics.to_xml(root_path, match[1])
-                elif match[0] == 'mechanical':
-                    for mechanical in self.mechanicals:
-                        mechanical.to_xml(root_path, match[1])
-                elif match[0] == 'motorcontrol':
-                    for motorControl in self.motorcontrol:
-                        motorControl.to_xml(root_path, match[1])
-                elif match[0] == 'service':
-                    for service in self.service:
-                        service.to_xml(root_path, match[1])
-                elif match[0] == 'inertials':
-                        for inertial in self.inertials:
-                            inertial.to_xml(root_path, match[1])
-                elif match[0] == 'pc104':
-                    self.pc104.to_xml(root_path, match[1])
-                else:
-                    print("No match found for part", match[0])
+        subset_pattern = r'part \w+ subsets (\w+) = "([^"]+)"'
+        # parts_pattern = r'abstract part (\w+)'
+        # parts = re.findall(parts_pattern, sysml_str, re.DOTALL)
+
+        for match in re.findall(subset_pattern, sysml_str):
+            print(match[1])
+            if match[0] == 'calibrator':
+                for calibrator in self.calibration:
+                    calibrator.to_xml(robot_path, match[1])
+            elif match[0] == 'eln':
+                for electronics in self.eln:
+                    electronics.to_xml(robot_path, match[1])
+            elif match[0] == 'mechanical':
+                for mechanical in self.mechanicals:
+                    mechanical.to_xml(robot_path, match[1])
+            elif match[0] == 'motorcontrol':
+                for motorControl in self.motorcontrol:
+                    motorControl.to_xml(robot_path, match[1])
+            elif match[0] == 'service':
+                for service in self.service:
+                    service.to_xml(robot_path, match[1])
+            elif match[0] == 'inertials':
+                for inertial in self.inertials:
+                    inertial.to_xml(robot_path, match[1])
+            elif match[0] == 'pc104':
+                self.pc104.to_xml(robot_path, match[1])
+            else:
+                print("No match found for part", match[0])
 
 def main():
-    part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    part.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
-
+    part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml', 'head')
+    part.to_xml('/home/mgloria/iit/study-alexandria/sysml/', 'head', 'robot')
 if __name__ == "__main__":
     main()

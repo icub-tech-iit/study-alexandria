@@ -37,15 +37,16 @@ class Robot:
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
         robot.name = attr['name']
         robot.version = attr['version']
-        robot.parts = [Part.from_sysml(root_path) for i in attr['parts'].split(",")]
+        robot.parts = [Part.from_sysml(root_path, i.strip().strip('"')) for i in attr['parts'].split(",")]
         return robot
 
-    def to_xml(self, root_path):
+    def to_xml(self, root_path, robot_name):
         for part in self.parts:
-            part.to_xml(root_path)
+            part.to_xml(root_path, part.part_name, robot_name)
+
 def main():
     robot = Robot.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    robot.to_xml('/home/mgloria/iit/study-alexandria/sysml')
+    robot.to_xml('/home/mgloria/iit/study-alexandria/sysml', robot.name)
     
 if __name__ == '__main__':
     main()

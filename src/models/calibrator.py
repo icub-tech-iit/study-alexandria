@@ -137,7 +137,7 @@ class Calibrator(Device):
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
     calibrator = Calibrator(root_path).from_sysml(root_path)
-    calibrator.to_xml("/home/mgloria/iit/study-alexandria/xml/", "calibrator.xml")
+    calibrator.to_xml("/home/mgloria/iit/study-alexandria/sysml", "calibrator.xml")
 
 if __name__ == "__main__":
     main()
