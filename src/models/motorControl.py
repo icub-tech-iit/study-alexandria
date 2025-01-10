@@ -1,6 +1,7 @@
 from dataclasses import dataclass, is_dataclass, asdict, fields
 from lxml import etree
 from device import Device
+from utils import Utils
 import re
 
 class motorControl(Device):
@@ -123,6 +124,8 @@ class motorControl(Device):
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        
+        Utils.check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})

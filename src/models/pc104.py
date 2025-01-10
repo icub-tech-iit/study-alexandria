@@ -1,8 +1,8 @@
 import re
 from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
-from phase import Phase
-from device import Device
+from dataclasses import dataclass
+from utils import Utils
+
 
 @dataclass
 class PC104:
@@ -30,10 +30,12 @@ class PC104:
             attributes[key] = value
         return cls(**attributes)
     
-    def to_xml(self, root_path):
+    def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         
+        Utils.check_subfolders_existance(root_path, file_name)
+
         group_elem = etree.SubElement(root, "group", {"name": self.__class__.__name__})
         for attr_name, attr_value in self.__dict__.items():
             param = etree.SubElement(group_elem, "param", {'name': attr_name})
@@ -41,7 +43,7 @@ class PC104:
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'/'+'pc104.xml', "wb") as writer:
+        with open(root_path+'/'+file_name, "wb") as writer:
             writer.write(xml_object)
 
 def main():

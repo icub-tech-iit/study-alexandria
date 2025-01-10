@@ -1,5 +1,6 @@
 from dataclasses import dataclass, is_dataclass, asdict, fields
 from lxml import etree
+from utils import Utils
 import re
 class Electronics:
     @dataclass
@@ -93,7 +94,9 @@ class Electronics:
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
-        
+
+        Utils.check_subfolders_existance(root_path, file_name)
+
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
 
