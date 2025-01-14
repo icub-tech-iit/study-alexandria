@@ -63,17 +63,17 @@ class Calibrator(Device):
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern) | extract_attributes(sysml_str, phase_pattern)
         calib = cls(root_path)
 
-        calib.general = cls.GENERAL(
+        calib.GENERAL = cls.GENERAL(
             joints = attr['joints'],
             deviceName = calib.name
         )
 
-        calib.home = cls.HOME(
+        calib.HOME = cls.HOME(
             positionHome = [attr['positionHome']],
             velocityHome = [attr['velocityHome']]
         )
 
-        calib.calibration = cls.CALIBRATION(
+        calib.CALIBRATION = cls.CALIBRATION(
             calibrationType = [attr['calibrationType']],
             calibration1 = [attr['calibration1']],
             calibration2 = [attr['calibration2']],
@@ -134,10 +134,22 @@ class Calibrator(Device):
         with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
 
+    def update(self, key, value):
+        parts = key.split('.')
+        obj = self
+        for part in parts[1:-1]:
+            obj = getattr(obj, part, None)
+            if obj is None:
+                raise AttributeError(f"Attribute {part} not found in {key}")
+        if obj is not None:
+            setattr(obj, parts[-1], value)
+            print("Updated", key, "with", value)
 def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
     calibrator = Calibrator(root_path).from_sysml(root_path)
+    calibrator.update("calibrator.GENERAL.joints", 5)
     calibrator.to_xml("/home/mgloria/iit/study-alexandria/sysml", "calibrator.xml")
+
 
 if __name__ == "__main__":
     main()
