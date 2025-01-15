@@ -3,19 +3,18 @@ import os
 from utils import Utils
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
-from mec import Mechanicals as mechanical 
+from mec import Mechanicals as mechanicals 
 from motorControl import motorControl
 from mc_service import Service as service
 from inertial import Inertial as inertial
 from pc104 import PC104 as pc104
-from pyparsing import nestedExpr
-
+from utils import Utils
 class Part:
     def __init__(self):
         self.part_name = str
         self.calibration = [calibrator]
         self.eln = [electronics]
-        self.mechanicals = [mechanical]
+        self.mechanicals = [mechanicals]
         self.motorcontrol = [motorControl]
         self.service = [service]
         self.inertials = [inertial]
@@ -27,33 +26,37 @@ class Part:
             sysml_str = file.read()
 
         part = cls()
-        part_pattern = r'part\s+(\w+)\s+\[(\d+)\]\s+:\>\s+(\w+)'
+        part_pattern = r'part (\w+) \[(\d+)\] ='
         parts_name_pattern = r'abstract part (\w+)'
         part_matches = re.findall(part_pattern, sysml_str)
         name_matches = re.findall(parts_name_pattern, sysml_str, re.DOTALL)
-
-        override_pattern = r":>>\s*([a-zA-Z0-9._:(),\"= \-]+)\s*=\s*([a-zA-Z0-9._:(),\"= \-]+)\s*;"
-        override_matches = re.findall(override_pattern, sysml_str, re.DOTALL) 
+        # override_pattern = r":>>\s*([a-zA-Z0-9._:(),\"= \-]+)\s*=\s*([a-zA-Z0-9._:(),\"= \-]+)\s*;"
+        # override_matches = re.findall(override_pattern, sysml_str, re.DOTALL) 
+        subset_pattern = r'part (\w+) :> (\w+) = "([^"]+)" \{\s*([\s\S]*?)\}'
+        subset_matches = re.findall(subset_pattern, sysml_str, re.DOTALL)
 
         part.part_name = name_matches[0]
 
-        for match in part_matches:
-            if match[2] == 'calibrator':
-                part.calibration = [calibrator.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'electronics':
-                part.eln = [electronics.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'mechanical':
-                part.mechanicals = [mechanical.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'motorControl':
-                part.motorcontrol = [motorControl.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'SERVICE':
-                part.service = [service.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'inertial':
-                part.inertials = [inertial.from_sysml(root_path) for i in range(0, int(match[1]))]
-            elif match[2] == 'pc104':
-                part.pc104 = pc104.from_sysml(root_path)
+        calibrators = []
+        elns = []
+        pc104s = []
+        mechs = []
+        for match in subset_matches:
+            if match[1] == 'calibrator':
+                calibrators.append(match[0])
+            elif match[1] == 'electronics':
+                elns.append(match[0])
+            elif match[1] == 'PC104':
+                pc104s.append(match[0])
+            elif match[1] == 'mechanical':
+                mechs.append(match[0])
             else:
                 print("No match found")
+            part.calibration = [calibrator.from_sysml(root_path) for i in calibrators]
+            part.eln = [electronics.from_sysml(root_path) for i in elns]
+            part.pc104 = pc104.from_sysml(root_path)
+            part.mechanicals = [mechanicals.from_sysml(root_path) for i in mechs]
+
         return part
 
     def to_xml(self, root_path, part, robot_name):
@@ -64,27 +67,25 @@ class Part:
         robot_path = os.path.join(root_path, robot_name)
 
         override_pattern = r":>>\s*([a-zA-Z0-9._:(),\"= \-]+)\s*=\s*([a-zA-Z0-9._:(),\"= \-]+)\s*;"
-        braces_patter = r"\{(.*?)\}"
-        # override_matches = re.findall(override_pattern, sysml_str, re.DOTALL)
-        # print(override_matches)
         subset_pattern = r'part (\w+) :> (\w+) = "([^"]+)" \{\s*([\s\S]*?)\}'
-
-        # parts_pattern = r'abstract part (\w+)'
-        # parts = re.findall(parts_pattern, sysml_str, re.DOTALL)
-
+        
         for match in re.findall(subset_pattern, sysml_str):
             override_matches = re.findall(override_pattern, match[3], re.DOTALL)
             if match[1] == 'calibrator':
                 for calib in self.calibration:
-                    for ov in override_matches:
-                        calib.update("calibrator."+"".join(ov[0].split()), ov[1])
-                        calib.to_xml(robot_path, match[2])
-            elif match[1] == 'eln':
-                for electronics in self.eln:
-                    electronics.to_xml(robot_path, match[2])
+                    for override_match in override_matches:
+                        Utils.update(calib, "calibrator." + "".join(override_match[0].split()), override_match[1])
+                    calib.to_xml(robot_path, match[2])
+            elif match[1] == 'electronics':
+                for electronic in self.eln:
+                    for override_match in override_matches:
+                        Utils.update(electronic, "electronics." + "".join(override_match[0].split()), override_match[1])
+                    electronic.to_xml(robot_path, match[2])
             elif match[1] == 'mechanical':
-                for mechanical in self.mechanicals:
-                    mechanical.to_xml(robot_path, match[2])
+                for mech in self.mechanicals:
+                    for override_match in override_matches:
+                        Utils.update(mech, "mechanicals." + "".join(override_match[0].split()), override_match[1])
+                    mech.to_xml(robot_path, match[2])
             elif match[1] == 'motorcontrol':
                 for motorControl in self.motorcontrol:
                     motorControl.to_xml(robot_path, match[2])
@@ -93,11 +94,14 @@ class Part:
                     service.to_xml(robot_path, match[2])
             elif match[1] == 'inertials':
                 for inertial in self.inertials:
+                    for override_match in override_matches:
+                        Utils.update(inertial, "inertials." + "".join(override_match[0].split()), override_match[1])
                     inertial.to_xml(robot_path, match[2])
-            elif match[1] == 'pc104':
+            elif match[1] == 'PC104':
                 self.pc104.to_xml(robot_path, match[2])
             else:
                 print("No match found for part", match[1])
+
 
 def main():
     part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml', 'head')

@@ -12,7 +12,7 @@ part mechanical {
 			:>> elements : String[dimensions] default ("axis1", "axis2"); 
 		}
 		attribute AxisType : Array {
-			:>> dimensions default 2; 
+			:>> dimensions default 1; 
 			:>> elements : String[dimensions] default ("revolute", "revolute"); 
 		}
 		attribute Encoder : Array {
@@ -80,6 +80,24 @@ part mechanical {
 	part JOINTSET_CFG {
 		attribute numberofsets : Integer default 1;
 		part JOINTSET_0 {
+			attribute listofjoints : Array {
+				:>> dimensions default 2; 
+				:>> elements : Integer[dimensions] default (0, 1); 
+			}
+			attribute constraintName : String default "none";
+			attribute param1 : Integer default 0;
+			attribute param2 : Integer default 0;
+		}
+		part JOINTSET_1 {
+			attribute listofjoints : Array {
+				:>> dimensions default 2; 
+				:>> elements : Integer[dimensions] default (0, 1); 
+			}
+			attribute constraintName : String default "none";
+			attribute param1 : Integer default 0;
+			attribute param2 : Integer default 0;
+		}
+		part JOINTSET_2 {
 			attribute listofjoints : Array {
 				:>> dimensions default 2; 
 				:>> elements : Integer[dimensions] default (0, 1); 

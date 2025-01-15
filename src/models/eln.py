@@ -22,7 +22,7 @@ class Electronics:
                 maxTimeOfDOactivity: int
                 maxTimeOfTXactivity: int
                 TXrateOfRegularROPs: int
-            runningmode: RUNNINGMODE
+            RUNNINGMODE: RUNNINGMODE
         @dataclass
         class ETH_BOARD_ACTIONS:
             @dataclass
@@ -31,10 +31,10 @@ class Electronics:
                 timeout: float
                 periodOfMissingReport: float
 
-            monitor_its_presence: MONITOR_ITS_PRESENCE
-        eth_board_properties: ETH_BOARD_PROPERTIES
-        eth_board_settings: ETH_BOARD_SETTINGS
-        eth_board_actions: ETH_BOARD_ACTIONS
+            MONITOR_ITS_PRESENCE: MONITOR_ITS_PRESENCE
+        ETH_BOARD_PROPERTIES: ETH_BOARD_PROPERTIES
+        ETH_BOARD_SETTINGS: ETH_BOARD_SETTINGS
+        ETH_BOARD_ACTIONS: ETH_BOARD_ACTIONS
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -60,8 +60,8 @@ class Electronics:
         board = cls()
         attr = extract_attributes(sysml_str, general_pattern)
 
-        board.eth_board = cls.ETH_BOARD(
-            eth_board_properties = cls.ETH_BOARD.ETH_BOARD_PROPERTIES(
+        board.ETH_BOARD = cls.ETH_BOARD(
+            ETH_BOARD_PROPERTIES = cls.ETH_BOARD.ETH_BOARD_PROPERTIES(
                 IpAddress = attr['IpAddress'],
                 IpPort = attr['IpPort'],
                 Type = attr['Type'],
@@ -69,9 +69,9 @@ class Electronics:
                 maxSizeROP = attr['maxSizeROP']
             ),
 
-            eth_board_settings = cls.ETH_BOARD.ETH_BOARD_SETTINGS(
+            ETH_BOARD_SETTINGS = cls.ETH_BOARD.ETH_BOARD_SETTINGS(
                 Name = attr['Name'],
-                runningmode = cls.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE(
+                RUNNINGMODE = cls.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE(
                     period = attr['period'],
                     maxTimeOfRXactivity = attr['maxTimeOfRXactivity'],
                     maxTimeOfDOactivity = attr['maxTimeOfDOactivity'],
@@ -80,8 +80,8 @@ class Electronics:
                 )
             ),
 
-            eth_board_actions = cls.ETH_BOARD.ETH_BOARD_ACTIONS(
-                monitor_its_presence = cls.ETH_BOARD.ETH_BOARD_ACTIONS.MONITOR_ITS_PRESENCE(
+            ETH_BOARD_ACTIONS = cls.ETH_BOARD.ETH_BOARD_ACTIONS(
+                MONITOR_ITS_PRESENCE = cls.ETH_BOARD.ETH_BOARD_ACTIONS.MONITOR_ITS_PRESENCE(
                     enabled = attr['enabled'],
                     timeout = attr['timeout'],
                     periodOfMissingReport = attr['periodOfMissingReport']
@@ -132,7 +132,6 @@ class Electronics:
 
 def main():
     eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    # eln.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == "__main__":
     main()

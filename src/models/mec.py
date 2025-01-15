@@ -38,7 +38,7 @@ class Mechanicals:
             constraintName: str
             param1: int
             param2: int
-        jointset_0: JOINTSET_0
+        JOINTSET_0: JOINTSET_0
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -68,7 +68,7 @@ class Mechanicals:
 
         mec = cls()
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
-        mec.general = cls.GENERAL(
+        mec.GENERAL = cls.GENERAL(
             MotioncontrolVersion = attr['MotioncontrolVersion'],
             Joints = attr['Joints'],
             AxisMap = [item.strip() for item in attr['AxisMap'].split(",")],
@@ -84,22 +84,22 @@ class Mechanicals:
             Verbose = attr['Verbose']
         )
 
-        mec.limits = cls.LIMITS(
+        mec.LIMITS = cls.LIMITS(
             hardwareJntPosMin = [item.strip() for item in attr['hardwareJntPosMin'].split(",")],
             hardwareJntPosMax = [item.strip() for item in attr['hardwareJntPosMax'].split(",")],
             rotorPosMin = [item.strip() for item in attr['rotorPosMin'].split(",")],
             rotorPosMax = [item.strip() for item in attr['rotorPosMax'].split(",")],
         )
 
-        mec.couplings = cls.COUPLINGS(
+        mec.COUPLINGS = cls.COUPLINGS(
             matrixJ2M = [item.strip() for item in attr['matrixJ2M'].split(",")],
             matrixM2J = [item.strip() for item in attr['matrixM2J'].split(",")],
             matrixE2J = [item.strip() for item in attr['matrixE2J'].split(",")],
         )
 
-        mec.jointset_cfg = cls.JOINTSET_CFG(
+        mec.JOINTSET_CFG = cls.JOINTSET_CFG(
             numberofsets = attr['numberofsets'],
-            jointset_0 = cls.JOINTSET_CFG.JOINTSET_0(
+            JOINTSET_0 = cls.JOINTSET_CFG.JOINTSET_0(
                 listofjoints = [item.strip() for item in attr['listofjoints'].split(",")],
                 constraintName = attr['constraintName'],
                 param1 = attr['param1'],
