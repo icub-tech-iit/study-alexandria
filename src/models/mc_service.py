@@ -17,17 +17,17 @@ class Service:
                 type: str
             @dataclass
             class JOINTMAPPING:
+                ENCODER1: Encoder
+                ENCODER2: Encoder
                 @dataclass
                 class ACTUATOR:
                     type: list[str]
                     port: list[str]
-                actuator: ACTUATOR
-                encoder1: Encoder
-                encoder2: Encoder
-            ethboard: ETHBOARD
-            jointmapping: JOINTMAPPING
-        properties: PROPERTIES
-    service: SERVICE
+                ACTUATOR: ACTUATOR
+            ETHBOARD: ETHBOARD
+            JOINTMAPPING: JOINTMAPPING
+        PROPERTIES: PROPERTIES
+    SERVICE: SERVICE
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -58,19 +58,19 @@ class Service:
                 
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, enc_pattern)
         
-        ser.service = cls.SERVICE(
-            type = attr['service_type'],
-            properties = cls.SERVICE.PROPERTIES(
-                ethboard = cls.SERVICE.PROPERTIES.ETHBOARD(
-                    type = [attr['eth_type']]
+        ser.SERVICE = cls.SERVICE(
+            type = attr['type'],
+            PROPERTIES = cls.SERVICE.PROPERTIES(
+                ETHBOARD = cls.SERVICE.PROPERTIES.ETHBOARD(
+                    type = [attr['type']]
                 ),
-                jointmapping = cls.SERVICE.PROPERTIES.JOINTMAPPING(
-                    actuator = cls.SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR(
-                        type = [attr['actuator_type']],
+                JOINTMAPPING = cls.SERVICE.PROPERTIES.JOINTMAPPING(
+                    ACTUATOR = cls.SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR(
+                        type = [attr['type']],
                         port = [attr['portName']]
                     ),
-                    encoder1 = Encoder.from_sysml(root_path),
-                    encoder2 = Encoder.from_sysml(root_path)
+                    ENCODER1 = Encoder.from_sysml(root_path),
+                    ENCODER2 = Encoder.from_sysml(root_path)
                 )
             )
         )
@@ -119,6 +119,6 @@ class Service:
 def main():
     serv = Service('/home/mgloria/iit/study-alexandria/sysml').from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     serv.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'service.xml')
-
+    print(serv.SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type)
 if __name__ == '__main__':
     main()

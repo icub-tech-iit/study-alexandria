@@ -31,7 +31,7 @@ class Phase:
             return cls(**attributes)
         
     def to_xml(self):
-        root = etree.Element('action', {'phase': self.phase, "level": self.level, "type": self.type})
+        root = etree.Element('action', {'phase': self.phase.strip('"'), "level": self.level, "type": self.type.strip('"')})
         element = etree.SubElement(root, "param", {'name': "target"})
         element.text = self.target
         
@@ -39,7 +39,7 @@ class Phase:
     
 def main():
     ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    # ph.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
+    ph.to_xml()
 
 if __name__ == '__main__':
     main()

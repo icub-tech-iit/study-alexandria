@@ -41,6 +41,9 @@ class Part:
         elns = []
         pc104s = []
         mechs = []
+        mc = []
+        services = []
+
         for match in subset_matches:
             if match[1] == 'calibrator':
                 calibrators.append(match[0])
@@ -50,13 +53,18 @@ class Part:
                 pc104s.append(match[0])
             elif match[1] == 'mechanical':
                 mechs.append(match[0])
+            elif match[1] == 'motorControl':
+                mc.append(match[0])
+            elif match[1] == 'SERVICE':
+                services.append(match[0])
             else:
-                print("No match found")
+                print("No match found for part", match[1])
             part.calibration = [calibrator.from_sysml(root_path) for i in calibrators]
             part.eln = [electronics.from_sysml(root_path) for i in elns]
             part.pc104 = pc104.from_sysml(root_path)
             part.mechanicals = [mechanicals.from_sysml(root_path) for i in mechs]
-
+            part.motorcontrol = [motorControl.from_sysml(root_path) for i in mc]
+            part.service = [service.from_sysml(root_path) for i in services]
         return part
 
     def to_xml(self, root_path, part, robot_name):
@@ -86,11 +94,15 @@ class Part:
                     for override_match in override_matches:
                         Utils.update(mech, "mechanicals." + "".join(override_match[0].split()), override_match[1])
                     mech.to_xml(robot_path, match[2])
-            elif match[1] == 'motorcontrol':
+            elif match[1] == 'motorControl':
                 for motorControl in self.motorcontrol:
+                    for override_match in override_matches:
+                        Utils.update(motorControl, "motorControl." + "".join(override_match[0].split()), override_match[1])
                     motorControl.to_xml(robot_path, match[2])
-            elif match[1] == 'service':
+            elif match[1] == 'SERVICE':
                 for service in self.service:
+                    for override_match in override_matches:
+                        Utils.update(service, "SERVICE." + "".join(override_match[0].split()), override_match[1])
                     service.to_xml(robot_path, match[2])
             elif match[1] == 'inertials':
                 for inertial in self.inertials:

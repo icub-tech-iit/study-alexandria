@@ -11,7 +11,9 @@ class Calibrator(Device):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
-        self.phase = list[Phase]
+        self.startup = Phase
+        self.interrupt1 = Phase
+        self.interrupt3 = Phase
     
     @dataclass
     class GENERAL:
@@ -85,13 +87,15 @@ class Calibrator(Device):
         )
 
         calib.CALIB_ORDER = attr['CALIB_ORDER']
-        calib.phase = [Phase.from_sysml(root_path) for i in attr['phase']]
+        calib.startup = Phase.from_sysml(root_path)
+        calib.interrupt1 = Phase.from_sysml(root_path)
+        calib.interrupt3 = Phase.from_sysml(root_path)
 
         return calib
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        root = etree.Element('device', {'name': self.name.strip('"'), 'type': self.type.strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
 
@@ -119,14 +123,17 @@ class Calibrator(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if isinstance(attr_value, Phase):
+                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
         
         calib_order = etree.SubElement(root, "param", {"name": "CALIB_ORDER"})
         calib_order.text = " ".join(map(str, self.CALIB_ORDER))
 
-        for i in range(0, len(self.phase)):
-            root.append(etree.XML(self.phase[i].to_xml()))
+        root.append(etree.XML(self.startup.to_xml()))
+        root.append(etree.XML(self.interrupt1.to_xml()))
+        root.append(etree.XML(self.interrupt3.to_xml()))
 
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
@@ -138,7 +145,6 @@ def main():
     root_path = "/home/mgloria/iit/study-alexandria/sysml/"
     calibrator = Calibrator(root_path).from_sysml(root_path)
     calibrator.to_xml("/home/mgloria/iit/study-alexandria/sysml", "calibrator.xml")
-
 
 if __name__ == "__main__":
     main()

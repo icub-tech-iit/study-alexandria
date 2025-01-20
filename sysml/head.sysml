@@ -1,26 +1,25 @@
 abstract part head {
-    // part calibration [2] :> calibrator {
-        // :>> device::type = "parametricCalibratorEth";
-        // attribute attach :> phase {
-        //     :>> level = 10;
-        // }
-        // attribute interrupt1 :> phase {
-        //     :>> type = "park";
-        // }
-        // attribute interrupt3 :> phase {
-        //     :>> type = "abort";
-        // }
-    // }
     part calibrator1 :> calibrator = "calibrators/face-calib.xml" {
+        :>> type = "parametricCalibratorEth";
+        :>> name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
         :>> HOME.velocityHome = (0, 20);
         :>> CALIBRATION.calibrationType = 12;
         :>> CALIBRATION.calibration1 = -7656;
-        attribute attach :> phase {
-            :>> level = 10;
-        }
+        :>> startup.phase = "startup";
+        :>> startup.type = "calibrate";
+        :>> startup.target = "face-mc_remapper";
+        :>> interrupt1.phase = "interrupt1";
+        :>> interrupt1.level = 1;
+        :>> interrupt1.type = "park";
+        :>> interrupt1.target = "head-mc_remapper";
+        :>> interrupt3.phase = "interrupt3";
+        :>> interrupt3.level = 1;
+        :>> interrupt3.type = "abort";
     }
     part calibrator2 :> calibrator = "calibrators/head-calib.xml" {
+        :>> type = "parametricCalibratorEth";
+        :>> name = "head-calibrator";
         :>> GENERAL.joints = 6;
         :>> GENERAL.deviceName = "HeadV3_Calibrator";
         :>> HOME.positionHome = (0, 0, 0, 0, 0, 0);
@@ -34,6 +33,16 @@ abstract part head {
         :>> CALIBRATION.calibrationZero = (0, 0, 0, 0, 0, 0);
         :>> CALIBRATION.calibrationDelta = (0, 2.8, 0, 0, 0, 0);
         :>> CALIB_ORDER = "(0 1 2) (3) (4 5)";
+        :>> startup.phase = "startup";
+        :>> startup.type = "calibrate";
+        :>> startup.target = "head-mc_remapper";
+        :>> interrupt1.phase = "interrupt1";
+        :>> interrupt1.level = 1;
+        :>> interrupt1.type = "park";
+        :>> interrupt1.target = "head-mc_remapper";
+        :>> interrupt3.phase = "interrupt3";
+        :>> interrupt3.level = 1;
+        :>> interrupt3.type = "abort";
     }
     part calibration [2] = (calibrator1, calibrator2);
 
@@ -117,4 +126,107 @@ abstract part head {
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
     }
     part mech [3] = (mech1, mech2, mech3);
+
+    part motorcontrol1 :> motorControl = "hardware/motorControl/face-eb22-j0-mc.xml" {
+        :>> LIMITS.jntPosMin = -5;
+        :>> LIMITS.jntPosMax = +65;
+        :>> LIMITS.motorOverloadCurrents = 2000;
+        :>> LIMITS.motorNominalCurrents = 700;
+        :>> LIMITS.motorPeakCurrents = 1000;
+        :>> LIMITS.jntVelMax = 1000;
+        :>> LIMITS.motorPwmLimit = 3300;
+        :>> TIMEOUTS.velocity = 100;
+        :>> IMPEDANCE.stiffness = 0.0;
+        :>> IMPEDANCE.damping = 0.0;
+        :>> CONTROLS.positionControl = "POS_PID_DEFAULT";
+        :>> CONTROLS.velocityControl = "POS_PID_DEFAULT";
+        :>> CONTROLS.mixedControl = "POS_PID_DEFAULT";
+        :>> CONTROLS.torqueControl = "none";
+        :>> CONTROLS.currentPid = "none";
+        :>> CONTROLS.speedPid = "none";
+        :>> POS_PID_DEFAULT.kp = 600.0;
+        :>> POS_PID_DEFAULT.kd = 0.0;
+        :>> POS_PID_DEFAULT.ki = 100.0;
+        :>> POS_PID_DEFAULT.maxOutput = 3360;
+        :>> POS_PID_DEFAULT.maxInt = 3360;
+        :>> POS_PID_DEFAULT.stictionUp = 0;
+        :>> POS_PID_DEFAULT.stictionDown = 0;
+        :>> POS_PID_DEFAULT.kff = 0;
+    }
+    part motorcontrol2 :> motorControl = "hardware/motorControl/head-eb20-j0_1-mc.xml" {
+        :>> LIMITS.jntPosMax = (+22, +20);
+    }
+    part motorcontrol3 :> motorControl = "hardware/motorControl/head-eb21-j2_5-mc.xml" {
+        :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
+        :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
+        :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
+        :>> LIMITS.motorOverloadCurrents = (2000, 2000, 2500, 2500);
+        :>> LIMITS.motorNominalCurrents = (700, 700, 700, 700);
+        :>> LIMITS.motorPeakCurrents = (1500, 1500, 1500, 1500);
+        :>> LIMITS.motorPwmLimit = (3360, 3360, 3360, 3360);
+        :>> TIMEOUTS.velocity = (100, 100, 100, 100);
+        :>> IMPEDANCE.stiffness = (0.0, 0.0, 0.0, 0.0);
+        :>> IMPEDANCE.damping = (0.0, 0.0, 0.0, 0.0);
+        :>> CONTROLS.positionControl = ("POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT");
+        :>> CONTROLS.velocityControl = ("POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT");
+        :>> CONTROLS.mixedControl = ("POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT");
+        :>> CONTROLS.torqueControl = ("none", "none", "none", "none");
+        :>> CONTROLS.currentPid = ("none", "none", "none", "none");
+        :>> CONTROLS.speedPid = ("none", "none", "none", "none");
+        :>> POS_PID_DEFAULT.kp = (1100.0, -1000, 3500, 4500);
+        :>> POS_PID_DEFAULT.kd = (0.0, 0.0, 0.0, 0.0);
+        :>> POS_PID_DEFAULT.ki = (0.0, -100, 600.0, 600.0);
+        :>> POS_PID_DEFAULT.maxOutput = (3360, 3360, 3360, 3360);
+        :>> POS_PID_DEFAULT.maxInt = (3360, 3360, 3360, 3360);
+        :>> POS_PID_DEFAULT.stictionUp = (0, 0, 0, 0);
+        :>> POS_PID_DEFAULT.stictionDown = (0, 0, 0, 0);
+        :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
+    }
+    part mc [3] = (motorcontrol1, motorcontrol2, motorcontrol3);
+
+    part service1 :> SERVICE = "hardware/motorControl/face-eb22-j0-mc_service.xml" {
+        :>> type = "eomn_serv_MC_mc4plus";
+        :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P3";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P11";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = -4096;
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = "none";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = "none";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = "none";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = 0;
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = 0;
+    }
+    part service2 :> SERVICE = "hardware/motorControl/head-eb20-j0_1-mc_service.xml" {
+        :>> type = "eomn_serv_MC_mc4plus";
+        :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P11", "CONN:P10");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, -4096);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P3", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0);
+    }
+    part service3 :> SERVICE = "hardware/motorControl/head-eb21-j2_5-mc_service.xml" {
+        :>> type = "eomn_serv_MC_mc4plus";
+        :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea", "aea", "aea");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P11", "CONN:P10", "CONN:none", "CONN:none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "none", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, 4096, 0, 0);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703, 0, 0);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "qenc");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "atmotor");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048, 2048, 2048);
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
+    }
+    part services [3] = (service1, service2, service3);
 }

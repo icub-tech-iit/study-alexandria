@@ -151,6 +151,7 @@ class Mechanicals:
 def main():
     mec = Mechanicals.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     mec.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'mec.xml')
+    print(mec.JOINTSET_CFG.JOINTSET_0)
 
 if __name__ == "__main__":
     main()
