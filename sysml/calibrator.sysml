@@ -49,5 +49,7 @@ part calibrator : device {
         }
     }
     attribute CALIB_ORDER : String default "(0)";
-    attribute phase : phase [3];
+    attribute startup : phase;
+    attribute interrupt1 : phase;
+    attribute interrupt3 : phase;
 }

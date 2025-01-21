@@ -21,7 +21,6 @@ class Utils:
                 raise AttributeError(f"Attribute {part} not found in {key}")
         if obj is not None:
             setattr(obj, parts[-1], value)
-            # print("Updated", key, "with", value)
 
 def main():
     pass
