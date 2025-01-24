@@ -1,4 +1,4 @@
-abstract part head {
+abstract part Head {
     part calibrator1 :> calibrator = "calibrators/face-calib.xml" {
         :>> type = "parametricCalibratorEth";
         :>> name = "face-calibrator";
@@ -184,8 +184,8 @@ abstract part head {
     }
     part mc [3] = (motorcontrol1, motorcontrol2, motorcontrol3);
 
-    part service1 :> SERVICE = "hardware/motorControl/face-eb22-j0-mc_service.xml" {
-        :>> type = "eomn_serv_MC_mc4plus";
+    part service1 :> service = "hardware/motorControl/face-eb22-j0-mc_service.xml" {
+        :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P3";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P11";
@@ -196,8 +196,8 @@ abstract part head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = 0;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = 0;
     }
-    part service2 :> SERVICE = "hardware/motorControl/head-eb20-j0_1-mc_service.xml" {
-        :>> type = "eomn_serv_MC_mc4plus";
+    part service2 :> service = "hardware/motorControl/head-eb20-j0_1-mc_service.xml" {
+        :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P4");
@@ -212,8 +212,8 @@ abstract part head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0);
     }
-    part service3 :> SERVICE = "hardware/motorControl/head-eb21-j2_5-mc_service.xml" {
-        :>> type = "eomn_serv_MC_mc4plus";
+    part service3 :> service = "hardware/motorControl/head-eb21-j2_5-mc_service.xml" {
+        :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");

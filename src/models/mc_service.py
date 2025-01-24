@@ -119,6 +119,5 @@ class Service:
 def main():
     serv = Service('/home/mgloria/iit/study-alexandria/sysml').from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     serv.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'service.xml')
-    print(serv.SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type)
 if __name__ == '__main__':
     main()
