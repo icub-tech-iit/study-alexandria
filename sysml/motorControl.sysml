@@ -47,7 +47,7 @@ part motorControl : device {
             :>> elements : Real[dimensions] default (0.0, 0.0);
         }
     }
-    part CONTROL {
+    part CONTROLS {
         attribute positionControl : Array {
             :>> dimensions default 2;
             :>> elements : String[dimensions] default ("POS_PID_DEFAULT", "POS_PID_DEFAULT");
@@ -100,7 +100,7 @@ part motorControl : device {
         }
         attribute stictionUp : Array {
             :>> dimensions default 2;
-            :>> elements : Integer[dimensions] default (3360,3360);
+            :>> elements : Integer[dimensions] default (0, 0);
         }
         attribute stictionDown : Array {
             :>> dimensions default 2;

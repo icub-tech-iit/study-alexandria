@@ -81,7 +81,7 @@ class motorControl(Device):
         mc = cls(root_path)
 
         attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
-        mc.limits = cls.LIMITS(
+        mc.LIMITS = cls.LIMITS(
             jntPosMin = [attr['jntPosMin']],
             jntPosMax = [attr['jntPosMax']],
             jntVelMax = [attr['jntVelMax']],
@@ -90,14 +90,14 @@ class motorControl(Device):
             motorPeakCurrents = [attr['motorPeakCurrents']],
             motorPwmLimit = [attr['motorPwmLimit']]
         )
-        mc.timeouts = cls.TIMEOUTS(
+        mc.TIMEOUTS = cls.TIMEOUTS(
             velocity = [attr['velocity']]
         )
-        mc.impedance = cls.IMPEDANCE(
+        mc.IMPEDANCE = cls.IMPEDANCE(
             stiffness = [attr['stiffness']],
             damping = [attr['damping']]
         )
-        mc.controls = cls.CONTROLS(
+        mc.CONTROLS = cls.CONTROLS(
             positionControl = [attr['positionControl']],
             velocityControl = [attr['velocityControl']],
             mixedControl = [attr['mixedControl']],
@@ -105,7 +105,7 @@ class motorControl(Device):
             currentPid = [attr['currentPid']],
             speedPid = [attr['speedPid']]
         )
-        mc.pos_pid = cls.POS_PID_DEFAULT(
+        mc.POS_PID_DEFAULT = cls.POS_PID_DEFAULT(
             controlLaw = attr['controlLaw'],
             outputType = attr['outputType'],
             fbkControlUnits = attr['fbkControlUnits'],
