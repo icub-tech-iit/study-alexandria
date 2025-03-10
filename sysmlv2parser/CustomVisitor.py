@@ -7,8 +7,6 @@ from SysMLv2Visitor import SysMLv2Visitor
 class CustomVisitor(SysMLv2Visitor):
     def visitModel(self, ctx: SysMLv2Parser.ModelContext):
         for part_ctx in ctx.partStmt():
-            if part_ctx.ID() is not None:
-                print("Visiting part", part_ctx.ID().getText())
             self.visitPart(part_ctx)
         return self.visitChildren(ctx)
 

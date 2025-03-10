@@ -71,6 +71,15 @@ class SysMLv2Listener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SysMLv2Parser#vector.
+    def enterVector(self, ctx:SysMLv2Parser.VectorContext):
+        pass
+
+    # Exit a parse tree produced by SysMLv2Parser#vector.
+    def exitVector(self, ctx:SysMLv2Parser.VectorContext):
+        pass
+
+
     # Enter a parse tree produced by SysMLv2Parser#arrayType.
     def enterArrayType(self, ctx:SysMLv2Parser.ArrayTypeContext):
         pass
