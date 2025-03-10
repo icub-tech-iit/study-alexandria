@@ -24,8 +24,6 @@ SPECIALIZE : ':>>';
 DIMENSIONS : 'dimensions';
 ELEMENTS   : 'elements';
 ID         : [a-zA-Z_][a-zA-Z0-9_]*;
-SPECIALIZATION
-           : [a-zA-Z_][a-zA-Z0-9_]*;
 NUMBER     : DIGIT+ ('.' DIGIT+)? ;
 fragment DIGIT 
            : [0-9]+ ;
@@ -33,16 +31,16 @@ STR        : '"' (~["\r\n])* '"' ;
 WS         : [ \t\r\n]+ -> skip;
 
 // Parser rules
-model       : importStmt* partStmt* EOF ;
+model       : importStmt* (partStmt | attributeStmt)* EOF ;
 importStmt  : IMPORT ID '::*' SEMICOLON ;
-partStmt    : PART (DEF)? ID (COLON SPECIALIZATION)? LBRACE partBody RBRACE ;
+partStmt    : PART (DEF)? ID (COLON ID)? LBRACE partBody RBRACE ;
 partBody    : (attributeStmt | partStmt)+ ;
 attributeStmt
-            : ATTRIBUTE (DEF)? ID COLON attributeType (DEFAULT defaultValue)? SEMICOLON? ;
+            : ATTRIBUTE (DEF)? ID (LBRACE attributeStmt RBRACE)? COLON attributeType (DEFAULT defaultValue)? SEMICOLON? ;
 attributeType
-            : INTEGER | STRING | REAL | BOOLEAN | arrayType ;
+            : INTEGER | STRING | REAL | BOOLEAN | arrayType | ID ;
 defaultValue
-            : NUMBER | '-'? NUMBER | STR | vector;
+            : NUMBER | ('-' | '+')? NUMBER | STR | vector;
 vector      : '(' defaultValue (',' defaultValue)* ')';
 arrayType   : ARRAY LBRACE arrayBody RBRACE ;
 arrayBody   : SPECIALIZE DIMENSIONS DEFAULT NUMBER SEMICOLON SPECIALIZE ELEMENTS COLON attributeType (LBRACK DIMENSIONS RBRACK)? DEFAULT defaultValue SEMICOLON ;

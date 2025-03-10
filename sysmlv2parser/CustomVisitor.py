@@ -6,13 +6,21 @@ from SysMLv2Visitor import SysMLv2Visitor
 
 class CustomVisitor(SysMLv2Visitor):
     def visitModel(self, ctx: SysMLv2Parser.ModelContext):
-        for part_ctx in ctx.partStmt():
-            self.visitPart(part_ctx)
+        if ctx.partStmt():
+            for part_ctx in ctx.partStmt():
+                self.visitPart(part_ctx)
+        else:
+            print("No parts found in the model")
+            self.visitAttribute(ctx.attributeStmt)
         return self.visitChildren(ctx)
 
     def visitPart(self, ctx: SysMLv2Parser.PartStmtContext):
-        part_name = ctx.ID().getText()
-        print(f"Visiting part: {part_name}")
+        part_name = ctx.ID(0).getText()
+        specialization = ctx.ID(1).getText() if len(ctx.ID()) > 1 else None
+        if specialization is not None:
+            print(f"Visiting part: {part_name} that inherits from: {specialization}")
+        else:
+            print(f"Visiting part: {part_name}")
         if ctx.partBody():
             for attribute_ctx in ctx.partBody().attributeStmt():
                 self.visitAttribute(attribute_ctx)
@@ -32,4 +40,4 @@ class CustomVisitor(SysMLv2Visitor):
         array_dimension = ctx.NUMBER().getText()
         array_type = ctx.attributeType().getText()
         default_value = ctx.defaultValue().getText() if ctx.defaultValue() else "None"
-        print(f"  Array: {attribute_name}, Dimension: {array_dimension}, Type: {array_type}, Default: {default_value}")
+        print(f"  Attribute array: {attribute_name}, Dimension: {array_dimension}, Type: {array_type}, Default: {default_value}")

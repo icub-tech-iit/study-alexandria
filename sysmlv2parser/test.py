@@ -15,4 +15,4 @@ def parse_sysml(file_path):
     visitor.visit(tree)
     print(visitor.visitModel(tree))
 
-parse_sysml("./sysml/mec.sysml")
+parse_sysml("./sysml/service.sysml")
