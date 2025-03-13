@@ -22,10 +22,14 @@ class CustomVisitor(SysMLv2Visitor):
         else:
             print(f"Visiting part: {part_name}")
         if ctx.partBody():
-            for attribute_ctx in ctx.partBody().attributeStmt():
-                self.visitAttribute(attribute_ctx)
-            for nested_part_ctx in ctx.partBody().partStmt():
-                self.visitPart(nested_part_ctx)
+            for part_body in ctx.partBody():
+                for attribute_ctx in part_body.attributeStmt():
+                    self.visitAttribute(attribute_ctx)
+                for nested_part_ctx in part_body.partStmt():
+                    self.visitPart(nested_part_ctx)
+        elif ctx.overrideBody():
+            for override_ctx in ctx.overrideBody():
+                self.visitOVerride(override_ctx.qualifiedID().getText(), override_ctx)
     
     def visitAttribute(self, ctx: SysMLv2Parser.AttributeStmtContext):
         attribute_name = ctx.ID().getText()
@@ -41,3 +45,7 @@ class CustomVisitor(SysMLv2Visitor):
         array_type = ctx.attributeType().getText()
         default_value = ctx.defaultValue().getText() if ctx.defaultValue() else "None"
         print(f"  Attribute array: {attribute_name}, Dimension: {array_dimension}, Type: {array_type}, Default: {default_value}")
+
+    def visitOVerride(self, attribute_name, ctx: SysMLv2Parser.OverrideBodyContext):
+        override_value = ctx.defaultValue().getText()
+        print(f"  Overriding attribute: {attribute_name}, with value: {override_value}")

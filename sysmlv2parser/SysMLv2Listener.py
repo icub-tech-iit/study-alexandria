@@ -8,6 +8,15 @@ else:
 # This class defines a complete listener for a parse tree produced by SysMLv2Parser.
 class SysMLv2Listener(ParseTreeListener):
 
+    # Enter a parse tree produced by SysMLv2Parser#qualifiedID.
+    def enterQualifiedID(self, ctx:SysMLv2Parser.QualifiedIDContext):
+        pass
+
+    # Exit a parse tree produced by SysMLv2Parser#qualifiedID.
+    def exitQualifiedID(self, ctx:SysMLv2Parser.QualifiedIDContext):
+        pass
+
+
     # Enter a parse tree produced by SysMLv2Parser#model.
     def enterModel(self, ctx:SysMLv2Parser.ModelContext):
         pass
@@ -41,6 +50,15 @@ class SysMLv2Listener(ParseTreeListener):
 
     # Exit a parse tree produced by SysMLv2Parser#partBody.
     def exitPartBody(self, ctx:SysMLv2Parser.PartBodyContext):
+        pass
+
+
+    # Enter a parse tree produced by SysMLv2Parser#overrideBody.
+    def enterOverrideBody(self, ctx:SysMLv2Parser.OverrideBodyContext):
+        pass
+
+    # Exit a parse tree produced by SysMLv2Parser#overrideBody.
+    def exitOverrideBody(self, ctx:SysMLv2Parser.OverrideBodyContext):
         pass
 
 

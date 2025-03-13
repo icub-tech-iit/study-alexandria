@@ -20,10 +20,13 @@ STRING     : 'String';
 REAL       : 'Real';
 BOOLEAN    : 'Boolean';
 ARRAY      : 'Array';
-SPECIALIZE : ':>>';
+SPECIALIZE : ':>';
+OVERRIDE   : ':>>';
 DIMENSIONS : 'dimensions';
 ELEMENTS   : 'elements';
 ID         : [a-zA-Z_][a-zA-Z0-9_]*;
+qualifiedID 
+           : ID ('.' ID)* ;
 NUMBER     : DIGIT+ ('.' DIGIT+)? ;
 fragment DIGIT 
            : [0-9]+ ;
@@ -33,8 +36,9 @@ WS         : [ \t\r\n]+ -> skip;
 // Parser rules
 model       : importStmt* (partStmt | attributeStmt)* EOF ;
 importStmt  : IMPORT ID '::*' SEMICOLON ;
-partStmt    : PART (DEF)? ID (COLON ID)? LBRACE partBody RBRACE ;
+partStmt    : PART (DEF)? ID ((COLON ID) | SPECIALIZE ID EQUALS STR)? LBRACE (partBody | overrideBody)+ RBRACE ;
 partBody    : (attributeStmt | partStmt)+ ;
+overrideBody: OVERRIDE qualifiedID EQUALS defaultValue SEMICOLON ;
 attributeStmt
             : ATTRIBUTE (DEF)? ID (LBRACE attributeStmt RBRACE)? COLON attributeType (DEFAULT defaultValue)? SEMICOLON? ;
 attributeType
@@ -43,4 +47,4 @@ defaultValue
             : NUMBER | ('-' | '+')? NUMBER | STR | vector;
 vector      : '(' defaultValue (',' defaultValue)* ')';
 arrayType   : ARRAY LBRACE arrayBody RBRACE ;
-arrayBody   : SPECIALIZE DIMENSIONS DEFAULT NUMBER SEMICOLON SPECIALIZE ELEMENTS COLON attributeType (LBRACK DIMENSIONS RBRACK)? DEFAULT defaultValue SEMICOLON ;
+arrayBody   : OVERRIDE DIMENSIONS DEFAULT NUMBER SEMICOLON OVERRIDE ELEMENTS COLON attributeType (LBRACK DIMENSIONS RBRACK)? DEFAULT defaultValue SEMICOLON ;
