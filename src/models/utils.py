@@ -1,5 +1,13 @@
 import os
-import re
+import sys
+
+parser_dir = os.path.abspath("/home/mgloria/iit/study-alexandria/sysmlv2parser")
+sys.path.append(parser_dir)
+
+from antlr4 import FileStream, CommonTokenStream
+from SysMLv2Lexer import SysMLv2Lexer
+from SysMLv2Parser import SysMLv2Parser
+from CustomVisitor import CustomVisitor, Element
 
 class Utils:
     def __init__(self):
@@ -21,6 +29,18 @@ class Utils:
                 raise AttributeError(f"Attribute {part} not found in {key}")
         if obj is not None:
             setattr(obj, parts[-1], value)
+
+    def parse_sysml(file_path):
+        input_stream = FileStream(file_path)
+        lexer = SysMLv2Lexer(input_stream)
+        token_stream = CommonTokenStream(lexer)
+        parser = SysMLv2Parser(token_stream)
+
+        visitor = CustomVisitor()
+        tree = parser.model()
+        visitor.visitModel(tree)
+
+        return visitor
 
 def main():
     pass

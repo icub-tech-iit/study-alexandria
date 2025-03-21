@@ -1,4 +1,4 @@
-abstract part Head {
+part def Head {
     part calibrator1 :> calibrator = "calibrators/face-calib.xml" {
         :>> type = "parametricCalibratorEth";
         :>> name = "face-calibrator";

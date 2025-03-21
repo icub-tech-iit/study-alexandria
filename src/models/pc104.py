@@ -3,7 +3,6 @@ from lxml import etree
 from dataclasses import dataclass
 from utils import Utils
 
-
 @dataclass
 class PC104:
     PC104IpAddress: str

@@ -1,7 +1,6 @@
-from antlr4 import FileStream, CommonTokenStream, ParseTreeWalker
+from antlr4 import FileStream, CommonTokenStream
 from SysMLv2Lexer import SysMLv2Lexer
 from SysMLv2Parser import SysMLv2Parser
-from SysMLv2Visitor import SysMLv2Visitor
 from CustomVisitor import CustomVisitor
 
 def parse_sysml(file_path):
@@ -12,7 +11,9 @@ def parse_sysml(file_path):
 
     visitor = CustomVisitor()
     tree = parser.model()
-    visitor.visit(tree)
-    print(visitor.visitModel(tree))
+    visitor.visitModel(tree)
 
-parse_sysml("./sysml/head_test.sysml")
+    for name, element in visitor.part_definitions.items():
+        print("Part " + name, element)
+
+parse_sysml("./sysml/phase.sysml")

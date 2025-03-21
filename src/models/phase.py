@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import re
 import lxml.etree as etree
+from utils import Utils
 
 @dataclass
 class Phase:
@@ -11,24 +12,13 @@ class Phase:
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/phase.sysml', 'r') as file:
-            sysml_str = file.read()
+        attr = Utils.parse_sysml(root_path+'phase.sysml').part_definitions        
+        attributes = {}
 
-            patterns = {
-                'phase': r'attribute phase : String default "([^"]+)";',
-                'level': r'attribute level : Integer default (\d+);',
-                'type': r'attribute type : String default "([^"]+)";',
-                'target': r'attribute target : String default "([^"]+)";',
-            }
-
-            attributes = {}
-            for key, pattern in patterns.items():
-                match = re.search(pattern, sysml_str)
-                if match:
-                    attributes[key] = match.group(1)
-                else:
-                    raise ValueError(f"Pattern for {key} not found in the file")
-            return cls(**attributes)
+        for key, value in attr.items():
+            for param in value.parameters:
+                attributes[param] = value.parameters[param]
+        return cls(**attributes)
         
     def to_xml(self):
         root = etree.Element('action', {'phase': self.phase.strip('"'), "level": self.level, "type": self.type.strip('"')})
