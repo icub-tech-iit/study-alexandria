@@ -48,9 +48,6 @@ class Electronics:
                     if is_dataclass(subclass):
                         params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') 
                                 for param, val in value.parameters.items()}
-                        for field in fields(subclass):
-                            if field.name in params:
-                                params[field.name] = field.type(params[field.name])
                         setattr(instance, key, subclass(**params))
                     # handle the children
                     if value.children:

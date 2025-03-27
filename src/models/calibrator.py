@@ -42,10 +42,11 @@ class Calibrator(Device):
             if hasattr(cls, key):
                 subclass = getattr(cls, key)
                 if is_dataclass(subclass):
-                    params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') for param, val in value.parameters.items()}
+                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                                for param, val in value.parameters.items()}
                     setattr(calib, key, subclass(**params))
             elif key == 'calibrator':
-                calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('()').split(',')]
+                calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('"').split(',')]
             elif key in ['startup', 'interrupt1', 'interrupt3']:
                 setattr(calib, key, Phase.from_sysml(root_path))
         

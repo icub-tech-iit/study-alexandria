@@ -55,70 +55,25 @@ class motorControl(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/motorControl.sysml', 'r') as file:
-            sysml_str = file.read()
-
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                value = None
-                if match[1]:
-                    try:
-                        value = float(match[1])
-                    except ValueError:
-                        value = match[1]
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-        
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
+        attr = dict(Utils.parse_sysml(root_path+'/motorControl.sysml').part_definitions.items())
         mc = cls(root_path)
 
-        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
-        mc.LIMITS = cls.LIMITS(
-            jntPosMin = [attr['jntPosMin']],
-            jntPosMax = [attr['jntPosMax']],
-            jntVelMax = [attr['jntVelMax']],
-            motorOverloadCurrents = [attr['motorOverloadCurrents']],
-            motorNominalCurrents = [attr['motorNominalCurrents']],
-            motorPeakCurrents = [attr['motorPeakCurrents']],
-            motorPwmLimit = [attr['motorPwmLimit']]
-        )
-        mc.TIMEOUTS = cls.TIMEOUTS(
-            velocity = [attr['velocity']]
-        )
-        mc.IMPEDANCE = cls.IMPEDANCE(
-            stiffness = [attr['stiffness']],
-            damping = [attr['damping']]
-        )
-        mc.CONTROLS = cls.CONTROLS(
-            positionControl = [attr['positionControl']],
-            velocityControl = [attr['velocityControl']],
-            mixedControl = [attr['mixedControl']],
-            torqueControl = [attr['torqueControl']],
-            currentPid = [attr['currentPid']],
-            speedPid = [attr['speedPid']]
-        )
-        mc.POS_PID_DEFAULT = cls.POS_PID_DEFAULT(
-            controlLaw = attr['controlLaw'],
-            outputType = attr['outputType'],
-            fbkControlUnits = attr['fbkControlUnits'],
-            outputControlUnits = attr['outputControlUnits'],
-            kp = [attr['kp']],
-            kd = [attr['kd']],
-            ki = [attr['ki']],
-            maxOutput = [attr['maxOutput']],
-            maxInt = [attr['maxInt']],
-            stictionUp = [attr['stictionUp']],
-            stictionDown = [attr['stictionDown']],
-            kff = [attr['kff']]
-        )
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                                for param, val in value.parameters.items()}
+                        # for field in fields(subclass):
+                        #     if field.name in params:
+                        #         params[field.name] = field.type(params[field.name])
+                        setattr(instance, key, subclass(**params))
+                    # handle the children
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+
+        set_parameters(mc, attr)
         return mc
     
     def to_xml(self, root_path, file_name):
@@ -162,7 +117,7 @@ class motorControl(Device):
 def main():
     motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     # print(motor_control.controls.positionControl)
-    # motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/')
+    motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/', "motorControl.xml")
 
 if __name__ == "__main__":
     main()

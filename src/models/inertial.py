@@ -59,11 +59,8 @@ class Inertial(Device):
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
-                        params = {param: (val['value'].strip('"').strip() if isinstance(val, dict) else val).strip('"').strip()
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
-                        for field in fields(subclass):
-                            if field.name in params:
-                                params[field.name] = field.type(params[field.name])
                         setattr(instance, key, subclass(**params))
                     # handle the children
                     if value.children:
@@ -96,7 +93,7 @@ class Inertial(Device):
                         param.text = f"\n{formatted_text}\n"
                     else:
                         param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "".join(map(str, field_value))
+                        param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)

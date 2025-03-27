@@ -40,13 +40,8 @@ class Service:
                 elif hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
-                        params = {param: (val['value'] if isinstance(val, dict) else val)
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
-                        print(params)
-                        for field in fields(subclass):
-                            if field.name in params:
-                                params[field.name] = field.type(params[field.name])
-                                print(field.name, params[field.name])
                         setattr(instance, key, subclass(**params))
                     # handle the children
                     if value.children:

@@ -17,8 +17,8 @@ class Encoder:
 
         for key, value in attr.items():
             for param in value.parameters:
-                params = {param: (val['value'].strip('"').strip() if isinstance(val, dict) else val).strip('"').strip()
-                        for param, val in value.parameters.items()}
+                params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                                for param, val in value.parameters.items()}
         return cls(**params)
         
     def to_xml(self, encoder_name=None):

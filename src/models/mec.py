@@ -42,7 +42,7 @@ class Mechanicals:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/mec.sysml').part_definitions.items()))
+        attr = dict(Utils.parse_sysml(root_path+'/mec.sysml').part_definitions.items())
         mec = cls()
 
         def set_parameters(instance, attributes):
@@ -50,16 +50,12 @@ class Mechanicals:
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
-                        params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') 
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
-                        for field in fields(subclass):
-                            if field.name in params:
-                                params[field.name] = field.type(params[field.name])
                         setattr(instance, key, subclass(**params))
                     # handle the children
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
-
         set_parameters(mec, attr)
         return mec
     
@@ -85,11 +81,9 @@ class Mechanicals:
                             "   ".join(map(str, row)) for row in field_value
                         )
                         param.text = f"\n{formatted_text}\n"
-                        print(param.text)
                     else:
                         param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "".join(map(str, field_value))
-                        print(param.text)
+                        param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)
@@ -107,7 +101,6 @@ class Mechanicals:
 def main():
     mec = Mechanicals.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
     mec.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'mec.xml')
-    print(mec.JOINTSET_CFG.JOINTSET_0)
 
 if __name__ == "__main__":
     main()
