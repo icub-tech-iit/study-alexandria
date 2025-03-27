@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-import re
+from utils import Utils
 
 @dataclass
 class Device:
@@ -8,26 +8,16 @@ class Device:
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+"/device.sysml", 'r') as file:
-            sysml_str = file.read()
+        attr = Utils.parse_sysml(root_path+'device.sysml').part_definitions        
+        attributes = {}
 
-            patterns = {
-                'type': r'attribute type : String default "([^"]+)";',
-                'name': r'attribute name : String default "([^"]+)";',
-            }
-
-            attributes = {}
-            for key, pattern in patterns.items():
-                match = re.search(pattern, sysml_str)
-                if match:
-                    attributes[key] = match.group(1)
-                else:
-                    raise ValueError(f"Pattern for {key} not found in the file")
-            return cls(**attributes)
-
+        for key, value in attr.items():
+            for param in value.parameters:
+                attributes[param] = value.parameters[param].strip('"')
+        return cls(**attributes)
+    
 def main():
-    dev = Device.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    print(dev)
+    dev = Device.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
 
 if __name__ == '__main__':
     main()

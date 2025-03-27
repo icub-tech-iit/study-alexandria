@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import re
 import lxml.etree as etree
 from utils import Utils
 
@@ -17,7 +16,7 @@ class Phase:
 
         for key, value in attr.items():
             for param in value.parameters:
-                attributes[param] = value.parameters[param]
+                attributes[param] = value.parameters[param].strip('"')
         return cls(**attributes)
         
     def to_xml(self):
@@ -29,7 +28,7 @@ class Phase:
     
 def main():
     ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    ph.to_xml()
+    # ph.to_xml()
 
 if __name__ == '__main__':
     main()

@@ -42,71 +42,25 @@ class Mechanicals:
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/mec.sysml', 'r') as file:
-            sysml_str = file.read()
-    
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                value = None
-                if match[1]:
-                    try:
-                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
-                    except ValueError:
-                        value = match[1]
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-        
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/mec.sysml').part_definitions.items()))
         mec = cls()
-        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
-        mec.GENERAL = cls.GENERAL(
-            MotioncontrolVersion = attr['MotioncontrolVersion'],
-            Joints = attr['Joints'],
-            AxisMap = [item.strip() for item in attr['AxisMap'].split(",")],
-            AxisName = [item.strip() for item in attr['AxisName'].split(",")],
-            AxisType = [item.strip() for item in attr['AxisType'].split(",")],
-            Encoder = [item.strip() for item in attr['Encoder'].split(",")],
-            fullscalePWM = [item.strip() for item in attr['fullscalePWM'].split(",")],
-            ampsToSensor = [item.strip() for item in attr['ampsToSensor'].split(",")],
-            Gearbox_M2J = [item.strip() for item in attr['Gearbox_M2J'].split(",")],
-            Gearbox_E2J = [item.strip() for item in attr['Gearbox_E2J'].split(",")],
-            useMotorSpeedFbk = [item.strip() for item in attr['useMotorSpeedFbk'].split(",")],
-            MotorType = [item.strip() for item in attr['MotorType'].split(",")],
-            Verbose = attr['Verbose']
-        )
 
-        mec.LIMITS = cls.LIMITS(
-            hardwareJntPosMin = [item.strip() for item in attr['hardwareJntPosMin'].split(",")],
-            hardwareJntPosMax = [item.strip() for item in attr['hardwareJntPosMax'].split(",")],
-            rotorPosMin = [item.strip() for item in attr['rotorPosMin'].split(",")],
-            rotorPosMax = [item.strip() for item in attr['rotorPosMax'].split(",")],
-        )
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') 
+                                for param, val in value.parameters.items()}
+                        for field in fields(subclass):
+                            if field.name in params:
+                                params[field.name] = field.type(params[field.name])
+                        setattr(instance, key, subclass(**params))
+                    # handle the children
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
-        mec.COUPLINGS = cls.COUPLINGS(
-            matrixJ2M = [item.strip() for item in attr['matrixJ2M'].split(",")],
-            matrixM2J = [item.strip() for item in attr['matrixM2J'].split(",")],
-            matrixE2J = [item.strip() for item in attr['matrixE2J'].split(",")],
-        )
-
-        mec.JOINTSET_CFG = cls.JOINTSET_CFG(
-            numberofsets = attr['numberofsets'],
-            JOINTSET_0 = cls.JOINTSET_CFG.JOINTSET_0(
-                listofjoints = [item.strip() for item in attr['listofjoints'].split(",")],
-                constraintName = attr['constraintName'],
-                param1 = attr['param1'],
-                param2 = attr['param2']
-            )
-        )
-
+        set_parameters(mec, attr)
         return mec
     
     def to_xml(self, root_path, file_name):
@@ -131,9 +85,11 @@ class Mechanicals:
                             "   ".join(map(str, row)) for row in field_value
                         )
                         param.text = f"\n{formatted_text}\n"
+                        print(param.text)
                     else:
                         param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "   ".join(map(str, field_value))
+                        param.text = "".join(map(str, field_value))
+                        print(param.text)
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)

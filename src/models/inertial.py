@@ -30,8 +30,8 @@ class Inertial(Device):
                     minor: list[int]
                     build: list[int]
 
-                protocol: PROTOCOL
-                firmware: FIRMWARE
+                PROTOCOL: PROTOCOL
+                FIRMWARE: FIRMWARE
 
             @dataclass
             class SENSORS:
@@ -43,70 +43,33 @@ class Inertial(Device):
             class SETTINGS:
                 acquisitionRate: int
                 enabledSensors: list[str]
-            canboards: CANBOARDS
-            sensors: SENSORS
-            settings: SETTINGS
-        properties: PROPERTIES
-    service: SERVICE
+            CANBOARDS: CANBOARDS
+            SENSORS: SENSORS
+            SETTINGS: SETTINGS
+        PROPERTIES: PROPERTIES
+    SERVICE: SERVICE
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/inertial.sysml', 'r') as file:
-            sysml_str = file.read()
-    
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                value = None
-                if match[1]:
-                    try:
-                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
-                    except ValueError:
-                        value = match[1]
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-        
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-
-        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern)
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/inertial.sysml').part_definitions.items()))
         inertial = cls(root_path)
 
-        inertial.type = attr['type']
-        inertial.service = cls.SERVICE(
-            type = attr['serv_type'],
-            properties = cls.SERVICE.PROPERTIES(
-                canboards = cls.SERVICE.PROPERTIES.CANBOARDS(
-                    type = [item.strip() for item in attr['type'].split(",")],
-                    protocol = cls.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL(
-                        major = [attr['major']],
-                        minor = [attr['minor']],
-                    ),
-                    firmware = cls.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE(
-                        major = [attr['major']],
-                        minor = [attr['minor']],
-                        build = [attr['build']]
-                    )
-                ),
-                sensors = cls.SERVICE.PROPERTIES.SENSORS(
-                    id = [item.strip() for item in attr['id'].split(",")],
-                    type = [item.strip() for item in attr['type'].split(",")],
-                    boardType = [item.strip() for item in attr['boardType'].split(",")],
-                    location = [item.strip() for item in attr['location'].split(",")]
-                ),
-                settings = cls.SERVICE.PROPERTIES.SETTINGS(
-                    acquisitionRate = attr['acquisitionRate'],
-                    enabledSensors = [item.strip() for item in attr['enabledSensors'].split(",")]
-                )
-            )
-        )
-        cls.type = attr['serv_type']
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: (val['value'].strip('"').strip() if isinstance(val, dict) else val).strip('"').strip()
+                                for param, val in value.parameters.items()}
+                        for field in fields(subclass):
+                            if field.name in params:
+                                params[field.name] = field.type(params[field.name])
+                        setattr(instance, key, subclass(**params))
+                    # handle the children
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+
+        set_parameters(inertial, attr)
         return inertial
 
     def to_xml(self, root_path, file_name):
@@ -133,7 +96,7 @@ class Inertial(Device):
                         param.text = f"\n{formatted_text}\n"
                     else:
                         param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "   ".join(map(str, field_value))
+                        param.text = "".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)

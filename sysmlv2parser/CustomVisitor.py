@@ -20,24 +20,27 @@ class CustomVisitor(SysMLv2Visitor):
         part_name = ctx.ID(0).getText()
         parent_name = ctx.ID(1).getText() if len(ctx.ID()) > 1 else None
 
-        print(f"Visiting part: {part_name}" + (f" (inherits from {parent_name})" if parent_name else ""))
+        # print(f"Visiting part: {part_name}" + (f" (inherits from {parent_name})" if parent_name else ""))
 
         part = self.part_definitions.get(part_name, Element(part_name))
         if parent_name and parent_name in self.part_definitions:
             parent_part = self.part_definitions[parent_name]
             part.inherit_from(parent_part)
+            parent_part.add_child(part)
 
         if ctx.partBody():
             for part_body in ctx.partBody():
                 for attribute_ctx in part_body.attributeStmt():
                     self.visitAttribute(attribute_ctx, part)
                 for nested_part_ctx in part_body.partStmt():
-                    self.visitPart(nested_part_ctx)
+                    nested_part = self.visitPart(nested_part_ctx)
+                    part.add_child(nested_part)
         elif ctx.overrideBody():
             for override_ctx in ctx.overrideBody():
                 self.visitOverride(override_ctx.qualifiedID().getText(), override_ctx, part)
 
         self.part_definitions[part_name] = part
+        return part
 
     def visitAttribute(self, ctx: SysMLv2Parser.AttributeStmtContext, part):
         attribute_name = ctx.ID().getText()
@@ -46,7 +49,7 @@ class CustomVisitor(SysMLv2Visitor):
         else:
             attribute_type = ctx.attributeType().getText()
             default_value = ctx.defaultValue().getText() if ctx.defaultValue() else "None"
-            print(f"  Attribute: {attribute_name}, Type: {attribute_type}, Default: {default_value}")
+            # print(f"  Attribute: {attribute_name}, Type: {attribute_type}, Default: {default_value}")
 
             part.set_parameter(attribute_name, default_value)
 
@@ -68,6 +71,7 @@ class Element:
     def __init__(self, name):
         self.name = name
         self.parameters = {}
+        self.children = {}
 
     def inherit_from(self, parent):
         """Inherit attributes from a parent element unless overridden."""
@@ -78,9 +82,13 @@ class Element:
         """Set or override an attribute."""
         self.parameters[key] = value
 
+    def add_child(self, child):
+        """Add a child element."""
+        self.children[child.name] = child
+
     def get_parameter(self, key):
         """Retrieve a parameter value or return 'undefined'."""
         return self.parameters.get(key, "undefined")
 
     def __repr__(self):
-        return f"Element(name='{self.name}', parameters={self.parameters})"
+        return f"Element(name='{self.name}', parameters={self.parameters}, children={list(self.children.keys())})"

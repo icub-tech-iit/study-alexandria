@@ -1,8 +1,7 @@
-from dataclasses import dataclass, is_dataclass, asdict, fields
+from dataclasses import dataclass, is_dataclass, fields
 from encoder import Encoder
 from lxml import etree
 from utils import Utils
-import re
 
 class Service:
     def __init__(self, root_path):
@@ -17,12 +16,12 @@ class Service:
                 type: str
             @dataclass
             class JOINTMAPPING:
-                ENCODER1: Encoder
-                ENCODER2: Encoder
+                ENCODER1 = Encoder
+                ENCODER2 = Encoder
                 @dataclass
                 class ACTUATOR:
                     type: list[str]
-                    port: list[str]
+                    portName: list[str]
                 ACTUATOR: ACTUATOR
             ETHBOARD: ETHBOARD
             JOINTMAPPING: JOINTMAPPING
@@ -31,50 +30,29 @@ class Service:
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/service.sysml', 'r') as file:
-            sysml_str = file.read()
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/service.sysml').part_definitions.items()))
+        service = cls(root_path)
 
-        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-        enc_pattern = r'part (\w+) :> (\w+);'
-        ser = cls(root_path)
-
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                value = None
-                if match[1]:
-                    try:
-                        value = float(match[1])
-                    except ValueError:
-                        value = match[1]
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-                
-        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, enc_pattern)
-        
-        ser.SERVICE = cls.SERVICE(
-            type = attr['type'],
-            PROPERTIES = cls.SERVICE.PROPERTIES(
-                ETHBOARD = cls.SERVICE.PROPERTIES.ETHBOARD(
-                    type = [attr['type']]
-                ),
-                JOINTMAPPING = cls.SERVICE.PROPERTIES.JOINTMAPPING(
-                    ACTUATOR = cls.SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR(
-                        type = [attr['type']],
-                        port = [attr['portName']]
-                    ),
-                    ENCODER1 = Encoder.from_sysml(root_path),
-                    ENCODER2 = Encoder.from_sysml(root_path)
-                )
-            )
-        )
-        return ser
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if key in ['ENCODER1', 'ENCODER2']:
+                    setattr(instance, key, Encoder.from_sysml(root_path))
+                elif hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: (val['value'] if isinstance(val, dict) else val)
+                                for param, val in value.parameters.items()}
+                        print(params)
+                        for field in fields(subclass):
+                            if field.name in params:
+                                params[field.name] = field.type(params[field.name])
+                                print(field.name, params[field.name])
+                        setattr(instance, key, subclass(**params))
+                    # handle the children
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+        set_parameters(service, attr)
+        return service
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
