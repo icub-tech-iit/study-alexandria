@@ -44,7 +44,6 @@ part def Head {
         :>> interrupt3.level = 1;
         :>> interrupt3.type = "abort";
     }
-    part calibration [2] = (calibrator1, calibrator2);
 
     part electronics1 :> electronics = "hardware/electronics/face-eb22-j0-eln.xml" {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.22";
@@ -66,12 +65,10 @@ part def Head {
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb21-j2_5";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
-    part eln [3] = (electronics1, electronics2, electronics3);
 
     part pc104 :> PC104 = "hardware/electronics/pc104.xml" {}
-    part pc104s [1] = (pc104);
 
-    part mech1 :> mechanical = "hardware/mechanicals/face-eb22-j0-mec.xml" {
+    part mech1 :> mechanicals = "hardware/mechanicals/face-eb22-j0-mec.xml" {
         :>> GENERAL.Joints = 1;
         :>> GENERAL.AxisMap = 0;
         :>> GENERAL.AxisName = "eyelids";
@@ -89,7 +86,7 @@ part def Head {
         :>> LIMITS.rotorPosMax = 0;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = 0;
     }
-    part mech2 :> mechanical = "hardware/mechanicals/head-eb20-j0_1-mec.xml" {
+    part mech2 :> mechanicals = "hardware/mechanicals/head-eb20-j0_1-mec.xml" {
         :>> GENERAL.Joints = 2;
         :>> GENERAL.AxisMap = (0, 1);
         :>> GENERAL.AxisName = ("neck_pitch", "neck_roll");
@@ -108,7 +105,7 @@ part def Head {
         :>> JOINTSET_CFG.numberofsets = 1;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1);
     }
-    part mech3 :> mechanical = "hardware/mechanicals/head-eb21-j2_5-mec.xml" {
+    part mech3 :> mechanicals = "hardware/mechanicals/head-eb21-j2_5-mec.xml" {
         :>> GENERAL.Joints = 4;
         :>> GENERAL.AxisMap = (0, 1, 2, 3);
         :>> GENERAL.AxisName = ("neck_yaw", "eyes_tilt", "eyes_version", "eyes_vergence");
@@ -125,7 +122,6 @@ part def Head {
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
     }
-    part mech [3] = (mech1, mech2, mech3);
 
     part motorcontrol1 :> motorControl = "hardware/motorControl/face-eb22-j0-mc.xml" {
         :>> LIMITS.jntPosMin = -5;
@@ -182,7 +178,6 @@ part def Head {
         :>> POS_PID_DEFAULT.stictionDown = (0, 0, 0, 0);
         :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
     }
-    part mc [3] = (motorcontrol1, motorcontrol2, motorcontrol3);
 
     part service1 :> service = "hardware/motorControl/face-eb22-j0-mc_service.xml" {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
@@ -228,5 +223,4 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048, 2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
-    part services [3] = (service1, service2, service3);
 }

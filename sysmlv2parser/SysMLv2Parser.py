@@ -174,6 +174,12 @@ class SysMLv2Parser ( Parser ):
             if hasattr( listener, "exitQualifiedID" ):
                 listener.exitQualifiedID(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitQualifiedID" ):
+                return visitor.visitQualifiedID(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -248,6 +254,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitModel" ):
                 listener.exitModel(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitModel" ):
+                return visitor.visitModel(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -328,6 +340,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitImportStmt" ):
                 listener.exitImportStmt(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitImportStmt" ):
+                return visitor.visitImportStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -416,6 +434,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPartStmt" ):
                 listener.exitPartStmt(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartStmt" ):
+                return visitor.visitPartStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -531,6 +555,12 @@ class SysMLv2Parser ( Parser ):
             if hasattr( listener, "exitPartBody" ):
                 listener.exitPartBody(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPartBody" ):
+                return visitor.visitPartBody(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -609,6 +639,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitOverrideBody" ):
                 listener.exitOverrideBody(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOverrideBody" ):
+                return visitor.visitOverrideBody(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -691,6 +727,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAttributeStmt" ):
                 listener.exitAttributeStmt(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeStmt" ):
+                return visitor.visitAttributeStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -794,6 +836,12 @@ class SysMLv2Parser ( Parser ):
             if hasattr( listener, "exitAttributeType" ):
                 listener.exitAttributeType(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAttributeType" ):
+                return visitor.visitAttributeType(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -874,6 +922,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDefaultValue" ):
                 listener.exitDefaultValue(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefaultValue" ):
+                return visitor.visitDefaultValue(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -965,6 +1019,12 @@ class SysMLv2Parser ( Parser ):
             if hasattr( listener, "exitVector" ):
                 listener.exitVector(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVector" ):
+                return visitor.visitVector(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1032,6 +1092,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitArrayType" ):
                 listener.exitArrayType(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayType" ):
+                return visitor.visitArrayType(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1123,6 +1189,12 @@ class SysMLv2Parser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitArrayBody" ):
                 listener.exitArrayBody(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayBody" ):
+                return visitor.visitArrayBody(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 

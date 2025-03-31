@@ -9,6 +9,11 @@ else:
 
 class SysMLv2Visitor(ParseTreeVisitor):
 
+    # Visit a parse tree produced by SysMLv2Parser#qualifiedID.
+    def visitQualifiedID(self, ctx:SysMLv2Parser.QualifiedIDContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by SysMLv2Parser#model.
     def visitModel(self, ctx:SysMLv2Parser.ModelContext):
         return self.visitChildren(ctx)
@@ -26,6 +31,11 @@ class SysMLv2Visitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by SysMLv2Parser#partBody.
     def visitPartBody(self, ctx:SysMLv2Parser.PartBodyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by SysMLv2Parser#overrideBody.
+    def visitOverrideBody(self, ctx:SysMLv2Parser.OverrideBodyContext):
         return self.visitChildren(ctx)
 
 

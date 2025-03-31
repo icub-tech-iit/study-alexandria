@@ -40,6 +40,7 @@ class CustomVisitor(SysMLv2Visitor):
                 self.visitOverride(override_ctx.qualifiedID().getText(), override_ctx, part)
 
         self.part_definitions[part_name] = part
+        part.set_parent(parent_name)
         return part
 
     def visitAttribute(self, ctx: SysMLv2Parser.AttributeStmtContext, part):
@@ -57,13 +58,13 @@ class CustomVisitor(SysMLv2Visitor):
         array_dimension = ctx.NUMBER().getText()
         array_type = ctx.attributeType().getText()
         default_value = ctx.defaultValue().getText() if ctx.defaultValue() else "None"
-        print(f"  Attribute array: {attribute_name}, Dimension: {array_dimension}, Type: {array_type}, Default: {default_value}")
+        # print(f"  Attribute array: {attribute_name}, Dimension: {array_dimension}, Type: {array_type}, Default: {default_value}")
 
         part.set_parameter(attribute_name, {"dimension": array_dimension, "type": array_type, "value": default_value})
 
     def visitOverride(self, attribute_name, ctx: SysMLv2Parser.OverrideBodyContext, part):
         override_value = ctx.defaultValue().getText()
-        print(f"  Overriding attribute: {attribute_name}, with value: {override_value}")
+        # print(f"  Overriding attribute: {attribute_name}, with value: {override_value}")
 
         part.set_parameter(attribute_name, override_value)
 
@@ -72,11 +73,16 @@ class Element:
         self.name = name
         self.parameters = {}
         self.children = {}
+        self.parent = None
 
     def inherit_from(self, parent):
         """Inherit attributes from a parent element unless overridden."""
         for key, value in parent.parameters.items():
             self.parameters.setdefault(key, value)
+    
+    def set_parent(self, parent_name):
+        """Set the parent name."""
+        self.parent = parent_name
 
     def set_parameter(self, key, value):
         """Set or override an attribute."""
@@ -91,4 +97,4 @@ class Element:
         return self.parameters.get(key, "undefined")
 
     def __repr__(self):
-        return f"Element(name='{self.name}', parameters={self.parameters}, children={list(self.children.keys())})"
+        return f"Element(name='{self.name}', parameters={self.parameters}, children={list(self.children.keys())}, parent='{self.parent}')"
