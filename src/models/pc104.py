@@ -37,7 +37,6 @@ class PC104:
 
 def main():
     pc104 = PC104.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    print(pc104)
     pc104.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'pc104.xml')
 
 if __name__ == '__main__':

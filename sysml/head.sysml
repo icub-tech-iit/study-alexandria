@@ -1,5 +1,5 @@
 part def Head {
-    part calibrator1 :> calibrator = "calibrators/face-calib.xml" {
+    part face_calib :> calibrator = "" {
         :>> type = "parametricCalibratorEth";
         :>> name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
@@ -17,7 +17,7 @@ part def Head {
         :>> interrupt3.level = 1;
         :>> interrupt3.type = "abort";
     }
-    part calibrator2 :> calibrator = "calibrators/head-calib.xml" {
+    part head_calib :> calibrator = "" {
         :>> type = "parametricCalibratorEth";
         :>> name = "head-calibrator";
         :>> GENERAL.joints = 6;
@@ -45,20 +45,20 @@ part def Head {
         :>> interrupt3.type = "abort";
     }
 
-    part electronics1 :> electronics = "hardware/electronics/face-eb22-j0-eln.xml" {
+    part face_eb22_j0_eln :> electronics = "" {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.22";
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "face-eb22-j0";
     }
-    part electronics2 :> electronics = "hardware/electronics/head-eb20-j0_1-eln.xml" {
+    part head_eb20_j0_1_eln :> electronics = "" {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.20";
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb20-j0_1";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
-    part electronics3 :> electronics = "hardware/electronics/head-eb21-j2_5-eln.xml" {
+    part head_eb21_j2_5_eln :> electronics = "" {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.21";
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
@@ -66,9 +66,11 @@ part def Head {
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
 
-    part pc104 :> PC104 = "hardware/electronics/pc104.xml" {}
+    part pc104 :> PC104 = "" {
+        
+    }
 
-    part mech1 :> mechanicals = "hardware/mechanicals/face-eb22-j0-mec.xml" {
+    part face_eb22_j0_mec :> mechanicals = "" {
         :>> GENERAL.Joints = 1;
         :>> GENERAL.AxisMap = 0;
         :>> GENERAL.AxisName = "eyelids";
@@ -86,7 +88,7 @@ part def Head {
         :>> LIMITS.rotorPosMax = 0;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = 0;
     }
-    part mech2 :> mechanicals = "hardware/mechanicals/head-eb20-j0_1-mec.xml" {
+    part head_eb20_j0_1_mec :> mechanicals = "" {
         :>> GENERAL.Joints = 2;
         :>> GENERAL.AxisMap = (0, 1);
         :>> GENERAL.AxisName = ("neck_pitch", "neck_roll");
@@ -105,7 +107,7 @@ part def Head {
         :>> JOINTSET_CFG.numberofsets = 1;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1);
     }
-    part mech3 :> mechanicals = "hardware/mechanicals/head-eb21-j2_5-mec.xml" {
+    part head_eb21_j2_5_mec :> mechanicals = "" {
         :>> GENERAL.Joints = 4;
         :>> GENERAL.AxisMap = (0, 1, 2, 3);
         :>> GENERAL.AxisName = ("neck_yaw", "eyes_tilt", "eyes_version", "eyes_vergence");
@@ -123,7 +125,7 @@ part def Head {
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
     }
 
-    part motorcontrol1 :> motorControl = "hardware/motorControl/face-eb22-j0-mc.xml" {
+    part face_eb22_j0_mc :> motorControl = "" {
         :>> LIMITS.jntPosMin = -5;
         :>> LIMITS.jntPosMax = +65;
         :>> LIMITS.motorOverloadCurrents = 2000;
@@ -149,10 +151,10 @@ part def Head {
         :>> POS_PID_DEFAULT.stictionDown = 0;
         :>> POS_PID_DEFAULT.kff = 0;
     }
-    part motorcontrol2 :> motorControl = "hardware/motorControl/head-eb20-j0_1-mc.xml" {
+    part head_eb20_j0_1_mc :> motorControl = "" {
         :>> LIMITS.jntPosMax = (+22, +20);
     }
-    part motorcontrol3 :> motorControl = "hardware/motorControl/head-eb21-j2_5-mc.xml" {
+    part head_eb21_j2_5_mc :> motorControl = "" {
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
         :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -179,7 +181,7 @@ part def Head {
         :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
     }
 
-    part service1 :> service = "hardware/motorControl/face-eb22-j0-mc_service.xml" {
+    part face_eb22_j0_mc_service :> service = "" {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P3";
@@ -191,7 +193,7 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = 0;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = 0;
     }
-    part service2 :> service = "hardware/motorControl/head-eb20-j0_1-mc_service.xml" {
+    part head_eb20_j0_1_mc_service :> service = "" {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm");
@@ -207,7 +209,7 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0);
     }
-    part service3 :> service = "hardware/motorControl/head-eb21-j2_5-mc_service.xml" {
+    part head_eb21_j2_5_mc_service :> service = "" {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
