@@ -11,10 +11,24 @@ class CustomVisitor(SysMLv2Visitor):
         if ctx.partStmt():
             for part_ctx in ctx.partStmt():
                 self.visitPart(part_ctx)
+        elif ctx.packageStmt():
+            for package_ctx in ctx.packageStmt():
+                self.visitPackage(package_ctx)
         else:
             print("No parts found in the model")
             self.visitAttribute(ctx.attributeStmt)
         return self.visitChildren(ctx)
+
+    def visitPackage(self, ctx: SysMLv2Parser.PackageStmtContext):
+        package_name = ctx.ID().getText()
+        # print(f"Visiting package: {package_name}")
+
+        if ctx.partStmt():
+            for part_ctx in ctx.partStmt():
+                self.visitPart(part_ctx)
+        elif ctx.attributeStmt():
+            for attribute_ctx in ctx.attributeStmt():
+                self.visitAttribute(attribute_ctx)
 
     def visitPart(self, ctx: SysMLv2Parser.PartStmtContext):
         part_name = ctx.ID(0).getText()

@@ -57,36 +57,57 @@ class Part:
                 match value.parent:
                     case 'calibrator':
                         for calib in calibrator:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(calib, f"calibrator.{override_key}", override_value)
                             calib.to_xml(robot_path+'/calibrators/', key+'.xml')
                     case 'electronics':
                         for elec in electronics:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(elec, f"electronics.{override_key}", override_value)
                             elec.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
                     case 'mechanicals':
                         for mech in mechanicals:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(mech, f"mechanicals.{override_key}", override_value)
                             mech.to_xml(robot_path+'/hardware/mechanicals/', key+'.xml')
                     case 'motorControl':
                         for motor in motorControl:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(motor, f"motorControl.{override_key}", override_value)
                             motor.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
                     case 'service':
                         for serv in service:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(serv, f"service.{override_key}", override_value)
                             serv.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
                     case 'inertials':
                         for inert in inertials:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(inert, f"inertials.{override_key}", override_value)
                             inert.to_xml(robot_path+'/hardware/inertials/', key+'.xml')
                     case 'PC104':
                         for pc in pc104:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(pc, f"pc104.{override_key}", override_value)
                             pc.to_xml(robot_path+'/hardware/electronics/', key+'.xml')

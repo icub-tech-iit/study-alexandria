@@ -19,6 +19,11 @@ class SysMLv2Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by SysMLv2Parser#packageStmt.
+    def visitPackageStmt(self, ctx:SysMLv2Parser.PackageStmtContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by SysMLv2Parser#importStmt.
     def visitImportStmt(self, ctx:SysMLv2Parser.ImportStmtContext):
         return self.visitChildren(ctx)

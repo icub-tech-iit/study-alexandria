@@ -26,6 +26,15 @@ class SysMLv2Listener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SysMLv2Parser#packageStmt.
+    def enterPackageStmt(self, ctx:SysMLv2Parser.PackageStmtContext):
+        pass
+
+    # Exit a parse tree produced by SysMLv2Parser#packageStmt.
+    def exitPackageStmt(self, ctx:SysMLv2Parser.PackageStmtContext):
+        pass
+
+
     # Enter a parse tree produced by SysMLv2Parser#importStmt.
     def enterImportStmt(self, ctx:SysMLv2Parser.ImportStmtContext):
         pass

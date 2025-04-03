@@ -41,6 +41,15 @@ class Utils:
         visitor.visitModel(tree)
 
         return visitor
+    
+    def extract_overrides(override_parameters):
+        overrides = {}
+        for key, value in override_parameters:
+            instance_name, param_name = key.split('.', 1)
+            if instance_name not in overrides:
+                overrides[instance_name] = {}
+            overrides[instance_name][param_name] = value
+        return overrides
 
 def main():
     pass
