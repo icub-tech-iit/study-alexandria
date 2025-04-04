@@ -56,7 +56,7 @@ This repository includes a parser for the SysMLv2 language, which is generated u
 antlr4 -Dlanguage=Python3 sysmlv2parser/SysMLv2.g4 -visitor
 ```
 
-The `sysmlv2parser` folder also coints a `CustomVisitor.py`: this file contains a custom implementation of the visitor pattern for traversing and processing the parse tree generated, and it contains a custom logic for handling specific nodes in the parse tree.
+The `sysmlv2parser` folder also contains a `CustomVisitor.py`: this file features a custom implementation of the visitor pattern for traversing and processing the parse tree generated, and it contains a custom logic for handling specific nodes in the parse tree.
 
 ### How it works
 
