@@ -20,7 +20,7 @@ git clone https://github.com/icub-tech-iit/study-alexandria.git
 
 ### Installation
 
-If you don't have Pythone installed yet, follow the instructions based on your OS.
+If you don't have Python installed yet, follow the instructions based on your OS.
 
 - **Linux**
 
@@ -45,16 +45,20 @@ To install Python packages instead, [`pip`](https://pip.pypa.io/en/stable/instal
 python3 -m venv alexandriaenv
 source alexandriaenv/bin/activate
 pip install lxml
+pip install -e sysmlv2parser
 ```
 
 ### How it works
 
-To generate the XML files for the robots listed in [**`general.json`**](./general.json), please run:
+To generate the XML files for the specific robot, please run:
 
 ```console
-python3 src/main.py --config sysml
+python3 src/main.py --robot <robot-name> --config <absolute-path-to-sysml-directory>
 ```
 
-where `sysml` is the folder where the SysML templates are stored.
+where:
 
-This script will create a folder for each of the listed robots, mirroring the architecture of [`robots-configuration`](https://github.com/robotology/robots-configuration).
+- `<robot-name>` is the name of the robot (e.g., `iCubErzelli03`).
+- `<absolute-path-to-sysml-directory>` is the absolute path to the directory containing the SysML files (e.g., `<path-to-study_alexandria-repository/sysml>`).
+
+This script will create a folder for the specified robot, mirroring the architecture of [`robots-configuration`](https://github.com/robotology/robots-configuration).
