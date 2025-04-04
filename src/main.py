@@ -1,26 +1,43 @@
+from part import Part
+from utils import Utils
 import argparse
-from generator.file_generator import FileGenerator
-from loader.config_loader import ConfigLoader
-from models.robot import Robot
+
+
+class Robot:
+    def __init__(self):
+        self.name = str
+        self.version = str
+        self.parts = [str]
+
+    @classmethod
+    def from_sysml(cls, root_path, robot_name):
+        attr = dict(Utils.parse_sysml(root_path+'/'+robot_name+'.sysml').part_definitions.items())
+        robot = cls()
+
+        robot.parts = [Part.from_sysml(root_path, value) for key, value in attr.items()]
+        return robot
+
+    def to_xml(self, root_path, robot_name):
+        attr = dict(Utils.parse_sysml(root_path+'/'+robot_name+'.sysml').part_definitions.items())
+        override_values = []
+        
+        for key, value in attr.items():
+            for part in self.parts:
+                for override_key, override_value in value.parameters.items():
+                    override_values.append((override_key, override_value))
+                part.to_xml(root_path, "Head", robot_name, override_values)
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Generate XML files for robot parts")
-    parser.add_argument("--config", required=True, help="Path to the configuration files.")
+    parser = argparse.ArgumentParser(description="Generate XML files for the specified robot")
+    parser.add_argument("--robot", required=True, help="Name of the robot.")
+    parser.add_argument("--config", required=True, help="Absolute path to the SysML file.")
     return parser.parse_args()
 
 def main():
-    args = parse_args()
-
-    robot_info = ConfigLoader.load_config('general.json')
-    part_info = ConfigLoader.load_config('par.json')
-
-    file_generator = FileGenerator(config_path=args.config)
+    robot_name = parse_args().robot
+    sysml_path = parse_args().config
+    robot = Robot.from_sysml(sysml_path, robot_name)
+    robot.to_xml(sysml_path, robot_name)
     
-    for robot_type, robot_list in robot_info.items():
-        for robot_data in robot_list:
-            robot = Robot(robot_data['robotName'], robot_data['robotVersion'], robot_data["parts"])
-            part_data = {part: part_info[part] for part in robot.parts if part in part_info}
-            file_generator.generate_files_for_robot(robot, part_data)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

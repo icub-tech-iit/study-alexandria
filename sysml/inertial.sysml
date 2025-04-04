@@ -1,6 +1,6 @@
 part inertial : device {
     part SERVICE {
-        attribute serv_type : String default "inertial";
+        attribute type : String default "inertial";
         part PROPERTIES {
             part CANBOARDS {
                 attribute type : Array {

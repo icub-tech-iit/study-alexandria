@@ -1,7 +1,7 @@
-from dataclasses import dataclass, is_dataclass, asdict, fields
+from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from utils import Utils
-import re
+
 class Electronics:
     @dataclass
     class ETH_BOARD:
@@ -22,7 +22,7 @@ class Electronics:
                 maxTimeOfDOactivity: int
                 maxTimeOfTXactivity: int
                 TXrateOfRegularROPs: int
-            RUNNINGMODE: RUNNINGMODE
+            RUNNINGMODE: RUNNINGMODE 
         @dataclass
         class ETH_BOARD_ACTIONS:
             @dataclass
@@ -31,64 +31,28 @@ class Electronics:
                 timeout: float
                 periodOfMissingReport: float
 
-            MONITOR_ITS_PRESENCE: MONITOR_ITS_PRESENCE
-        ETH_BOARD_PROPERTIES: ETH_BOARD_PROPERTIES
-        ETH_BOARD_SETTINGS: ETH_BOARD_SETTINGS
-        ETH_BOARD_ACTIONS: ETH_BOARD_ACTIONS
+            MONITOR_ITS_PRESENCE: MONITOR_ITS_PRESENCE 
+        ETH_BOARD_PROPERTIES: ETH_BOARD_PROPERTIES 
+        ETH_BOARD_SETTINGS: ETH_BOARD_SETTINGS  
+        ETH_BOARD_ACTIONS: ETH_BOARD_ACTIONS 
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/eln.sysml', 'r') as file:
-            sysml_str = file.read()
-    
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                if match[1]:
-                    value = float(match[1])
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-        
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-        # general_pattern = r'attribute (\w+) : \w+ default (?:(\d+)|"([^"]*)");'
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/eln.sysml').part_definitions.items()))
         board = cls()
-        attr = extract_attributes(sysml_str, general_pattern)
 
-        board.ETH_BOARD = cls.ETH_BOARD(
-            ETH_BOARD_PROPERTIES = cls.ETH_BOARD.ETH_BOARD_PROPERTIES(
-                IpAddress = attr['IpAddress'],
-                IpPort = attr['IpPort'],
-                Type = attr['Type'],
-                maxSizeRXpacket = attr['maxSizeRXpacket'],
-                maxSizeROP = attr['maxSizeROP']
-            ),
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') 
+                                for param, val in value.parameters.items()}
+                        setattr(instance, key, subclass(**params))
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
-            ETH_BOARD_SETTINGS = cls.ETH_BOARD.ETH_BOARD_SETTINGS(
-                Name = attr['Name'],
-                RUNNINGMODE = cls.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE(
-                    period = attr['period'],
-                    maxTimeOfRXactivity = attr['maxTimeOfRXactivity'],
-                    maxTimeOfDOactivity = attr['maxTimeOfDOactivity'],
-                    maxTimeOfTXactivity = attr['maxTimeOfTXactivity'],
-                    TXrateOfRegularROPs = attr['TXrateOfRegularROPs']
-                )
-            ),
-
-            ETH_BOARD_ACTIONS = cls.ETH_BOARD.ETH_BOARD_ACTIONS(
-                MONITOR_ITS_PRESENCE = cls.ETH_BOARD.ETH_BOARD_ACTIONS.MONITOR_ITS_PRESENCE(
-                    enabled = attr['enabled'],
-                    timeout = attr['timeout'],
-                    periodOfMissingReport = attr['periodOfMissingReport']
-                )
-            )
-        )
-
+        set_parameters(board, attr)
         return board
 
     def to_xml(self, root_path, file_name):
@@ -131,7 +95,7 @@ class Electronics:
             writer.write(xml_object)
 
 def main():
-    eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
+    pass
 
 if __name__ == "__main__":
     main()

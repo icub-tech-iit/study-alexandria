@@ -1,8 +1,6 @@
-import re
 from lxml import etree
 from dataclasses import dataclass
 from utils import Utils
-
 
 @dataclass
 class PC104:
@@ -13,21 +11,12 @@ class PC104:
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/pc104.sysml', 'r') as file:
-            sysml_str = file.read()
-
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-
-        matches = re.findall(general_pattern, sysml_str)
+        attr = Utils.parse_sysml(root_path+'/pc104.sysml').part_definitions        
         attributes = {}
-        for match in matches:
-            key = match[0]
-            value = None
-            if match[1]:
-                value = int(match[1])
-            else:
-                value = match[2] if match[3] is None else match[3]
-            attributes[key] = value
+
+        for key, value in attr.items():
+            for param in value.parameters:
+                attributes[param] = value.parameters[param].strip('"')
         return cls(**attributes)
     
     def to_xml(self, root_path, file_name):
@@ -47,8 +36,6 @@ class PC104:
             writer.write(xml_object)
 
 def main():
-    pc104 = PC104.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    pc104.to_xml('/home/mgloria/iit/study-alexandria/sysml')
-
+    pass
 if __name__ == '__main__':
     main()

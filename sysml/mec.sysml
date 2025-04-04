@@ -1,5 +1,5 @@
 import ScalarValues::*;
-part mechanical {
+part mechanicals {
 	part GENERAL {
 		attribute MotioncontrolVersion : Integer default 6;
 		attribute Joints : Integer default 2;

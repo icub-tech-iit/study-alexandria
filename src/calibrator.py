@@ -1,5 +1,3 @@
-import re
-import os
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
 from phase import Phase
@@ -37,60 +35,21 @@ class Calibrator(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        with open(root_path+'/calibrator.sysml', 'r') as file:
-            sysml_str = file.read()
-    
-        def extract_attributes(block, pattern):
-            matches = re.findall(pattern, block)
-            attributes = {}
-            for match in matches:
-                key = match[0]
-                value = None
-                if match[1]:
-                    try:
-                        value = float(match[1]) if isinstance(match[1], float) else int(match[1])
-                    except ValueError:
-                        value = match[1]
-                elif match[2]:
-                    value = int(match[2])
-                else:
-                    value = match[3]
-                attributes[key] = value
-            return attributes
-        
-        general_pattern = r'attribute (\w+) : \w+ default (?:(\d+(\.\d*)?)|"([^"]*)");' #catch integer/float with sign or quoted string
-        vector_pattern = r'attribute (\w+) :\s*\w+\s*{\s*:\s*>>\s*dimensions\s*default\s*\d+;\s*:\s*>>\s*elements\s*:\s*\w+\[\w+\]\s*default\s*\(([^)]+)\);'
-        phase_pattern = r'attribute (\w+) : \w+ (\[\d+\]);'
-
-        attr = extract_attributes(sysml_str, vector_pattern) | extract_attributes(sysml_str, general_pattern) | extract_attributes(sysml_str, phase_pattern)
+        attr = Utils.parse_sysml(root_path+'/calibrator.sysml').part_definitions
         calib = cls(root_path)
 
-        calib.GENERAL = cls.GENERAL(
-            joints = attr['joints'],
-            deviceName = calib.name
-        )
-
-        calib.HOME = cls.HOME(
-            positionHome = [attr['positionHome']],
-            velocityHome = [attr['velocityHome']]
-        )
-
-        calib.CALIBRATION = cls.CALIBRATION(
-            calibrationType = [attr['calibrationType']],
-            calibration1 = [attr['calibration1']],
-            calibration2 = [attr['calibration2']],
-            calibration3 = [attr['calibration3']],
-            calibration4 = [attr['calibration4']],
-            calibration5 = [attr['calibration5']],
-            calibrationZero = [attr['calibrationZero']],
-            calibrationDelta = [attr['calibrationDelta']],
-        )
-
-        calib.CALIB_ORDER = attr['CALIB_ORDER']
-        calib.startup = Phase.from_sysml(root_path)
-        calib.interrupt1 = Phase.from_sysml(root_path)
-        calib.interrupt3 = Phase.from_sysml(root_path)
-
+        for key, value in attr.items():
+            if hasattr(cls, key):
+                subclass = getattr(cls, key)
+                if is_dataclass(subclass):
+                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                                for param, val in value.parameters.items()}
+                    setattr(calib, key, subclass(**params))
+            elif key == 'calibrator':
+                calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('"').split(',')]
+            elif key in ['startup', 'interrupt1', 'interrupt3']:
+                setattr(calib, key, Phase.from_sysml(root_path))
+        
         return calib
 
     def to_xml(self, root_path, file_name):
@@ -142,9 +101,7 @@ class Calibrator(Device):
             writer.write(xml_object)
 
 def main():
-    root_path = "/home/mgloria/iit/study-alexandria/sysml/"
-    calibrator = Calibrator(root_path).from_sysml(root_path)
-    calibrator.to_xml("/home/mgloria/iit/study-alexandria/sysml", "calibrator.xml")
+    pass
 
 if __name__ == "__main__":
     main()
