@@ -48,6 +48,16 @@ pip install lxml
 pip install -e sysmlv2parser
 ```
 
+### sysmlv2parser
+
+This repository includes a parser for the SysMLv2 language, which is generated using the [ANTLR](https://www.antlr.org/) tool based on the grammar file `SysMLv2.g4`. The parser is located in the `sysmlv2parser` folder. The grammar file `SysMLv2.g4` defines the syntax and structure of the SysMLv2 language. It includes lexer and parser rules to handle various constructs such as parts, attributes, packages, and arrays. These parser files are generated with the following command:
+
+```console
+antlr4 -Dlanguage=Python3 sysmlv2parser/SysMLv2.g4 -visitor
+```
+
+The `sysmlv2parser` folder also coints a `CustomVisitor.py`: this file contains a custom implementation of the visitor pattern for traversing and processing the parse tree generated, and it contains a custom logic for handling specific nodes in the parse tree.
+
 ### How it works
 
 To generate the XML files for the specific robot, please run:
