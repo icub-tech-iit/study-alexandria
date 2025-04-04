@@ -32,8 +32,7 @@ class Encoder:
         return etree.tostring(group_elem, pretty_print=True)
 
 def main():
-    enc = Encoder.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    enc.to_xml()
+    pass
 
 if __name__ == '__main__':
     main()

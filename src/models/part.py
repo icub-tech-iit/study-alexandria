@@ -115,7 +115,7 @@ class Part:
                         print("No match found for part", value.parent)
 
 def main():
-    part = Part.from_sysml('/home/mgloria/iit/study-alexandria/sysml/', 'head')
-    part.to_xml('/home/mgloria/iit/study-alexandria/sysml/', 'head', 'robot', {})
+    pass
+
 if __name__ == "__main__":
     main()

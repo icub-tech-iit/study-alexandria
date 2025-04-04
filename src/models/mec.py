@@ -1,7 +1,6 @@
 from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from utils import Utils
-import re
 class Mechanicals:
     @dataclass
     class GENERAL:
@@ -53,7 +52,6 @@ class Mechanicals:
                         params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
                         setattr(instance, key, subclass(**params))
-                    # handle the children
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
         set_parameters(mec, attr)
@@ -99,8 +97,7 @@ class Mechanicals:
             writer.write(xml_object)
 
 def main():
-    mec = Mechanicals.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    mec.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'mec.xml')
+    pass
 
 if __name__ == "__main__":
     main()

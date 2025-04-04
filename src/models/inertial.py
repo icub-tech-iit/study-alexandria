@@ -1,4 +1,3 @@
-import re
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
 from device import Device
@@ -62,7 +61,6 @@ class Inertial(Device):
                         params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
                         setattr(instance, key, subclass(**params))
-                    # handle the children
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
@@ -109,8 +107,7 @@ class Inertial(Device):
             writer.write(xml_object)
 
 def main():
-    root_path = "/home/mgloria/iit/study-alexandria/sysml/"
-    inertial = Inertial(root_path).from_sysml(root_path)
-    inertial.to_xml(root_path, "inertial.xml")
+    pass
+
 if __name__ == "__main__":
     main()

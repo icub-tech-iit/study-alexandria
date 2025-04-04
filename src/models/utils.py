@@ -1,8 +1,4 @@
 import os
-import sys
-
-parser_dir = os.path.abspath("/home/mgloria/iit/study-alexandria/sysmlv2parser")
-sys.path.append(parser_dir)
 
 from antlr4 import FileStream, CommonTokenStream
 from SysMLv2Lexer import SysMLv2Lexer

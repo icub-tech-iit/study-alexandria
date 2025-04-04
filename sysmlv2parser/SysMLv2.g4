@@ -38,7 +38,7 @@ WS         : [ \t\r\n]+ -> skip;
 model       : importStmt* (partStmt | attributeStmt | packageStmt)* EOF ;
 packageStmt : PACKAGE ID LBRACE (attributeStmt | partStmt)+ RBRACE ;
 importStmt  : IMPORT ID '::*' SEMICOLON ;
-partStmt    : PART (DEF)? ID ((COLON ID) | (SPECIALIZE | COLON) ID EQUALS STR)? LBRACE (partBody | overrideBody)+ RBRACE ;
+partStmt    : PART (DEF)? ID ((COLON ID) | (SPECIALIZE | COLON) ID)? LBRACE (partBody | overrideBody)+ RBRACE ;
 partBody    : (attributeStmt | partStmt)+ ;
 overrideBody: OVERRIDE qualifiedID EQUALS defaultValue SEMICOLON ;
 attributeStmt

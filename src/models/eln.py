@@ -49,7 +49,6 @@ class Electronics:
                         params = {param: (val['value'] if isinstance(val, dict) else val).strip('"') 
                                 for param, val in value.parameters.items()}
                         setattr(instance, key, subclass(**params))
-                    # handle the children
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
@@ -96,8 +95,7 @@ class Electronics:
             writer.write(xml_object)
 
 def main():
-    eln = Electronics.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    eln.to_xml('/home/mgloria/iit/study-alexandria/sysml/', 'eln.xml')
+    pass
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import lxml.etree as etree
+from dataclasses import dataclass
 from utils import Utils
 
 @dataclass
@@ -27,8 +27,7 @@ class Phase:
         return etree.tostring(root, pretty_print=True)
     
 def main():
-    ph = Phase.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    # ph.to_xml()
+    pass
 
 if __name__ == '__main__':
     main()

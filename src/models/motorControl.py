@@ -2,7 +2,6 @@ from dataclasses import dataclass, is_dataclass, asdict, fields
 from lxml import etree
 from device import Device
 from utils import Utils
-import re
 
 class motorControl(Device):
     def __init__(self, root_path):
@@ -65,11 +64,7 @@ class motorControl(Device):
                     if is_dataclass(subclass):
                         params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
-                        # for field in fields(subclass):
-                        #     if field.name in params:
-                        #         params[field.name] = field.type(params[field.name])
                         setattr(instance, key, subclass(**params))
-                    # handle the children
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
@@ -115,9 +110,7 @@ class motorControl(Device):
         with open(root_path+'/'+file_name, "wb") as writer:
             writer.write(xml_object)
 def main():
-    motor_control = motorControl.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    # print(motor_control.controls.positionControl)
-    motor_control.to_xml('/home/mgloria/iit/study-alexandria/sysml/', "motorControl.xml")
+    pass
 
 if __name__ == "__main__":
     main()

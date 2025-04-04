@@ -101,9 +101,7 @@ class Calibrator(Device):
             writer.write(xml_object)
 
 def main():
-    root_path = "/home/mgloria/iit/study-alexandria/sysml/"
-    calibrator = Calibrator(root_path).from_sysml(root_path)
-    calibrator.to_xml("/home/mgloria/iit/study-alexandria/sysml", "calibrator.xml")
+    pass
 
 if __name__ == "__main__":
     main()

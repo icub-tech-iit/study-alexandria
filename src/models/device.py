@@ -17,7 +17,7 @@ class Device:
         return cls(**attributes)
     
 def main():
-    dev = Device.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
+    pass
 
 if __name__ == '__main__':
     main()

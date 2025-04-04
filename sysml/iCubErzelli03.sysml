@@ -1,7 +1,7 @@
 package iCubErzelli03 {
     attribute name : String default "iCubErzelli03";
     attribute version : String default "V2";
-    part head : Head = "" {
+    part head : Head {
         :>> face_calib.CALIBRATION.calibration1 = -756;
         :>> head_eb20_j0_1_eln.ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.0";
         :>> head_eb21_j2_5_eln.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 2;

@@ -36,8 +36,6 @@ class PC104:
             writer.write(xml_object)
 
 def main():
-    pc104 = PC104.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    pc104.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'pc104.xml')
-
+    pass
 if __name__ == '__main__':
     main()
