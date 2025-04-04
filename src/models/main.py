@@ -28,14 +28,16 @@ class Robot:
                 part.to_xml(root_path, "Head", robot_name, override_values)
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Generate XML files for robot parts")
-    parser.add_argument("--robot", required=True, help="Path to the configuration files.")
+    parser = argparse.ArgumentParser(description="Generate XML files for the specified robot")
+    parser.add_argument("--robot", required=True, help="Name of the robot.")
+    parser.add_argument("--config", required=True, help="Absolute path to the SysML file.")
     return parser.parse_args()
 
 def main():
     robot_name = parse_args().robot
-    robot = Robot.from_sysml('/home/mgloria/iit/study-alexandria/sysml/', robot_name)
-    robot.to_xml('/home/mgloria/iit/study-alexandria/sysml/', robot_name)
+    sysml_path = parse_args().config
+    robot = Robot.from_sysml(sysml_path, robot_name)
+    robot.to_xml(sysml_path, robot_name)
     
 if __name__ == '__main__':
     main()
