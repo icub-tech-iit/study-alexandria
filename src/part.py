@@ -20,8 +20,8 @@ class Part:
         self.PC104 = [pc104]
 
     @classmethod
-    def from_sysml(cls, root_path, part):
-        attr = dict(Utils.parse_sysml(root_path+'/head.sysml').part_definitions.items())
+    def from_sysml(cls, root_path, part_name):
+        attr = dict(Utils.parse_sysml(root_path+'/'+part_name+'.sysml').part_definitions.items())
         part = cls()
         parents = []
 
@@ -39,8 +39,8 @@ class Part:
                 subclass.append(item)
         return part
 
-    def to_xml(self, root_path, part, robot_name, overr_params):
-        attr = dict(Utils.parse_sysml(root_path+'/head.sysml').part_definitions.items())
+    def to_xml(self, root_path, part_name, robot_name, overr_params):
+        attr = dict(Utils.parse_sysml(root_path+'/'+part_name+'.sysml').part_definitions.items())
         Utils.check_subfolders_existance(root_path, robot_name)
         robot_path = os.path.join(root_path, robot_name)
 

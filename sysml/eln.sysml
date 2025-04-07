@@ -6,8 +6,8 @@ part electronics {
             attribute IpAddress : String default "10.0.1.1";
             attribute IpPort : Integer default 12345;
             attribute Type : String default "mc4plus";
-            attribute maxSizeRXpacket : Integer default 1;
-            attribute maxSizeROP : Integer default 1;
+            attribute maxSizeRXpacket : Integer default 768;
+            attribute maxSizeROP : Integer default 384;
         }
         part ETH_BOARD_SETTINGS {
             attribute Name : String default "foo";

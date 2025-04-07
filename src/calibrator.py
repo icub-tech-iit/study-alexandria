@@ -32,6 +32,10 @@ class Calibrator(Device):
         calibration5: list[float]
         calibrationZero: list[float]
         calibrationDelta: list[float]
+        startupPosition: list[int]
+        startupVelocity: list[int]
+        startupPwm: list[int]
+        startupPosThreshold: list[int]
 
     @classmethod
     def from_sysml(cls, root_path):

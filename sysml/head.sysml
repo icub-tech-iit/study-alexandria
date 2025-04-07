@@ -3,9 +3,7 @@ part def Head {
         :>> type = "parametricCalibratorEth";
         :>> name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
-        :>> HOME.velocityHome = (0, 20);
         :>> CALIBRATION.calibrationType = 12;
-        :>> CALIBRATION.calibration1 = -7656;
         :>> startup.phase = "startup";
         :>> startup.type = "calibrate";
         :>> startup.target = "face-mc_remapper";
@@ -24,14 +22,7 @@ part def Head {
         :>> GENERAL.deviceName = "HeadV3_Calibrator";
         :>> HOME.positionHome = (0, 0, 0, 0, 0, 0);
         :>> HOME.velocityHome = (10, 10, 10, 10, 10, 10);
-        :>> CALIBRATION.calibrationType = (12, 12, 12, 12, 12, 12);
-        :>> CALIBRATION.calibration1 = (31583, 17391, 59087, 5743, 3000, 3000);
-        :>> CALIBRATION.calibration2 = (0, 0, 0, 0, 8192, 8192);
-        :>> CALIBRATION.calibration3 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibration4 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibration5 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibrationZero = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibrationDelta = (0, 2.8, 0, 0, 0, 0);
+        :>> CALIBRATION.calibrationType = (12, 12, 12, 12, 5, 5);
         :>> CALIB_ORDER = "(0 1 2) (3) (4 5)";
         :>> startup.phase = "startup";
         :>> startup.type = "calibrate";
@@ -47,21 +38,15 @@ part def Head {
 
     part face_eb22_j0_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.22";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "face-eb22-j0";
     }
     part head_eb20_j0_1_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.20";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb20-j0_1";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
     part head_eb21_j2_5_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.21";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb21-j2_5";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }

@@ -24,6 +24,15 @@ class Mechanicals:
         rotorPosMin: list[int]
         rotorPosMax: list[int]
     @dataclass
+    class FOC:
+        HasHallSensor: list[int]
+        HasTempSensor: list[int]
+        HasRotorEncoder: list[int]
+        HasRotorEncoderIndex: list[int]
+        HasSpeedEncoder: list[int]
+        RotorIndexOffset: list[int]
+        MotorPoles: list[int]         
+    @dataclass
     class COUPLINGS:
         matrixJ2M: list[list[float]]
         matrixM2J: list[list[float]]

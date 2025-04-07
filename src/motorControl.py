@@ -51,7 +51,53 @@ class motorControl(Device):
         stictionUp: list[int]
         stictionDown: list[int]
         kff: list[int]
-
+    @dataclass
+    class TRQ_PID_DEFAULT:
+        controlLaw: str
+        outputType: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        ko: list[int]
+        stictionUp: list[int]
+        stictionDown: list[int]
+        kff: list[int]
+        viscousPos: list[float]
+        viscousNeg: list[float]
+        coulombPos: list[int]
+        coulombNeg: list[int]
+        velocityThres: list[int]
+        filterType: list[int]
+        ktau: list[int]
+    @dataclass
+    class FOC_CUR_CONTROL:
+        controlLaw: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        shift: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        kff: list[int]
+    @dataclass
+    class FOC_VEL_CONTROL:
+        controlLaw: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kff: list[int]
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        shift: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        
     @classmethod
     def from_sysml(cls, root_path):
         attr = dict(Utils.parse_sysml(root_path+'/motorControl.sysml').part_definitions.items())
