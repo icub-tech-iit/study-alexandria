@@ -52,4 +52,17 @@ package iCubGenova11 {
         :>> left_arm_calib.CALIBRATION.startupPwm = (3000, 3000, 3000, 3000, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         :>> left_arm_calib.CALIBRATION.startupPosThreshold = (2, 2, 2, 2, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90);
     }
+    part right_arm : RightArm {
+        :>> right_arm_calib.CALIBRATION.calibration1 = (35535, 33135, 24960, 25983, 1500, 11700, 55950, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> right_arm_calib.CALIBRATION.calibration2 = (0, 0, 0, 0, 16384, 0, 0, 0, 0, 9102, 9102, 9102, 9102, 9102, 9102, 10000);
+        :>> right_arm_calib.CALIBRATION.calibration3 = (0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 1, -1, 1, -1, 1, 1);
+        :>> right_arm_calib.CALIBRATION.calibration4 = (0, 0, 0, 0, 0, 0, 0, 1720, 2180, 241, 510, 255, 510, 255, 510, 785);
+        :>> right_arm_calib.CALIBRATION.calibration5 = (0, 0, 0, 0, 0, 0, 0, 1945, 3420, 40, 0, 0, 23, 0, 0, 210);
+        :>> right_arm_calib.CALIBRATION.calibrationZero = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> right_arm_calib.CALIBRATION.calibrationDelta = (1.0, -9.2, -14.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> right_arm_calib.CALIBRATION.startupPosition = (-35, 30, 0, 50, 0, 0, 0, 35, 50, 0, 0, 0, 0, 0, 0, 0);
+        :>> right_arm_calib.CALIBRATION.startupVelocity = (10, 10, 10, 10, 30, 30, 30, 60, 100, 100, 100, 100, 100, 100, 100, 100);
+        :>> right_arm_calib.CALIBRATION.startupPwm = (3000, 3000, 3000, 3000, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> right_arm_calib.CALIBRATION.startupPosThreshold = (5, 2, 2, 2, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90);
+    }
 }

@@ -92,7 +92,7 @@ class Calibrator(Device):
                 _dataclass_to_xml(root, attr_name, attr_value)
         
         calib_order = etree.SubElement(root, "param", {"name": "CALIB_ORDER"})
-        calib_order.text = " ".join(map(str, self.CALIB_ORDER))
+        calib_order.text = "".join(map(str, self.CALIB_ORDER))
 
         root.append(etree.XML(self.startup.to_xml()))
         root.append(etree.XML(self.interrupt1.to_xml()))
