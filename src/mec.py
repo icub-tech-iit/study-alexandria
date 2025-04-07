@@ -46,7 +46,19 @@ class Mechanicals:
             constraintName: str
             param1: int
             param2: int
+        class JOINTSET_1:
+            listofjoints: list[int]
+            constraintName: str
+            param1: int
+            param2: int
+        class JOINTSET_2:
+            listofjoints: list[int]
+            constraintName: str
+            param1: int
+            param2: int
         JOINTSET_0: JOINTSET_0
+        JOINTSET_1: JOINTSET_1
+        JOINTSET_2: JOINTSET_2
 
     @classmethod
     def from_sysml(cls, root_path):

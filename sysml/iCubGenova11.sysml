@@ -25,12 +25,6 @@ package iCubGenova11 {
         :>> head_calib.CALIBRATION.startupVelocity = (10, 10, 20, 20, 20, 20);
         :>> head_calib.CALIBRATION.startupPwm = (3000, 3000, 3000, 3000, 0, 0);
         :>> head_calib.CALIBRATION.startupPosThreshold = (90, 90, 2, 2, 2, 2);
-
-        :>> head_eb20_j0_1_eln.ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.0";
-        :>> head_eb21_j2_5_eln.ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 2;
-        :>> head_eb20_j0_1_mec.JOINTSET_CFG.JOINTSET_0.listofjoints = 7;
-        :>> face_eb22_j0_mc.POS_PID_DEFAULT.kp = 60.0;
-        :>> head_eb20_j0_1_mc_service.SERVICE.PROPERTIES.ETHBOARD.type = "pippo";
     }
     part torso : Torso {
         :>> torso_calib.CALIBRATION.calibration1 = (17759, 20300, 43551);
@@ -44,5 +38,18 @@ package iCubGenova11 {
         :>> torso_calib.CALIBRATION.startupVelocity = (10, 10, 10);
         :>> torso_calib.CALIBRATION.startupPwm = (8500, 8500, 8500);
         :>> torso_calib.CALIBRATION.startupPosThreshold = (2, 2, 2);
+    }
+    part left_arm : LeftArm {
+        :>> left_arm_calib.CALIBRATION.calibration1 = (58559, 22639, 48830, 51983, -1500, 450, 11679, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibration2 = (0, 0, 0, 0, 16384, 0, 0, 0, 0, 9102, 9102, 9102, 9102, 9102, 9102, 10000);
+        :>> left_arm_calib.CALIBRATION.calibration3 = (0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 1, -1, 1, -1, 1, 1);
+        :>> left_arm_calib.CALIBRATION.calibration4 = (0, 0, 0, 0, 0, 0, 0, 3140, 1150, 255, 480, 255, 491, 255, 494, 780);
+        :>> left_arm_calib.CALIBRATION.calibration5 = (0, 0, 0, 0, 0, 0, 0, 3295, 3450, 0, 18, 0, 18, 0, 11, 198);
+        :>> left_arm_calib.CALIBRATION.calibrationZero = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibrationDelta = (0, -9.2, -17.1, -2.7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.startupPosition = (-35, 30, 0, 50, 0, 0, 0, 35, 50, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.startupVelocity = (10, 10, 10, 10, 30, 30, 30, 60, 100, 100, 100, 100, 100, 100, 100, 100);
+        :>> left_arm_calib.CALIBRATION.startupPwm = (3000, 3000, 3000, 3000, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.startupPosThreshold = (2, 2, 2, 2, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90);
     }
 }

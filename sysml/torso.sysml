@@ -73,7 +73,7 @@ part def Torso {
         :>> CONTROLS.velocityControl = ("POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT");
         :>> CONTROLS.mixedControl = ("POS_PID_DEFAULT", "POS_PID_DEFAULT", "POS_PID_DEFAULT");
         :>> CONTROLS.torqueControl = ("TRQ_PID_DEFAULT", "TRQ_PID_DEFAULT", "TRQ_PID_DEFAULT");
-        :>> CONTROLS.currentPid = ("TRQ_PID_DEFAULT", "TRQ_PID_DEFAULT", "TRQ_PID_DEFAULT");
+        :>> CONTROLS.currentPid = ("2FOC_CUR_CONTROL", "2FOC_CUR_CONTROL", "2FOC_CUR_CONTROL");
         :>> CONTROLS.speedPid = ("2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL");
         :>> POS_PID_DEFAULT.kp = (-711.11, -1066.66, -1066.66);
         :>> POS_PID_DEFAULT.kd = (0.0, 0.0, 0.0);
@@ -91,6 +91,7 @@ part def Torso {
         :>> TRQ_PID_DEFAULT.ko = (0, 0, 0);
         :>> TRQ_PID_DEFAULT.stictionUp = (0, 0, 0);
         :>> TRQ_PID_DEFAULT.stictionDown = (-2, -2, -2);
+        :>> TRQ_PID_DEFAULT.kff = (1, 1, 1);
         :>> TRQ_PID_DEFAULT.viscousPos = (-0.0016, -0.003, -0.003);
         :>> TRQ_PID_DEFAULT.viscousNeg = (-0.0016, -0.003, -0.003);
         :>> TRQ_PID_DEFAULT.coulombPos = (0, 0, 0);
