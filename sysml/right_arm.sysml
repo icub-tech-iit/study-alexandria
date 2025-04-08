@@ -186,6 +186,8 @@ part def RightArm {
         :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (3);
     }
     part right_arm_eb3_j0_3_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "right_arm-eb3-j0_3-mc";
         :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
         :>> LIMITS.jntPosMax = (8, 160, 80, 106);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -241,7 +243,9 @@ part def RightArm {
         :>> _2FOC_VEL_CONTROL.maxInt = (32000, 32000, 32000, 32000);
         :>> _2FOC_VEL_CONTROL.kff = (0, 0, 0, 0);
     }
-    part right_arm_eb27_j4_mc :> motorControl {
+    part right_arm_eb27_j4_7_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "right_arm-eb27-j4_7-mc";
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);
         :>> LIMITS.jntPosMax = (85, 25, 35, 60);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -284,6 +288,8 @@ part def RightArm {
         :>> TRQ_PID_DEFAULT.ktau = (1, 0, 0, 0);
     }
     part right_arm_eb28_j8_11_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "right_arm-eb28-j8_11-mc";
         :>> LIMITS.jntPosMin = (10, 0, 0, 0);
         :>> LIMITS.jntPosMax = (90, 90, 180, 90);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -310,6 +316,8 @@ part def RightArm {
         :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
     }
     part right_arm_eb29_j12_15_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "right_arm-eb29-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
         :>> LIMITS.jntPosMax = (180, 90, 180, 270);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);

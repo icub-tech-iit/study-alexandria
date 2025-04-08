@@ -111,6 +111,8 @@ part def Head {
     }
 
     part face_eb22_j0_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "face-eb22-j0-mc";
         :>> LIMITS.jntPosMin = -5;
         :>> LIMITS.jntPosMax = +65;
         :>> LIMITS.motorOverloadCurrents = 2000;
@@ -137,9 +139,13 @@ part def Head {
         :>> POS_PID_DEFAULT.kff = 0;
     }
     part head_eb20_j0_1_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
     }
     part head_eb21_j2_5_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
         :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);

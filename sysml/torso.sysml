@@ -59,6 +59,8 @@ part def Torso {
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1, 2);
     }
     part torso_eb5_j0_2_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "torso-eb5-j0_2-mc";
         :>> LIMITS.jntPosMin = (-50, -30, -20);
         :>> LIMITS.jntPosMax = (50, 30, 70);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000);
