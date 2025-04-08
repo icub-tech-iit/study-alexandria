@@ -74,7 +74,7 @@ class motorControl(Device):
         filterType: list[int]
         ktau: list[int]
     @dataclass
-    class FOC_CUR_CONTROL:
+    class _2FOC_CUR_CONTROL:
         controlLaw: str
         fbkControlUnits: str
         outputControlUnits: str
@@ -86,7 +86,7 @@ class motorControl(Device):
         maxInt: list[int]
         kff: list[int]
     @dataclass
-    class FOC_VEL_CONTROL:
+    class _2FOC_VEL_CONTROL:
         controlLaw: str
         fbkControlUnits: str
         outputControlUnits: str
@@ -124,7 +124,7 @@ class motorControl(Device):
         Utils.check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper().strip('_')})
 
             for field in fields(dataclass_instance):
                 field_name = field.name

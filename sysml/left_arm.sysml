@@ -58,13 +58,13 @@ part def LeftArm {
         :>> LIMITS.hardwareJntPosMax = (8, 160, 80, 106); 
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
-        :>> FOC.HasHallSensor = (1, 1, 1, 1);
-        :>> FOC.HasTempSensor = (0, 0, 0, 0);
-        :>> FOC.HasRotorEncoder = (1, 1, 1, 1);
-        :>> FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
-        :>> FOC.HasSpeedEncoder = (0, 0, 0, 0);
-        :>> FOC.RotorIndexOffset = (0, 0, 0, 0);
-        :>> FOC.MotorPoles = (8, 8, 8, 8);
+        :>> _2FOC.HasHallSensor = (1, 1, 1, 1);
+        :>> _2FOC.HasTempSensor = (0, 0, 0, 0);
+        :>> _2FOC.HasRotorEncoder = (1, 1, 1, 1);
+        :>> _2FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
+        :>> _2FOC.HasSpeedEncoder = (0, 0, 0, 0);
+        :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
+        :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         -1.625, 1.625, 0.000, 0.000,
         0.000, 0.000, 1.625, 0.000,
@@ -93,13 +93,13 @@ part def LeftArm {
         :>> LIMITS.hardwareJntPosMax = (90, 30, 35, 60); 
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
-        :>> FOC.HasHallSensor = (1, 1, 1, 1);
-        :>> FOC.HasTempSensor = (0, 0, 0, 0);
-        :>> FOC.HasRotorEncoder = (1, 1, 1, 1);
-        :>> FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
-        :>> FOC.HasSpeedEncoder = (0, 0, 0, 0);
-        :>> FOC.RotorIndexOffset = (0, 0, 0, 0);
-        :>> FOC.MotorPoles = (8, 8, 8, 8);
+        :>> _2FOC.HasHallSensor = (1, 1, 1, 1);
+        :>> _2FOC.HasTempSensor = (0, 0, 0, 0);
+        :>> _2FOC.HasRotorEncoder = (1, 1, 1, 1);
+        :>> _2FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
+        :>> _2FOC.HasSpeedEncoder = (0, 0, 0, 0);
+        :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
+        :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         0.000, 1.000, 0.000, 0.000,
         0.000, -1.000, 1.000, 0.000,
@@ -129,13 +129,13 @@ part def LeftArm {
         :>> LIMITS.hardwareJntPosMax = (90, 90, 180, 90); 
         :>> LIMITS.rotorPosMin = (0, 0, -70000, -5120);
         :>> LIMITS.rotorPosMax = (0, 0, 5120, 32000);
-        :>> FOC.HasHallSensor = (1, 1, 1, 1);
-        :>> FOC.HasTempSensor = (0, 0, 0, 0);
-        :>> FOC.HasRotorEncoder = (1, 1, 1, 1);
-        :>> FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
-        :>> FOC.HasSpeedEncoder = (0, 0, 0, 0);
-        :>> FOC.RotorIndexOffset = (0, 0, 0, 0);
-        :>> FOC.MotorPoles = (8, 8, 8, 8);
+        :>> _2FOC.HasHallSensor = (1, 1, 1, 1);
+        :>> _2FOC.HasTempSensor = (0, 0, 0, 0);
+        :>> _2FOC.HasRotorEncoder = (1, 1, 1, 1);
+        :>> _2FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
+        :>> _2FOC.HasSpeedEncoder = (0, 0, 0, 0);
+        :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
+        :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         -1.000, 1.000, 0.000, 0.000,
         0.000, -1.000, 0.000, 0.000,
@@ -165,13 +165,13 @@ part def LeftArm {
         :>> LIMITS.hardwareJntPosMax = (180, 90, 180, 270); 
         :>> LIMITS.rotorPosMin = (-5120, -5120, -65000, -5120);
         :>> LIMITS.rotorPosMax = (65000, 32000, 5120, 65000);
-        :>> FOC.HasHallSensor = (1, 1, 1, 1);
-        :>> FOC.HasTempSensor = (0, 0, 0, 0);
-        :>> FOC.HasRotorEncoder = (1, 1, 1, 1);
-        :>> FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
-        :>> FOC.HasSpeedEncoder = (0, 0, 0, 0);
-        :>> FOC.RotorIndexOffset = (0, 0, 0, 0);
-        :>> FOC.MotorPoles = (8, 8, 8, 8);
+        :>> _2FOC.HasHallSensor = (1, 1, 1, 1);
+        :>> _2FOC.HasTempSensor = (0, 0, 0, 0);
+        :>> _2FOC.HasRotorEncoder = (1, 1, 1, 1);
+        :>> _2FOC.HasRotorEncoderIndex = (0, 0, 0, 0);
+        :>> _2FOC.HasSpeedEncoder = (0, 0, 0, 0);
+        :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
+        :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         -1.000, 1.000, 0.000, 0.000,
         0.000, -1.000, 0.000, 0.000,
@@ -226,20 +226,20 @@ part def LeftArm {
         :>> TRQ_PID_DEFAULT.velocityThres = (0, 0, 0, 0);
         :>> TRQ_PID_DEFAULT.filterType = (0, 0, 0, 0);
         :>> TRQ_PID_DEFAULT.ktau = (180, 464, 463, 449);
-        :>> FOC_CUR_CONTROL.kp = (8, 8, 8, 8);
-        :>> FOC_CUR_CONTROL.kd = (0.0, 0.0, 0.0, 0.0);
-        :>> FOC_CUR_CONTROL.ki = (2, 2, 2, 2);
-        :>> FOC_CUR_CONTROL.shift = (10, 10, 10, 10);
-        :>> FOC_CUR_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
-        :>> FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000, 32000);
-        :>> FOC_CUR_CONTROL.kff = (0, 0, 0, 0);
-        :>> FOC_VEL_CONTROL.kp = (12, 12, 12, 12);
-        :>> FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0,0);
-        :>> FOC_VEL_CONTROL.ki = (16, 16, 16, 16);
-        :>> FOC_VEL_CONTROL.shift = (10, 10, 10, 10);
-        :>> FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
-        :>> FOC_VEL_CONTROL.maxInt = (32000, 32000, 32000, 32000);
-        :>> FOC_VEL_CONTROL.kff = (0, 0, 0, 0);
+        :>> _2FOC_CUR_CONTROL.kp = (8, 8, 8, 8);
+        :>> _2FOC_CUR_CONTROL.kd = (0.0, 0.0, 0.0, 0.0);
+        :>> _2FOC_CUR_CONTROL.ki = (2, 2, 2, 2);
+        :>> _2FOC_CUR_CONTROL.shift = (10, 10, 10, 10);
+        :>> _2FOC_CUR_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
+        :>> _2FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000, 32000);
+        :>> _2FOC_CUR_CONTROL.kff = (0, 0, 0, 0);
+        :>> _2FOC_VEL_CONTROL.kp = (12, 12, 12, 12);
+        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0,0);
+        :>> _2FOC_VEL_CONTROL.ki = (16, 16, 16, 16);
+        :>> _2FOC_VEL_CONTROL.shift = (10, 10, 10, 10);
+        :>> _2FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
+        :>> _2FOC_VEL_CONTROL.maxInt = (32000, 32000, 32000, 32000);
+        :>> _2FOC_VEL_CONTROL.kff = (0, 0, 0, 0);
     }
     part left_arm_eb24_j4_7_mc :> motorControl {
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);

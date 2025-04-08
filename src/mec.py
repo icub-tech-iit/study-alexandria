@@ -24,7 +24,7 @@ class Mechanicals:
         rotorPosMin: list[int]
         rotorPosMax: list[int]
     @dataclass
-    class FOC:
+    class _2FOC:
         HasHallSensor: list[int]
         HasTempSensor: list[int]
         HasRotorEncoder: list[int]
@@ -85,7 +85,7 @@ class Mechanicals:
         Utils.check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper().strip('_')})
 
             for field in fields(dataclass_instance):
                 field_name = field.name

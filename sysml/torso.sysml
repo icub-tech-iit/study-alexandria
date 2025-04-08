@@ -41,13 +41,13 @@ part def Torso {
         :>> LIMITS.hardwareJntPosMax = (30, 70, 50);
         :>> LIMITS.rotorPosMin = (0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0);
-        :>> FOC.HasHallSensor = (1, 1, 1);
-        :>> FOC.HasTempSensor = (0, 0, 0);
-        :>> FOC.HasRotorEncoder = (1, 1, 1);
-        :>> FOC.HasRotorEncoderIndex = (0, 0, 0);
-        :>> FOC.HasSpeedEncoder = (0, 0, 0);
-        :>> FOC.RotorIndexOffset = (0, 0, 0);
-        :>> FOC.MotorPoles = (8, 8, 8);
+        :>> _2FOC.HasHallSensor = (1, 1, 1);
+        :>> _2FOC.HasTempSensor = (0, 0, 0);
+        :>> _2FOC.HasRotorEncoder = (1, 1, 1);
+        :>> _2FOC.HasRotorEncoderIndex = (0, 0, 0);
+        :>> _2FOC.HasSpeedEncoder = (0, 0, 0);
+        :>> _2FOC.RotorIndexOffset = (0, 0, 0);
+        :>> _2FOC.MotorPoles = (8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (0.500, -0.500, 0.000, 0.000,
         0.500, 0.500, 0.000, 0.000,
         0.000, 0.000, 1.000, 0.000,
@@ -99,20 +99,20 @@ part def Torso {
         :>> TRQ_PID_DEFAULT.velocityThres = (0, 0, 0);
         :>> TRQ_PID_DEFAULT.filterType = (0, 0, 0);
         :>> TRQ_PID_DEFAULT.ktau = (-200, -200, -200);
-        :>> FOC_CUR_CONTROL.kp = (8, 8, 8);
-        :>> FOC_CUR_CONTROL.kd = (0.0, 0.0, 0.0);
-        :>> FOC_CUR_CONTROL.ki = (2, 2, 2);
-        :>> FOC_CUR_CONTROL.shift = (10, 10, 10);
-        :>> FOC_CUR_CONTROL.maxOutput = (32000, 32000, 32000);
-        :>> FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000);
-        :>> FOC_CUR_CONTROL.kff = (0, 0, 0);
-        :>> FOC_VEL_CONTROL.kp = (12, 12, 12);
-        :>> FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0);
-        :>> FOC_VEL_CONTROL.ki = (16, 16, 16);
-        :>> FOC_VEL_CONTROL.shift = (10, 10, 10);
-        :>> FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000);
-        :>> FOC_VEL_CONTROL.maxInt = (32000, 32000, 32000);
-        :>> FOC_VEL_CONTROL.kff = (0, 0, 0);
+        :>> _2FOC_CUR_CONTROL.kp = (8, 8, 8);
+        :>> _2FOC_CUR_CONTROL.kd = (0.0, 0.0, 0.0);
+        :>> _2FOC_CUR_CONTROL.ki = (2, 2, 2);
+        :>> _2FOC_CUR_CONTROL.shift = (10, 10, 10);
+        :>> _2FOC_CUR_CONTROL.maxOutput = (32000, 32000, 32000);
+        :>> _2FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000);
+        :>> _2FOC_CUR_CONTROL.kff = (0, 0, 0);
+        :>> _2FOC_VEL_CONTROL.kp = (12, 12, 12);
+        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0);
+        :>> _2FOC_VEL_CONTROL.ki = (16, 16, 16);
+        :>> _2FOC_VEL_CONTROL.shift = (10, 10, 10);
+        :>> _2FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000);
+        :>> _2FOC_VEL_CONTROL.maxInt = (32000, 32000, 32000);
+        :>> _2FOC_VEL_CONTROL.kff = (0, 0, 0);
     }
     part torso_eb5_j0_2_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_foc";

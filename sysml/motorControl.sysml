@@ -181,7 +181,7 @@ part motorControl : device {
             :>> elements : Integer[dimensions] default (0, 0);
         }
     }
-    part FOC_CUR_CONTROL {
+    part _2FOC_CUR_CONTROL {
         attribute controlLaw : String default "low_lev_current";
         attribute fbkControlUnits : String default "machine_units";
         attribute outputControlUnits : String default "machine_units";
@@ -214,7 +214,7 @@ part motorControl : device {
             :>> elements : Integer[dimensions] default (0, 0);
         }
     }
-    part FOC_VEL_CONTROL {
+    part _2FOC_VEL_CONTROL {
         attribute controlLaw : String default "low_lev_speed";
         attribute fbkControlUnits : String default "machine_units";
         attribute outputControlUnits : String default "machine_units";

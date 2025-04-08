@@ -63,7 +63,7 @@ part mechanicals {
 			:>> elements : Integer[dimensions] default (0, 0); 
 		}
 	}
-	part FOC {
+	part _2FOC {
 		attribute HasHallSensor : Array {
 			:>> dimensions default 2; 
 			:>> elements : Integer[dimensions] default (0, 0); 
