@@ -221,4 +221,18 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048, 2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
+    part head_inertial :> inertial {
+        :>> name = "head-inertial";
+        :>> type = "embObjIMU";
+        :>> SERVICE.type = "eomn_serv_AS_inertials3";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "rfe";
+        :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
+        :>> SERVICE.PROPERTIES.SENSORS.id = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+        :>> SERVICE.PROPERTIES.SENSORS.sensorName = ("head_imu_0", "head_imu_0", "head_imu_0", "head_imu_0", "head_imu_0");
+        :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
+        :>> SERVICE.PROPERTIES.SENSORS.boardType = ("rfe", "rfe", "rfe", "rfe", "rfe");
+        :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1");
+        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+    }
 }

@@ -410,4 +410,18 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (40, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
+    part left_arm_eb3_IMU :> inertial {
+        :>> name = "right_arm-eb3-imu";
+        :>> type = "embObjIMU";
+        :>> SERVICE.type = "eomn_serv_AS_inertials3";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "eobrd_strain2";
+        :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
+        :>> SERVICE.PROPERTIES.SENSORS.id = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
+        :>> SERVICE.PROPERTIES.SENSORS.sensorName = ("r_arm_ft_imu", "r_arm_ft_imu", "r_arm_ft_imu", "r_arm_ft_imu", "r_arm_ft_imu");
+        :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
+        :>> SERVICE.PROPERTIES.SENSORS.boardType = ("strain2", "strain2", "strain2", "strain2", "strain2");
+        :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13");
+        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
+    }
 }

@@ -16,7 +16,7 @@ class Part:
         self.mechanicals = [mechanicals]
         self.motorControl = [motorControl]
         self.service = [service]
-        self.inertials = [inertials]
+        self.inertial = [inertials]
         self.PC104 = [pc104]
 
     @classmethod
@@ -49,7 +49,7 @@ class Part:
         mechanicals = self.mechanicals[1:]
         motorControl = self.motorControl[1:]
         service = self.service[1:]
-        inertials = self.inertials[1:]
+        inertial = self.inertial[1:]
         pc104 = self.PC104[1:]
 
         for key, value in attr.items():
@@ -95,8 +95,8 @@ class Part:
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(serv, f"service.{override_key}", override_value.strip('"'))
                             serv.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
-                    case 'inertials':
-                        for inert in inertials:
+                    case 'inertial':
+                        for inert in inertial:
                             for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
                                 if key == specific_override_key:
                                     value.parameters.update(specific_override_value)
