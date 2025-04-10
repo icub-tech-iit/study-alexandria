@@ -15,15 +15,30 @@ class Service:
             class ETHBOARD:
                 type: str
             @dataclass
+            class CANBOARDS:
+                type: str
+                @dataclass
+                class PROTOCOL:
+                    major: list[int]
+                    minor: list[int]
+                @dataclass
+                class FIRMWARE:
+                    major: list[int]
+                    minor: list[int]
+                    build: list[int]
+                PROTOCOL: PROTOCOL
+                FIRMWARE: FIRMWARE
+            @dataclass
             class JOINTMAPPING:
-                ENCODER1 = Encoder
-                ENCODER2 = Encoder
                 @dataclass
                 class ACTUATOR:
                     type: list[str]
                     portName: list[str]
                 ACTUATOR: ACTUATOR
+                ENCODER1: Encoder = None
+                ENCODER2: Encoder = None
             ETHBOARD: ETHBOARD
+            CANBOARDS: CANBOARDS
             JOINTMAPPING: JOINTMAPPING
         PROPERTIES: PROPERTIES
     SERVICE: SERVICE
@@ -35,7 +50,7 @@ class Service:
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
-                if key in ['ENCODER1', 'ENCODER2']:
+                if key in ['ENCODER1', 'ENCODER2'] and hasattr(instance, key):
                     setattr(instance, key, Encoder.from_sysml(root_path))
                 elif hasattr(instance, key):
                     subclass = getattr(instance, key)
@@ -60,9 +75,7 @@ class Service:
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
-                if isinstance(field_value, Encoder):
-                    group_elem.append(etree.XML(field_value.to_xml(field_name.upper())))
-                elif is_dataclass(field_value):
+                if is_dataclass(field_value):
                     _dataclass_to_xml(group_elem, field_name, field_value)
                 elif isinstance(field_value, list):
                     if any(isinstance(i, list) for i in field_value):
@@ -76,7 +89,7 @@ class Service:
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):

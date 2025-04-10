@@ -10,7 +10,7 @@ part def Head {
         :>> interrupt1.phase = "interrupt1";
         :>> interrupt1.level = 1;
         :>> interrupt1.type = "park";
-        :>> interrupt1.target = "head-mc_remapper";
+        :>> interrupt1.target = "face-mc_remapper";
         :>> interrupt3.phase = "interrupt3";
         :>> interrupt3.level = 1;
         :>> interrupt3.type = "abort";
@@ -108,6 +108,10 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+45, +30, +45, +45);
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
+        :>> JOINTSET_CFG.numberofsets = 3;
+        :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0);
+        :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (1);
+        :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (2, 3);
     }
 
     part face_eb22_j0_mc :> motorControl {
@@ -175,8 +179,9 @@ part def Head {
     part face_eb22_j0_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P3";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P11";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = "pwm";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P2";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P10";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = -4096;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = "none";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = "none";

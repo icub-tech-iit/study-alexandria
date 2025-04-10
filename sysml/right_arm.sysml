@@ -346,6 +346,7 @@ part def RightArm {
     part right_arm_eb3_j0_3_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_foc";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "ems4";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "foc";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("eomc_act_foc", "foc", "foc", "foc");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CAN1:1:0", "CAN1:2:0", "CAN1:3:0", "CAN1:4:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("eomc_enc_aea", "aea", "aea", "aea");
@@ -378,6 +379,7 @@ part def RightArm {
     part right_arm_eb28_j8_11_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("absanalog", "mais", "mais", "mais");
@@ -394,6 +396,7 @@ part def RightArm {
     part right_arm_eb29_j12_15_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("mais", "mais", "mais", "mais");

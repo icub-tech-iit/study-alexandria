@@ -55,7 +55,7 @@ part calibrator : device {
             :>> dimensions default 1;
             :>> elements : Integer[dimensions] default (0);
         }
-        attribute startupPwm : Array {
+        attribute startupMaxPwm : Array {
             :>> dimensions default 1;
             :>> elements : Integer[dimensions] default (0);
         }

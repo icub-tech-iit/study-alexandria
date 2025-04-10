@@ -46,11 +46,13 @@ class Mechanicals:
             constraintName: str
             param1: int
             param2: int
+        @dataclass
         class JOINTSET_1:
             listofjoints: list[int]
             constraintName: str
             param1: int
             param2: int
+        @dataclass
         class JOINTSET_2:
             listofjoints: list[int]
             constraintName: str
@@ -105,7 +107,7 @@ class Mechanicals:
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):

@@ -34,7 +34,7 @@ class Calibrator(Device):
         calibrationDelta: list[float]
         startupPosition: list[int]
         startupVelocity: list[int]
-        startupPwm: list[int]
+        startupMaxPwm: list[int]
         startupPosThreshold: list[int]
 
     @classmethod
@@ -83,7 +83,7 @@ class Calibrator(Device):
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if isinstance(attr_value, Phase):
@@ -99,7 +99,7 @@ class Calibrator(Device):
         root.append(etree.XML(self.interrupt3.to_xml()))
 
         etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        doctype = '<!DOCTYPE devices PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
         with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
