@@ -60,15 +60,15 @@ The `sysmlv2parser` folder also contains a `CustomVisitor.py`: this file feature
 
 ### How it works
 
-To generate the XML files for the specific robot, please run:
+To generate the XML files for one or more specific robots, please run:
 
 ```console
-python3 src/main.py --robot <robot-name> --config <absolute-path-to-sysml-directory>
+python3 src/main.py --robot <robots-name> --config <absolute-path-to-sysml-directory>
 ```
 
 where:
 
-- `<robot-name>` is the name of the robot (e.g., `iCubErzelli03`).
+- `<robots-name>` is a space-separated list that contains the name of the robots (e.g., `iCubGenova11 iCubErzelli03`).
 - `<absolute-path-to-sysml-directory>` is the absolute path to the directory containing the SysML files (e.g., `<path-to-study_alexandria-repository/sysml>`).
 
 This script will create a folder for the specified robot, mirroring the architecture of [`robots-configuration`](https://github.com/robotology/robots-configuration).
