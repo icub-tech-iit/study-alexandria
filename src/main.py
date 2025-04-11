@@ -29,15 +29,20 @@ class Robot:
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Generate XML files for the specified robot")
-    parser.add_argument("--robot", required=True, help="Name of the robot.")
+    parser.add_argument("--robot", required=True, nargs='+', help="Names of the robots (space-separated list).")
     parser.add_argument("--config", required=True, help="Absolute path to the SysML file.")
     return parser.parse_args()
 
 def main():
-    robot_name = parse_args().robot
+    robots_name = parse_args().robot
     sysml_path = parse_args().config
-    robot = Robot.from_sysml(sysml_path, robot_name)
-    robot.to_xml(sysml_path, robot_name)
+    for robot_name in robots_name:
+        try:
+            robot = Robot.from_sysml(sysml_path, robot_name)
+            robot.to_xml(sysml_path, robot_name)
+        except FileNotFoundError as e:
+            print(f"File not found for {robot_name}: {e}")
+            continue
     
 if __name__ == '__main__':
     main()
