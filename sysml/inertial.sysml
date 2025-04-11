@@ -37,6 +37,10 @@ part inertial : device {
                     :>> dimensions default 3;
                     :>> elements : String[dimensions] default ("acc", "gyro", "mag");
                 }
+                attribute sensorName : Array {
+                    :>> dimensions default 3;
+                    :>> elements : String[dimensions] default ("acc", "gyro", "mag");
+                }
                 attribute type : Array {
                     :>> dimensions default 3;
                     :>> elements : String[dimensions] default ("acc", "gyro", "mag");

@@ -3,16 +3,14 @@ part def Head {
         :>> type = "parametricCalibratorEth";
         :>> name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
-        :>> HOME.velocityHome = (0, 20);
         :>> CALIBRATION.calibrationType = 12;
-        :>> CALIBRATION.calibration1 = -7656;
         :>> startup.phase = "startup";
         :>> startup.type = "calibrate";
         :>> startup.target = "face-mc_remapper";
         :>> interrupt1.phase = "interrupt1";
         :>> interrupt1.level = 1;
         :>> interrupt1.type = "park";
-        :>> interrupt1.target = "head-mc_remapper";
+        :>> interrupt1.target = "face-mc_remapper";
         :>> interrupt3.phase = "interrupt3";
         :>> interrupt3.level = 1;
         :>> interrupt3.type = "abort";
@@ -24,14 +22,7 @@ part def Head {
         :>> GENERAL.deviceName = "HeadV3_Calibrator";
         :>> HOME.positionHome = (0, 0, 0, 0, 0, 0);
         :>> HOME.velocityHome = (10, 10, 10, 10, 10, 10);
-        :>> CALIBRATION.calibrationType = (12, 12, 12, 12, 12, 12);
-        :>> CALIBRATION.calibration1 = (31583, 17391, 59087, 5743, 3000, 3000);
-        :>> CALIBRATION.calibration2 = (0, 0, 0, 0, 8192, 8192);
-        :>> CALIBRATION.calibration3 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibration4 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibration5 = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibrationZero = (0, 0, 0, 0, 0, 0);
-        :>> CALIBRATION.calibrationDelta = (0, 2.8, 0, 0, 0, 0);
+        :>> CALIBRATION.calibrationType = (12, 12, 12, 12, 5, 5);
         :>> CALIB_ORDER = "(0 1 2) (3) (4 5)";
         :>> startup.phase = "startup";
         :>> startup.type = "calibrate";
@@ -47,21 +38,15 @@ part def Head {
 
     part face_eb22_j0_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.22";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "face-eb22-j0";
     }
     part head_eb20_j0_1_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.20";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb20-j0_1";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
     part head_eb21_j2_5_eln :> electronics {
         :>> ETH_BOARD.ETH_BOARD_PROPERTIES.IpAddress = "10.0.1.21";
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeRXpacket = 768;
-        :>> ETH_BOARD.ETH_BOARD_PROPERTIES.maxSizeROP = 384;
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb21-j2_5";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
@@ -123,9 +108,15 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+45, +30, +45, +45);
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
+        :>> JOINTSET_CFG.numberofsets = 3;
+        :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0);
+        :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (1);
+        :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (2, 3);
     }
 
     part face_eb22_j0_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "face-eb22-j0-mc";
         :>> LIMITS.jntPosMin = -5;
         :>> LIMITS.jntPosMax = +65;
         :>> LIMITS.motorOverloadCurrents = 2000;
@@ -152,9 +143,13 @@ part def Head {
         :>> POS_PID_DEFAULT.kff = 0;
     }
     part head_eb20_j0_1_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
     }
     part head_eb21_j2_5_mc :> motorControl {
+        :>> type = "embObjMotionControl";
+        :>> name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
         :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -184,8 +179,9 @@ part def Head {
     part face_eb22_j0_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P3";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P11";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = "pwm";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P2";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P10";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = -4096;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = "none";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = "none";
@@ -224,5 +220,19 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048, 2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
+    }
+    part head_inertial :> inertial {
+        :>> name = "head-inertial";
+        :>> type = "embObjIMU";
+        :>> SERVICE.type = "eomn_serv_AS_inertials3";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "rfe";
+        :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
+        :>> SERVICE.PROPERTIES.SENSORS.id = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+        :>> SERVICE.PROPERTIES.SENSORS.sensorName = ("head_imu_0", "head_imu_0", "head_imu_0", "head_imu_0", "head_imu_0");
+        :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
+        :>> SERVICE.PROPERTIES.SENSORS.boardType = ("rfe", "rfe", "rfe", "rfe", "rfe");
+        :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1");
+        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
     }
 }

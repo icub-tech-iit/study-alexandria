@@ -111,4 +111,140 @@ part motorControl : device {
             :>> elements : Integer[dimensions] default (0, 0);
         }
     }
+    part TRQ_PID_DEFAULT {
+        attribute controlLaw : String default "torque";
+        attribute outputType : String default "pwm";
+        attribute fbkControlUnits : String default "metric_units";
+        attribute outputControlUnits : String default "machine_units";
+        attribute kp : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (-300, 300);
+        }
+        attribute kd : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute ki : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (-100, +100);
+        }
+        attribute maxOutput : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute maxInt : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360, 3360);
+        }
+        attribute ko : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute stictionUp : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute stictionDown : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute kff : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute viscousPos : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (0.0, 0.0);
+        }
+        attribute viscousNeg : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (0.0, 0.0);
+        }
+        attribute coulombPos : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute coulombNeg : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute velocityThres : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute filterType : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute ktau : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+    }
+    part _2FOC_CUR_CONTROL {
+        attribute controlLaw : String default "low_lev_current";
+        attribute fbkControlUnits : String default "machine_units";
+        attribute outputControlUnits : String default "machine_units";
+        attribute kp : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (-300, 300);
+        }
+        attribute kd : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute ki : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (-100, +100);
+        }
+        attribute shift : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (10, 10);
+        }
+        attribute maxOutput : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute maxInt : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute kff : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+    }
+    part _2FOC_VEL_CONTROL {
+        attribute controlLaw : String default "low_lev_speed";
+        attribute fbkControlUnits : String default "machine_units";
+        attribute outputControlUnits : String default "machine_units";
+        attribute kff : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute kp : Array {
+            :>> dimensions default 2;
+            :>> elements : Real[dimensions] default (-300, 300);
+        }
+        attribute kd : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (0, 0);
+        }
+        attribute ki : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (-100, +100);
+        }
+        attribute shift : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (10, 10);
+        }
+        attribute maxOutput : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+        attribute maxInt : Array {
+            :>> dimensions default 2;
+            :>> elements : Integer[dimensions] default (3360,3360);
+        }
+    }
 }

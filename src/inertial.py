@@ -35,6 +35,7 @@ class Inertial(Device):
             @dataclass
             class SENSORS:
                 id: list[str]
+                sensorName: list[str]
                 type: list[str]
                 boardType: list[str]
                 location: list[str]
@@ -69,7 +70,7 @@ class Inertial(Device):
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
 
@@ -94,7 +95,7 @@ class Inertial(Device):
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):

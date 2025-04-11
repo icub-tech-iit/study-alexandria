@@ -63,18 +63,57 @@ part mechanicals {
 			:>> elements : Integer[dimensions] default (0, 0); 
 		}
 	}
+	part _2FOC {
+		attribute HasHallSensor : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute HasTempSensor : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute HasRotorEncoder : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute HasRotorEncoderIndex : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute HasSpeedEncoder : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute RotorIndexOffset : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+		attribute MotorPoles : Array {
+			:>> dimensions default 2; 
+			:>> elements : Integer[dimensions] default (0, 0); 
+		}
+	}
 	part COUPLINGS {
 		attribute matrixJ2M : Array {
 			:>> dimensions default 3; 
-			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+			:>> elements : Real[dimensions] default (0.000, 0.000, 0.000, 0.000, 
+			0.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 0.000, 0.000); 
 		}
 		attribute matrixM2J : Array {
 			:>> dimensions default 3; 
-			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+			:>> elements : Real[dimensions] default (0.000, 0.000, 0.000, 0.000, 
+			0.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 0.000, 0.000); 
 		}
 		attribute matrixE2J : Array {
 			:>> dimensions default 3; 
-			:>> elements : Real[dimensions] default (0.0, 0.0, 0,0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0); 
+			:>> elements : Real[dimensions] default (1.000, 0.000, 0.000, 0.000, 0.000, 0.000, 
+			0.000, 1.000, 0.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 1.000, 0.000, 0.000, 0.000,
+			0.000, 0.000, 0.000, 1.000, 0.000, 0.000); 
 		}
 	}
 	part JOINTSET_CFG {

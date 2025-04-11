@@ -24,6 +24,15 @@ class Mechanicals:
         rotorPosMin: list[int]
         rotorPosMax: list[int]
     @dataclass
+    class _2FOC:
+        HasHallSensor: list[int]
+        HasTempSensor: list[int]
+        HasRotorEncoder: list[int]
+        HasRotorEncoderIndex: list[int]
+        HasSpeedEncoder: list[int]
+        RotorIndexOffset: list[int]
+        MotorPoles: list[int]         
+    @dataclass
     class COUPLINGS:
         matrixJ2M: list[list[float]]
         matrixM2J: list[list[float]]
@@ -37,7 +46,21 @@ class Mechanicals:
             constraintName: str
             param1: int
             param2: int
+        @dataclass
+        class JOINTSET_1:
+            listofjoints: list[int]
+            constraintName: str
+            param1: int
+            param2: int
+        @dataclass
+        class JOINTSET_2:
+            listofjoints: list[int]
+            constraintName: str
+            param1: int
+            param2: int
         JOINTSET_0: JOINTSET_0
+        JOINTSET_1: JOINTSET_1
+        JOINTSET_2: JOINTSET_2
 
     @classmethod
     def from_sysml(cls, root_path):
@@ -64,7 +87,7 @@ class Mechanicals:
         Utils.check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper().strip('_')})
 
             for field in fields(dataclass_instance):
                 field_name = field.name
@@ -84,7 +107,7 @@ class Mechanicals:
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):

@@ -47,6 +47,22 @@ part calibrator : device {
             :>> dimensions default 1;
             :>> elements : Integer[dimensions] default (0);
         }
+        attribute startupPosition : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute startupVelocity : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute startupMaxPwm : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
+        attribute startupPosThreshold : Array {
+            :>> dimensions default 1;
+            :>> elements : Integer[dimensions] default (0);
+        }
     }
     attribute CALIB_ORDER : String default "(0)";
     part startup : phase;

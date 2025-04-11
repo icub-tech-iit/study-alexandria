@@ -51,7 +51,53 @@ class motorControl(Device):
         stictionUp: list[int]
         stictionDown: list[int]
         kff: list[int]
-
+    @dataclass
+    class TRQ_PID_DEFAULT:
+        controlLaw: str
+        outputType: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        ko: list[int]
+        stictionUp: list[int]
+        stictionDown: list[int]
+        kff: list[int]
+        viscousPos: list[float]
+        viscousNeg: list[float]
+        coulombPos: list[int]
+        coulombNeg: list[int]
+        velocityThres: list[int]
+        filterType: list[int]
+        ktau: list[int]
+    @dataclass
+    class _2FOC_CUR_CONTROL:
+        controlLaw: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        shift: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        kff: list[int]
+    @dataclass
+    class _2FOC_VEL_CONTROL:
+        controlLaw: str
+        fbkControlUnits: str
+        outputControlUnits: str
+        kff: list[int]
+        kp: list[int]
+        kd: list[int]
+        ki: list[int]
+        shift: list[int]
+        maxOutput: list[int]
+        maxInt: list[int]
+        
     @classmethod
     def from_sysml(cls, root_path):
         attr = dict(Utils.parse_sysml(root_path+'/motorControl.sysml').part_definitions.items())
@@ -73,12 +119,12 @@ class motorControl(Device):
     
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': ' ', 'type': 'device_type'}, nsmap=nsmap)
+        root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper().strip('_')})
 
             for field in fields(dataclass_instance):
                 field_name = field.name
@@ -98,7 +144,7 @@ class motorControl(Device):
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):
