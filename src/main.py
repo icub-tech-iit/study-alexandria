@@ -42,7 +42,7 @@ def main():
             robot.to_xml(sysml_path, robot_name)
         except FileNotFoundError as e:
             print(f"File not found for {robot_name}: {e}")
-            break
+            continue
     
 if __name__ == '__main__':
     main()
