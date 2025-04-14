@@ -8,6 +8,7 @@ from mc_service import Service as service
 from inertial import Inertial as inertials
 from pc104 import PC104 as pc104
 from cartesian import Cartesian as cartesian
+from ft import FT as ft
 from utils import Utils
 class Part:
     def __init__(self):
@@ -20,6 +21,7 @@ class Part:
         self.inertial = [inertials]
         self.PC104 = [pc104]
         self.cartesian = [cartesian]
+        self.ft = [ft]
 
     @classmethod
     def from_sysml(cls, root_path, part_name):
@@ -54,6 +56,7 @@ class Part:
         inertial = self.inertial[1:]
         pc104 = self.PC104[1:]
         cartesian = self.cartesian[1:]
+        ft = self.ft[1:]
 
         for key, value in attr.items():
             if value.parent:
@@ -106,6 +109,14 @@ class Part:
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(inert, f"inertials.{override_key}", override_value.strip('"'))
                             inert.to_xml(robot_path+'/hardware/inertials/', key+'.xml')
+                    case 'ft':
+                        for ft_sensor in ft:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
+                            for override_key, override_value in value.parameters.items():
+                                Utils.update(ft_sensor, f"ft.{override_key}", override_value.strip('"'))
+                            ft_sensor.to_xml(robot_path+'/hardware/FT/', key+'.xml')
                     case 'PC104':
                         for pc in pc104:
                             for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():

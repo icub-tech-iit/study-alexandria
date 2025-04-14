@@ -424,6 +424,17 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
         :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
     }
+    part right_arm_eb1_j0_1_strain :> ft {
+        :>> name = "right_arm-eb1-j0_1-strain";
+        :>> type = "embObjMultipleFTsensors";
+        :>> SERVICE.type = "eomn_serv_AS_ft";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
+        :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
+        :>> SERVICE.PROPERTIES.SENSORS.id = "r_arm_ft";
+        :>> SERVICE.PROPERTIES.SENSORS.board = "strain2";
+        :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
+        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft");
+    }
     part right_arm_cartesian :> cartesian {
         :>> name = "right_arm-cartesian";
         :>> type = "cartesiancontrollerserver";

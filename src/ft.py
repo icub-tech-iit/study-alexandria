@@ -1,67 +1,78 @@
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
-from phase import Phase
 from device import Device
 from utils import Utils
 
-class Cartesian(Device):
+class FT(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
-        self.startup = Phase
-        self.shutdown = Phase
-    
+        self.type = str
+
     @dataclass
-    class GENERAL:
-        ControllerName: str
-        ControllerPeriod: int
-        TaskRefVelPeriodFactor: int
-        SolverNameToConnect: str
-        KinematicPart: str
-        KinematicType: str
-        PositionControl: str
-        NumberOfDrivers: int
-    @dataclass
-    class DRIVER_0:
-        Key: str
-        JointsOrder: str
-        MinAbsVels: list[float]
-    @dataclass
-    class DRIVER_1:
-        Key: str
-        JointsOrder: str
-        MinAbsVels: list[float]
-    @dataclass
-    class PLANT_MODEL:
-        plant_compensator: str
-        smith_predictor: str
-        joint_0: list[str]
-        joint_1: list[str]
-        joint_2: list[str]
-        joint_3: list[str]
-        joint_4: list[str]
-        joint_5: list[str]
-        joint_6: list[str]
-        joint_7: list[str]
-        joint_8: list[str]
-        joint_9: list[str]
+    class SERVICE:
+        type: str
+        @dataclass
+        class PROPERTIES:
+            @dataclass
+            class CANBOARDS:
+                type: list[str]
+
+                @dataclass
+                class PROTOCOL:
+                    major : list[int]
+                    minor : list[int]
+                
+                @dataclass
+                class FIRMWARE:
+                    major: list[int]
+                    minor: list[int]
+                    build: list[int]
+
+                PROTOCOL: PROTOCOL
+                FIRMWARE: FIRMWARE
+
+            @dataclass
+            class SENSORS:
+                id: list[str]
+                board: list[str]
+                location: list[str]
+            @dataclass
+            class SETTINGS:
+                enabledSensors: list[str]
+                ftPeriod: int
+                temperaturePeriod: int
+                useCalibration: bool
+            @dataclass
+            class CANMONITOR:
+                checkPeriod: int
+                reportMode: str
+                ratePeriod: int
+            CANBOARDS: CANBOARDS
+            SENSORS: SENSORS
+            SETTINGS: SETTINGS
+            CANMONITOR: CANMONITOR
+        PROPERTIES: PROPERTIES
+    SERVICE: SERVICE
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/cartesian.sysml').part_definitions
-        cartesian = cls(root_path)
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/ft.sysml').part_definitions.items()))
+        ft_sensor = cls(root_path)
 
-        for key, value in attr.items():
-            if hasattr(cls, key):
-                subclass = getattr(cls, key)
-                if is_dataclass(subclass):
-                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+        def set_parameters(instance, attributes):
+            for key, value in attributes.items():
+                if hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
-                    setattr(cartesian, key, subclass(**params))
-            elif key in ['startup', 'shutdown']:
-                setattr(cartesian, key, Phase.from_sysml(root_path))
-        
-        return cartesian
+                        setattr(instance, key, subclass(**params))
+                    if value.children:
+                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+
+        set_parameters(ft_sensor, attr)
+        return ft_sensor
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
@@ -90,19 +101,14 @@ class Cartesian(Device):
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
+                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
-            if isinstance(attr_value, Phase):
-                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 
-        root.append(etree.XML(self.startup.to_xml()))
-        root.append(etree.XML(self.shutdown.to_xml()))
-
         etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE devices PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
         with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
