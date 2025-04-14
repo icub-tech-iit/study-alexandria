@@ -424,4 +424,16 @@ part def LeftArm {
         :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
         :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("l_arm_ft_acc", "l_arm_ft_gyro", "l_arm_ft_mag", "l_arm_ft_eul", "l_arm_ft_status");
     }
+    part left_arm_cartesian :> cartesian {
+        :>> name = "left_arm-cartesian";
+        :>> type = "cartesiancontrollerserver";
+        :>> GENERAL.ControllerName = "icub/cartesianController/left_arm";
+        :>> GENERAL.SolverNameToConnect = "cartesianSolver/left_arm";
+        :>> GENERAL.KinematicType = "left_v2.7";
+        :>> DRIVER_1.Key = "left_arm";
+        :>> startup.level = 15;
+        :>> startup.type = "attach";
+        :>> shutdown.level = 15;
+        :>> shutdown.type = "detach";
+    }
 }

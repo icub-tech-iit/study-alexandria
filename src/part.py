@@ -7,6 +7,7 @@ from motorControl import motorControl
 from mc_service import Service as service
 from inertial import Inertial as inertials
 from pc104 import PC104 as pc104
+from cartesian import Cartesian as cartesian
 from utils import Utils
 class Part:
     def __init__(self):
@@ -18,6 +19,7 @@ class Part:
         self.service = [service]
         self.inertial = [inertials]
         self.PC104 = [pc104]
+        self.cartesian = [cartesian]
 
     @classmethod
     def from_sysml(cls, root_path, part_name):
@@ -51,6 +53,7 @@ class Part:
         service = self.service[1:]
         inertial = self.inertial[1:]
         pc104 = self.PC104[1:]
+        cartesian = self.cartesian[1:]
 
         for key, value in attr.items():
             if value.parent:
@@ -111,6 +114,14 @@ class Part:
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(pc, f"pc104.{override_key}", override_value.strip('"'))
                             pc.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
+                    case 'cartesian':
+                        for cart in cartesian:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
+                            for override_key, override_value in value.parameters.items():
+                                Utils.update(cart, f"cartesian.{override_key}", override_value.strip('"'))
+                            cart.to_xml(robot_path+'/cartesian/', key+'.xml')
                     case _:
                         print("No match found for part", value.parent)
 
