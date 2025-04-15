@@ -433,7 +433,7 @@ part def LeftArm {
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_arm_ft";
         :>> SERVICE.PROPERTIES.SENSORS.board = "strain2";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("l_arm_ft");
+        :>> SERVICE.SETTINGS.enabledSensors = ("l_arm_ft");
     }
     part left_arm_cartesian :> cartesian {
         :>> name = "left_arm-cartesian";
@@ -453,5 +453,12 @@ part def LeftArm {
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
     }
     part left_arm_eb24_j4_7_skinSpec :> skinSpec {
+    }
+    part left_arm_eb26_j12_15_mais :> MAIS {
+        :>> name = "left_arm-eb26-j12_15-mais";
+        :>> type = "embObjMais";
+        :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";
+        :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
+        :>> SERVICE.SETTINGS.enabledSensors = "l_hand_mais";
     }
 }

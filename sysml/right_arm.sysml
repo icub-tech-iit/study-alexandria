@@ -433,7 +433,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_arm_ft";
         :>> SERVICE.PROPERTIES.SENSORS.board = "strain2";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft");
+        :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft");
     }
     part right_arm_cartesian :> cartesian {
         :>> name = "right_arm-cartesian";
@@ -458,5 +458,12 @@ part def RightArm {
         :>> specialCfgTriangles.triangleSetCfg13 = (1, 9, 0, 1, 1, 2, "0x2200");
         :>> specialCfgTriangles.triangleSetCfg14 = (1, 10, 0, 1, 1, 2, "0x2200");
         :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
+    }
+    part right_arm_eb29_j12_15_mais :> MAIS {
+        :>> name = "right_arm-eb29-j12_15-mais";
+        :>> type = "embObjMais";
+        :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";
+        :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
+        :>> SERVICE.SETTINGS.enabledSensors = "r_hand_mais";
     }
 }

@@ -3,7 +3,7 @@ from dataclasses import dataclass, fields, is_dataclass
 from device import Device
 from utils import Utils
 
-class FT(Device):
+class MAIS(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
@@ -16,45 +16,36 @@ class FT(Device):
         class PROPERTIES:
             @dataclass
             class CANBOARDS:
-                type: list[str]
-
+                type: str
                 @dataclass
                 class PROTOCOL:
-                    major : list[int]
-                    minor : list[int]
+                    major : int
+                    minor : int
                 @dataclass
                 class FIRMWARE:
-                    major: list[int]
-                    minor: list[int]
-                    build: list[int]
+                    major: int
+                    minor: int
+                    build: int
                 PROTOCOL: PROTOCOL
                 FIRMWARE: FIRMWARE
             @dataclass
             class SENSORS:
-                id: list[str]
-                board: list[str]
-                location: list[str]
+                id: str
+                type: str
+                location: str
             CANBOARDS: CANBOARDS
             SENSORS: SENSORS
         @dataclass
         class SETTINGS:
-            enabledSensors: list[str]
-            ftPeriod: int
-            temperaturePeriod: int
-            useCalibration: bool
-        @dataclass
-        class CANMONITOR:
-            checkPeriod: int
-            reportMode: str
-            ratePeriod: int
-        SETTINGS: SETTINGS
-        CANMONITOR: CANMONITOR
+            acquisitionRate: int
+            enabledSensors: str
         PROPERTIES: PROPERTIES
+        SETTINGS: SETTINGS
     SERVICE: SERVICE
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/ft.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/mais.sysml').part_definitions.items()))
         ft_sensor = cls(root_path)
 
         def set_parameters(instance, attributes):

@@ -46,20 +46,20 @@ part ft : device {
                     :>> elements : String[dimensions] default ("CAN1:1");
                 }
             }
-            part SETTINGS {
-                attribute enabledSensors : Array {
-                    :>> dimensions default 1;
-                    :>> elements : String[dimensions] default ("ft");
-                }
-                attribute ftPeriod : Integer default 1;
-                attribute temperaturePeriod : Integer default 1000;
-                attribute useCalibration : Boolean default "true";
+        }
+        part SETTINGS {
+            attribute enabledSensors : Array {
+                :>> dimensions default 1;
+                :>> elements : String[dimensions] default ("ft");
             }
-            part CANMONITOR {
-                attribute checkPeriod : Integer default 100;
-                attribute reportMode: String default "ALL";
-                attribute ratePeriod: Integer default 20000;
-            }
+            attribute ftPeriod : Integer default 1;
+            attribute temperaturePeriod : Integer default 1000;
+            attribute useCalibration : Boolean default "true";
+        }
+        part CANMONITOR {
+            attribute checkPeriod : Integer default 100;
+            attribute reportMode: String default "ALL";
+            attribute ratePeriod: Integer default 20000;
         }
     }
 }
