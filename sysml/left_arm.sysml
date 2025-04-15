@@ -447,4 +447,11 @@ part def LeftArm {
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
     }
+    part left_arm_eb24_j4_7_skin :> skin {
+        :>> name = "left_arm-eb24-j4_7-skin";
+        :>> type = "embObjSkin";
+        :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
+    }
+    part left_arm_eb24_j4_7_skinSpec :> skinSpec {
+    }
 }

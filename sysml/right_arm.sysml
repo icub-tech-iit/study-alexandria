@@ -447,4 +447,16 @@ part def RightArm {
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
     }
+    part right_arm_eb27_j4_7_skin :> skin {
+        :>> name = "right_arm-eb27-j4_7-skin";
+        :>> type = "embObjSkin";
+        :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
+    }
+    part right_arm_eb27_j4_7_skinSpec :> skinSpec {
+        :>> specialCfgTriangles.triangleSetCfg11 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg12 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg13 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg14 = (1, 10, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
+    }
 }
