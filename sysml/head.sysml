@@ -245,4 +245,13 @@ part def Head {
         :>> type = "dragonfly2";
         :>> guid = "00b09d010123caca";
     }
+    part realsense :> realsense {
+        :>> type = "realsense2";
+        :>> name = "realsense2dev";
+        :>> SETTINGS.alignmentFrame = "RGB";
+        :>> HW_DESCRIPTION.clipPlanes = (0.2, 10.0);
+    }
+    part realsense_d405 :> realsense {
+        :>> HW_DESCRIPTION.clipPlanes = (0.01, 10.0);
+    }
 }
