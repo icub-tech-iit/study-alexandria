@@ -54,12 +54,12 @@ part inertial : device {
                     :>> elements : String[dimensions] default ("CAN1:1", "CAN1:2", "CAN1:3");
                 }
             }
-            part SETTINGS {
-                attribute acquisitionRate : Integer default 50;
-                attribute enabledSensors : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("acc", "gyro", "mag");
-                }
+        }
+        part SETTINGS {
+            attribute acquisitionRate : Integer default 50;
+            attribute enabledSensors : Array {
+                :>> dimensions default 3;
+                :>> elements : String[dimensions] default ("acc", "gyro", "mag");
             }
         }
     }

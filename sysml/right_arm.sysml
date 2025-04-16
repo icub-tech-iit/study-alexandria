@@ -410,7 +410,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (40, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
-    part left_arm_eb3_IMU :> inertial {
+    part right_arm_eb3_IMU :> inertial {
         :>> name = "right_arm-eb3-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
@@ -421,17 +421,16 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
         :>> SERVICE.PROPERTIES.SENSORS.boardType = ("strain2", "strain2", "strain2", "strain2", "strain2");
         :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13");
-        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
+        :>> SERVICE.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
     }
-    part right_arm_eb1_j0_1_strain :> ft {
-        :>> name = "right_arm-eb1-j0_1-strain";
-        :>> type = "embObjMultipleFTsensors";
-        :>> SERVICE.type = "eomn_serv_AS_ft";
+    part right_arm_eb3_j0_3_strain :> ft {
+        :>> name = "right_arm-eb3-j0_3-strain";
+        :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_arm_ft";
-        :>> SERVICE.PROPERTIES.SENSORS.board = "strain2";
+        :>> SERVICE.PROPERTIES.SENSORS.framename = "r_arm_ft";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
         :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft");
     }
@@ -459,7 +458,7 @@ part def RightArm {
         :>> specialCfgTriangles.triangleSetCfg14 = (1, 10, 0, 1, 1, 2, "0x2200");
         :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
     }
-    part right_arm_eb29_j12_15_mais :> MAIS {
+    part right_arm_eb29_j12_15_mais :> mais {
         :>> name = "right_arm-eb29-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";

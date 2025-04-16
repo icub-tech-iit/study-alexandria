@@ -158,7 +158,7 @@ class Part:
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(skSpec, f"skinSpec.{override_key}", override_value.strip('"'))
                             skSpec.to_xml(robot_path+'/hardware/skin/', key+'.xml')
-                    case 'MAIS':
+                    case 'mais':
                         for mais_sensor in mais:
                             for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
                                 if key == specific_override_key:

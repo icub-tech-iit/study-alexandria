@@ -232,7 +232,7 @@ part def Head {
         :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
         :>> SERVICE.PROPERTIES.SENSORS.boardType = ("rfe", "rfe", "rfe", "rfe", "rfe");
         :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1");
-        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+        :>> SERVICE.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
     }
 }

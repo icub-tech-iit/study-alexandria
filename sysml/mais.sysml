@@ -1,4 +1,4 @@
-part MAIS : device {
+part mais : device {
     part SERVICE {
         attribute type : String default "eomn_serv_AS_mais";
         part PROPERTIES {

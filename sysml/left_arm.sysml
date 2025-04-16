@@ -421,17 +421,16 @@ part def LeftArm {
         :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
         :>> SERVICE.PROPERTIES.SENSORS.boardType = ("strain2", "strain2", "strain2", "strain2", "strain2");
         :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13");
-        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("l_arm_ft_acc", "l_arm_ft_gyro", "l_arm_ft_mag", "l_arm_ft_eul", "l_arm_ft_status");
+        :>> SERVICE.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.SETTINGS.enabledSensors = ("l_arm_ft_acc", "l_arm_ft_gyro", "l_arm_ft_mag", "l_arm_ft_eul", "l_arm_ft_status");
     }
-    part left_arm_eb2_j0_1_strain :> ft {
-        :>> name = "left_arm-eb2-j0_1-strain";
-        :>> type = "embObjMultipleFTsensors";
-        :>> SERVICE.type = "eomn_serv_AS_ft";
+    part left_arm_eb1_j0_3_strain :> ft {
+        :>> name = "left_arm-eb1-j0_3-strain";
+        :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_arm_ft";
-        :>> SERVICE.PROPERTIES.SENSORS.board = "strain2";
+        :>> SERVICE.PROPERTIES.SENSORS.framename = "l_arm_ft";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
         :>> SERVICE.SETTINGS.enabledSensors = ("l_arm_ft");
     }
@@ -454,7 +453,7 @@ part def LeftArm {
     }
     part left_arm_eb24_j4_7_skinSpec :> skinSpec {
     }
-    part left_arm_eb26_j12_15_mais :> MAIS {
+    part left_arm_eb26_j12_15_mais :> mais {
         :>> name = "left_arm-eb26-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";

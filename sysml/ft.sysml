@@ -1,6 +1,6 @@
 part ft : device {
     part SERVICE {
-        attribute type : String default "strain";
+        attribute type : String default "eomn_serv_AS_strain";
         part PROPERTIES {
             part CANBOARDS {
                 attribute type : Array {
@@ -37,9 +37,13 @@ part ft : device {
                     :>> dimensions default 1;
                     :>> elements : String[dimensions] default ("ft");
                 }
-                attribute board : Array {
+                attribute framename : Array {
                     :>> dimensions default 1;
-                    :>> elements : String[dimensions] default ("strain2");
+                    :>> elements : String[dimensions] default ("ft");
+                }
+                attribute type : Array {
+                    :>> dimensions default 1;
+                    :>> elements : String[dimensions] default ("eoas_strain");
                 }
                 attribute location : Array {
                     :>> dimensions default 1;
@@ -48,18 +52,15 @@ part ft : device {
             }
         }
         part SETTINGS {
+            attribute acquisitionRate: Integer default 10;
             attribute enabledSensors : Array {
                 :>> dimensions default 1;
                 :>> elements : String[dimensions] default ("ft");
             }
-            attribute ftPeriod : Integer default 1;
-            attribute temperaturePeriod : Integer default 1000;
-            attribute useCalibration : Boolean default "true";
+            attribute temperature_acquisitionRate : Integer default 1000;
         }
-        part CANMONITOR {
-            attribute checkPeriod : Integer default 100;
-            attribute reportMode: String default "ALL";
-            attribute ratePeriod: Integer default 20000;
+        part STRAIN_SETTINGS {
+            attribute useCalibration : Boolean default true;
         }
     }
 }

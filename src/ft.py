@@ -32,24 +32,22 @@ class FT(Device):
             @dataclass
             class SENSORS:
                 id: list[str]
-                board: list[str]
+                framename: list[str]
+                type: list[str]
                 location: list[str]
             CANBOARDS: CANBOARDS
             SENSORS: SENSORS
         @dataclass
         class SETTINGS:
+            acquisitionRate: int
             enabledSensors: list[str]
-            ftPeriod: int
-            temperaturePeriod: int
-            useCalibration: bool
+            temperature_acquisitionRate: int
         @dataclass
-        class CANMONITOR:
-            checkPeriod: int
-            reportMode: str
-            ratePeriod: int
-        SETTINGS: SETTINGS
-        CANMONITOR: CANMONITOR
+        class STRAIN_SETTINGS:
+            useCalibration: bool
         PROPERTIES: PROPERTIES
+        SETTINGS: SETTINGS
+        STRAIN_SETTINGS: STRAIN_SETTINGS
     SERVICE: SERVICE
 
     @classmethod

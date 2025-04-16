@@ -17,21 +17,17 @@ class Inertial(Device):
             @dataclass
             class CANBOARDS:
                 type: list[str]
-
                 @dataclass
                 class PROTOCOL:
                     major : list[int]
                     minor : list[int]
-                
                 @dataclass
                 class FIRMWARE:
                     major: list[int]
                     minor: list[int]
                     build: list[int]
-
                 PROTOCOL: PROTOCOL
                 FIRMWARE: FIRMWARE
-
             @dataclass
             class SENSORS:
                 id: list[str]
@@ -39,14 +35,14 @@ class Inertial(Device):
                 type: list[str]
                 boardType: list[str]
                 location: list[str]
-            @dataclass
-            class SETTINGS:
-                acquisitionRate: int
-                enabledSensors: list[str]
             CANBOARDS: CANBOARDS
             SENSORS: SENSORS
-            SETTINGS: SETTINGS
+        @dataclass
+        class SETTINGS:
+            acquisitionRate: int
+            enabledSensors: list[str]
         PROPERTIES: PROPERTIES
+        SETTINGS: SETTINGS
     SERVICE: SERVICE
 
     @classmethod
