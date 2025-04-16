@@ -12,6 +12,7 @@ from ft import FT as ft
 from skin import Skin as skin
 from skinSpec import skinSpec
 from mais import MAIS as mais
+from dragonfly import Dragonfly as dragonfly
 from utils import Utils
 class Part:
     def __init__(self):
@@ -28,6 +29,7 @@ class Part:
         self.skin = [skin]
         self.skinSpec = [skinSpec]
         self.mais = [mais]
+        self.dragonfly = [dragonfly]
 
     @classmethod
     def from_sysml(cls, root_path, part_name):
@@ -66,6 +68,7 @@ class Part:
         skin = self.skin[1:]
         skinSpec = self.skinSpec[1:]
         mais = self.mais[1:]
+        dragonfly = self.dragonfly[1:]
 
         for key, value in attr.items():
             if value.parent:
@@ -166,6 +169,14 @@ class Part:
                             for override_key, override_value in value.parameters.items():
                                 Utils.update(mais_sensor, f"mais.{override_key}", override_value.strip('"'))
                             mais_sensor.to_xml(robot_path+'/hardware/MAIS/', key+'.xml')
+                    case 'dragonfly':
+                        for camera in dragonfly:
+                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                                if key == specific_override_key:
+                                    value.parameters.update(specific_override_value)
+                            for override_key, override_value in value.parameters.items():
+                                Utils.update(camera, f"dragonfly.{override_key}", override_value.strip('"'))
+                            camera.to_xml(robot_path+'/camera/', key+'.xml')
                     case _:
                         print("No match found for part", value.parent)
 

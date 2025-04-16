@@ -235,4 +235,14 @@ part def Head {
         :>> SERVICE.SETTINGS.acquisitionRate = 10;
         :>> SERVICE.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
     }
+    part dragonfly2_config_right :> dragonfly {
+        :>> name = "dragonfly_right";
+        :>> type = "dragonfly2";
+        :>> guid = "00b09d010123cacb";
+    }
+    part dragonfly2_config_left :> dragonfly {
+        :>> name = "dragonfly_left";
+        :>> type = "dragonfly2";
+        :>> guid = "00b09d010123caca";
+    }
 }
