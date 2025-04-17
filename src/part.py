@@ -7,6 +7,13 @@ from motorControl import motorControl
 from mc_service import Service as service
 from inertial import Inertial as inertials
 from pc104 import PC104 as pc104
+from cartesian import Cartesian as cartesian
+from ft import FT as ft
+from skin import Skin as skin
+from skinSpec import skinSpec
+from mais import MAIS as mais
+from dragonfly import Dragonfly as dragonfly
+from realsense import Realsense as realsense
 from utils import Utils
 class Part:
     def __init__(self):
@@ -18,6 +25,13 @@ class Part:
         self.service = [service]
         self.inertial = [inertials]
         self.PC104 = [pc104]
+        self.cartesian = [cartesian]
+        self.ft = [ft]
+        self.skin = [skin]
+        self.skinSpec = [skinSpec]
+        self.mais = [mais]
+        self.dragonfly = [dragonfly]
+        self.realsense = [realsense]
 
     @classmethod
     def from_sysml(cls, root_path, part_name):
@@ -51,69 +65,48 @@ class Part:
         service = self.service[1:]
         inertial = self.inertial[1:]
         pc104 = self.PC104[1:]
+        cartesian = self.cartesian[1:]
+        ft = self.ft[1:]
+        skin = self.skin[1:]
+        skinSpec = self.skinSpec[1:]
+        mais = self.mais[1:]
+        dragonfly = self.dragonfly[1:]
+        realsense = self.realsense[1:]
 
         for key, value in attr.items():
             if value.parent:
-                match value.parent:
-                    case 'calibrator':
-                        for calib in calibrator:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(calib, f"calibrator.{override_key}", override_value.strip('"'))
-                            calib.to_xml(robot_path+'/calibrators/', key+'.xml')
-                    case 'electronics':
-                        for elec in electronics:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(elec, f"electronics.{override_key}", override_value.strip('"'))
-                            elec.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
-                    case 'mechanicals':
-                        for mech in mechanicals:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(mech, f"mechanicals.{override_key}", override_value.strip('"'))
-                            mech.to_xml(robot_path+'/hardware/mechanicals/', key+'.xml')
-                    case 'motorControl':
-                        for motor in motorControl:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(motor, f"motorControl.{override_key}", override_value.strip('"'))
-                            motor.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
-                    case 'service':
-                        for serv in service:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(serv, f"service.{override_key}", override_value.strip('"'))
-                            serv.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
-                    case 'inertial':
-                        for inert in inertial:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(inert, f"inertials.{override_key}", override_value.strip('"'))
-                            inert.to_xml(robot_path+'/hardware/inertials/', key+'.xml')
-                    case 'PC104':
-                        for pc in pc104:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(pc, f"pc104.{override_key}", override_value.strip('"'))
-                            pc.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
-                    case _:
-                        print("No match found for part", value.parent)
-
+                def generate_xml(subclass, prefix, folder):
+                    for item in subclass:                            
+                        for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                            if key == specific_override_key:
+                                value.parameters.update(specific_override_value)
+                        for override_key, override_value in value.parameters.items():
+                            Utils.update(item, f"{prefix}.{override_key}", override_value)
+                        item.to_xml(os.path.join(robot_path, folder), f"{key}.xml")
+ 
+                xml_map = {
+                    'calibrator': (calibrator, 'calibrator', 'calibrators/'),
+                    'electronics': (electronics, 'electronics', 'hardware/electronics/'),
+                    'mechanicals': (mechanicals, 'mechanicals', 'hardware/mechanicals/'),
+                    'motorControl': (motorControl, 'motorControl', 'hardware/motorControl/'),
+                    'service': (service, 'service', 'hardware/motorControl/'),
+                    'inertial': (inertial, 'inertials', 'hardware/inertials/'),
+                    'ft': (ft, 'ft', 'hardware/FT/'),
+                    'PC104': (pc104, 'pc104', 'hardware/electronics/'),
+                    'cartesian': (cartesian, 'cartesian', 'cartesian/'),
+                    'skin': (skin, 'skin', 'hardware/skin/'),
+                    'skinSpec': (skinSpec, 'skinSpec', 'hardware/skin/'),
+                    'mais': (mais, 'mais', 'hardware/MAIS/'),
+                    'dragonfly': (dragonfly, 'dragonfly', 'camera/'),
+                    'realsense': (realsense, 'realsense', 'camera/')
+                }
+ 
+                if value.parent in xml_map:
+                    subclass, prefix, folder = xml_map[value.parent]
+                    generate_xml(subclass, prefix, folder)
+                else:
+                    print("No match found for part", value.parent)
+        
 def main():
     pass
 

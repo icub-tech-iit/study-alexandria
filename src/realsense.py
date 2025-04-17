@@ -1,107 +1,29 @@
-from dataclasses import dataclass, is_dataclass, asdict, fields
 from lxml import etree
+from dataclasses import dataclass, fields, is_dataclass
 from device import Device
 from utils import Utils
 
-class motorControl(Device):
+class Realsense(Device):
     def __init__(self, root_path):
-        self.root_path = root_path
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
 
     @dataclass
-    class LIMITS:
-        jntPosMin: list[int]
-        jntPosMax: list[int]
-        jntVelMax: list[int]
-        motorOverloadCurrents: list[int]
-        motorNominalCurrents: list[int]
-        motorPeakCurrents: list[int]
-        motorPwmLimit: list[int]
-    
+    class SETTINGS:
+        depthResolution: list[int]
+        rgbResolution: list[int]
+        framerate: int
+        enableEmitter: bool
+        needAlignment: bool
+        alignmentFrame: str
     @dataclass
-    class TIMEOUTS:
-        velocity: list[int]
+    class HW_DESCRIPTION:
+        clipPlanes: list[float]
 
-    @dataclass
-    class IMPEDANCE:
-        stiffness: list[float]
-        damping: list[float]
-
-    @dataclass
-    class CONTROLS:
-        positionControl: list[str]
-        velocityControl: list[str]
-        mixedControl: list[str]
-        torqueControl: list[str]
-        currentPid: list[str]
-        speedPid: list[str]
-
-    @dataclass
-    class POS_PID_DEFAULT:
-        controlLaw: str
-        outputType: str
-        fbkControlUnits: str
-        outputControlUnits: str
-        kp: list[int]
-        kd: list[int]
-        ki: list[int]
-        maxOutput: list[int]
-        maxInt: list[int]
-        stictionUp: list[int]
-        stictionDown: list[int]
-        kff: list[int]
-    @dataclass
-    class TRQ_PID_DEFAULT:
-        controlLaw: str
-        outputType: str
-        fbkControlUnits: str
-        outputControlUnits: str
-        kp: list[int]
-        kd: list[int]
-        ki: list[int]
-        maxOutput: list[int]
-        maxInt: list[int]
-        ko: list[int]
-        stictionUp: list[int]
-        stictionDown: list[int]
-        kff: list[int]
-        viscousPos: list[float]
-        viscousNeg: list[float]
-        coulombPos: list[int]
-        coulombNeg: list[int]
-        velocityThres: list[int]
-        filterType: list[int]
-        ktau: list[int]
-    @dataclass
-    class _2FOC_CUR_CONTROL:
-        controlLaw: str
-        fbkControlUnits: str
-        outputControlUnits: str
-        kp: list[int]
-        kd: list[int]
-        ki: list[int]
-        shift: list[int]
-        maxOutput: list[int]
-        maxInt: list[int]
-        kff: list[int]
-    @dataclass
-    class _2FOC_VEL_CONTROL:
-        controlLaw: str
-        fbkControlUnits: str
-        outputControlUnits: str
-        kff: list[int]
-        kp: list[int]
-        kd: list[int]
-        ki: list[int]
-        shift: list[int]
-        maxOutput: list[int]
-        maxInt: list[int]
-        
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/motorControl.sysml').part_definitions.items())
-        mc = cls(root_path)
+        attr = dict(Utils.parse_sysml(root_path+'/realsense.sysml').part_definitions.items())
+        realsense_camera = cls(root_path)
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
@@ -114,17 +36,17 @@ class motorControl(Device):
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
-        set_parameters(mc, attr)
-        return mc
-    
+        set_parameters(realsense_camera, attr)
+        return realsense_camera
+
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
-        
+
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper().strip('_')})
+            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
 
             for field in fields(dataclass_instance):
                 field_name = field.name
@@ -153,8 +75,9 @@ class motorControl(Device):
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'/'+file_name, "wb") as writer:
+        with open(root_path+"/"+file_name, "wb") as writer:
             writer.write(xml_object)
+
 def main():
     pass
 

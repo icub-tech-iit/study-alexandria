@@ -1,54 +1,46 @@
+from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
-from device import Device
 from utils import Utils
-
-class Inertial(Device):
-    def __init__(self, root_path):
-        device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.type = str
-
+class skinSpec:
     @dataclass
-    class SERVICE:
-        type: str
-        @dataclass
-        class PROPERTIES:
-            @dataclass
-            class CANBOARDS:
-                type: list[str]
-                @dataclass
-                class PROTOCOL:
-                    major : list[int]
-                    minor : list[int]
-                @dataclass
-                class FIRMWARE:
-                    major: list[int]
-                    minor: list[int]
-                    build: list[int]
-                PROTOCOL: PROTOCOL
-                FIRMWARE: FIRMWARE
-            @dataclass
-            class SENSORS:
-                id: list[str]
-                sensorName: list[str]
-                type: list[str]
-                boardType: list[str]
-                location: list[str]
-            CANBOARDS: CANBOARDS
-            SENSORS: SENSORS
-        @dataclass
-        class SETTINGS:
-            acquisitionRate: int
-            enabledSensors: list[str]
-        PROPERTIES: PROPERTIES
-        SETTINGS: SETTINGS
-    SERVICE: SERVICE
+    class defaultCfgBoard:
+        period: int
+        skinType: int
+        noLoad: str
+        diagnostic: bool
+    @dataclass
+    class defaultCfgTriangle:
+        enabled: bool
+        shift: int
+        cdcOffset: str
+    @dataclass
+    class specialCfgTriangles:
+        numOfSets: int
+        triangleSetCfg1: list[int]
+        triangleSetCfg2: list[int]
+        triangleSetCfg3: list[int]
+        triangleSetCfg4: list[int]
+        triangleSetCfg5: list[int]
+        triangleSetCfg6: list[int]
+        triangleSetCfg7: list[int]
+        triangleSetCfg8: list[int]
+        triangleSetCfg9: list[int]
+        triangleSetCfg10: list[int]
+        triangleSetCfg11: list[int]
+        triangleSetCfg12: list[int]
+        triangleSetCfg13: list[int]
+        triangleSetCfg14: list[int]
+        triangleSetCfg15: list[int]
+        triangleSetCfg16: list[int]
+        triangleSetCfg17: list[int]
+        triangleSetCfg18: list[int]
+        triangleSetCfg19: list[int]
+        triangleSetCfg20: list[int]
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/inertial.sysml').part_definitions.items()))
-        inertial = cls(root_path)
+        attr = dict(Utils.parse_sysml(root_path+'/skinSpec.sysml').part_definitions.items())
+        skinSpec = cls()
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
@@ -60,18 +52,17 @@ class Inertial(Device):
                         setattr(instance, key, subclass(**params))
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
-
-        set_parameters(inertial, attr)
-        return inertial
-
+        set_parameters(skinSpec, attr)
+        return skinSpec
+    
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
+        root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
-
+        
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name})
 
             for field in fields(dataclass_instance):
                 field_name = field.name
@@ -100,7 +91,7 @@ class Inertial(Device):
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+"/"+file_name, "wb") as writer:
+        with open(root_path+'/'+file_name, "wb") as writer:
             writer.write(xml_object)
 
 def main():

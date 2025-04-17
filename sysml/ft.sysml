@@ -1,6 +1,6 @@
-part inertial : device {
+part ft : device {
     part SERVICE {
-        attribute type : String default "inertial";
+        attribute type : String default "eomn_serv_AS_strain";
         part PROPERTIES {
             part CANBOARDS {
                 attribute type : Array {
@@ -34,33 +34,33 @@ part inertial : device {
             }
             part SENSORS {
                 attribute id : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("acc", "gyro", "mag");
+                    :>> dimensions default 1;
+                    :>> elements : String[dimensions] default ("ft");
                 }
-                attribute sensorName : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("acc", "gyro", "mag");
+                attribute framename : Array {
+                    :>> dimensions default 1;
+                    :>> elements : String[dimensions] default ("ft");
                 }
                 attribute type : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("acc", "gyro", "mag");
-                }
-                attribute boardType : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("brd", "brd", "brd");
+                    :>> dimensions default 1;
+                    :>> elements : String[dimensions] default ("eoas_strain");
                 }
                 attribute location : Array {
-                    :>> dimensions default 3;
-                    :>> elements : String[dimensions] default ("CAN1:1", "CAN1:2", "CAN1:3");
+                    :>> dimensions default 1;
+                    :>> elements : String[dimensions] default ("CAN1:1");
                 }
             }
         }
         part SETTINGS {
-            attribute acquisitionRate : Integer default 50;
+            attribute acquisitionRate: Integer default 10;
             attribute enabledSensors : Array {
-                :>> dimensions default 3;
-                :>> elements : String[dimensions] default ("acc", "gyro", "mag");
+                :>> dimensions default 1;
+                :>> elements : String[dimensions] default ("ft");
             }
+            attribute temperature_acquisitionRate : Integer default 1000;
+        }
+        part STRAIN_SETTINGS {
+            attribute useCalibration : Boolean default true;
         }
     }
 }

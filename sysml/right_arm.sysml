@@ -206,7 +206,7 @@ part def RightArm {
         :>> CONTROLS.speedPid = ("2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL");
         :>> POS_PID_DEFAULT.kp = (-711.11, -1066.66, -711.11, -1066.66);
         :>> POS_PID_DEFAULT.kd = (0.0, 0.0, 0.0, 0.0);
-        :>> POS_PID_DEFAULT.ki = -(7111.09, -10666.64, -7111.09, -10666.64);
+        :>> POS_PID_DEFAULT.ki = (-7111.09, -10666.64, -7111.09, -10666.64);
         :>> POS_PID_DEFAULT.maxOutput = (8000, 8000, 8000, 8000);
         :>> POS_PID_DEFAULT.maxInt = (200, 200, 200, 1000);
         :>> POS_PID_DEFAULT.stictionUp = (0, 0, 0, 0);
@@ -410,7 +410,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (40, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
-    part left_arm_eb3_IMU :> inertial {
+    part right_arm_eb3_IMU :> inertial {
         :>> name = "right_arm-eb3-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
@@ -421,7 +421,49 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
         :>> SERVICE.PROPERTIES.SENSORS.boardType = ("strain2", "strain2", "strain2", "strain2", "strain2");
         :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13", "CAN2:13");
-        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
+        :>> SERVICE.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
+    }
+    part right_arm_eb3_j0_3_strain :> ft {
+        :>> name = "right_arm-eb3-j0_3-strain";
+        :>> type = "embObjFTsensor";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
+        :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
+        :>> SERVICE.PROPERTIES.SENSORS.id = "r_arm_ft";
+        :>> SERVICE.PROPERTIES.SENSORS.framename = "r_arm_ft";
+        :>> SERVICE.PROPERTIES.SENSORS.location = "CAN2:13";
+        :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft");
+    }
+    part right_arm_cartesian :> cartesian {
+        :>> name = "right_arm-cartesian";
+        :>> type = "cartesiancontrollerserver";
+        :>> GENERAL.ControllerName = "icub/cartesianController/right_arm";
+        :>> GENERAL.SolverNameToConnect = "cartesianSolver/right_arm";
+        :>> GENERAL.KinematicType = "right_v2.7";
+        :>> DRIVER_1.Key = "right_arm";
+        :>> startup.level = 15;
+        :>> startup.type = "attach";
+        :>> startup.element = ("torso-mc_remapper", "right_arm-mc_remapper");
+        :>> shutdown.level = 15;
+        :>> shutdown.type = "detach";
+    }
+    part right_arm_eb27_j4_7_skin :> skin {
+        :>> name = "right_arm-eb27-j4_7-skin";
+        :>> type = "embObjSkin";
+        :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
+    }
+    part right_arm_eb27_j4_7_skinSpec :> skinSpec {
+        :>> specialCfgTriangles.triangleSetCfg11 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg12 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg13 = (1, 9, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg14 = (1, 10, 0, 1, 1, 2, "0x2200");
+        :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
+    }
+    part right_arm_eb29_j12_15_mais :> mais {
+        :>> name = "right_arm-eb29-j12_15-mais";
+        :>> type = "embObjMais";
+        :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";
+        :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
+        :>> SERVICE.SETTINGS.enabledSensors = "r_hand_mais";
     }
 }

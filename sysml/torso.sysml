@@ -132,4 +132,11 @@ part def Torso {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (-14400, -14400, -14400);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0);
     }
+    part torso_eb22_skin :> skin {
+        :>> name = "torso-eb22-skin";
+        :>> type = "embObjSkin";
+        :>> patches.skinCanAddrsPatch1 = (7, 8, 9, 10);
+    }
+    part torso_eb22_skinSpec :> skinSpec {
+    }
 }

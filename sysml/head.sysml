@@ -232,7 +232,26 @@ part def Head {
         :>> SERVICE.PROPERTIES.SENSORS.type = ("eoas_imu_acc", "eoas_imu_gyr", "eoas_imu_mag", "eoas_imu_eul", "eoas_imu_status");
         :>> SERVICE.PROPERTIES.SENSORS.boardType = ("rfe", "rfe", "rfe", "rfe", "rfe");
         :>> SERVICE.PROPERTIES.SENSORS.location = ("CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1", "CAN1:1");
-        :>> SERVICE.PROPERTIES.SETTINGS.acquisitionRate = 10;
-        :>> SERVICE.PROPERTIES.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+        :>> SERVICE.SETTINGS.acquisitionRate = 10;
+        :>> SERVICE.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
+    }
+    part dragonfly2_config_right :> dragonfly {
+        :>> name = "dragonfly_right";
+        :>> type = "dragonfly2";
+        :>> guid = "00b09d010123cacb";
+    }
+    part dragonfly2_config_left :> dragonfly {
+        :>> name = "dragonfly_left";
+        :>> type = "dragonfly2";
+        :>> guid = "00b09d010123caca";
+    }
+    part realsense :> realsense {
+        :>> type = "realsense2";
+        :>> name = "realsense2dev";
+        :>> SETTINGS.alignmentFrame = "RGB";
+        :>> HW_DESCRIPTION.clipPlanes = (0.2, 10.0);
+    }
+    part realsense_d405 :> realsense {
+        :>> HW_DESCRIPTION.clipPlanes = (0.01, 10.0);
     }
 }

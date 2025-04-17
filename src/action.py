@@ -3,26 +3,31 @@ from dataclasses import dataclass
 from utils import Utils
 
 @dataclass
-class Phase:
+class Action:
     phase: str
     level: int
     type: str
-    target: str
+    element: list[str]
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/phase.sysml').part_definitions        
+        attr = Utils.parse_sysml(root_path+'/action.sysml').part_definitions    
         attributes = {}
 
         for key, value in attr.items():
             for param in value.parameters:
-                attributes[param] = value.parameters[param].strip('"')
+                if isinstance(value.parameters[param], dict):
+                    attributes[param] = [x for x in value.parameters[param]['value'].strip("()").split(',')]
+                else:
+                    attributes[param] = value.parameters[param].strip('"')
         return cls(**attributes)
         
     def to_xml(self):
         root = etree.Element('action', {'phase': self.phase.strip('"'), "level": str(self.level).strip('"'), "type": self.type.strip('"')})
-        element = etree.SubElement(root, "param", {'name': "target"})
-        element.text = self.target
+        paramlist = etree.SubElement(root, "paramlist", {'name': "networks"})
+        for el in self.element:
+            elem = etree.SubElement(paramlist, "elem", {'name': el.strip('"')})
+            elem.text = el.strip('"')
         
         return etree.tostring(root, pretty_print=True)
     
