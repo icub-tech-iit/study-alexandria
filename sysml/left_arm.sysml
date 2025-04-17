@@ -441,8 +441,11 @@ part def LeftArm {
         :>> GENERAL.SolverNameToConnect = "cartesianSolver/left_arm";
         :>> GENERAL.KinematicType = "left_v2.7";
         :>> DRIVER_1.Key = "left_arm";
+        :>> startup.phase = "startup";
         :>> startup.level = 15;
         :>> startup.type = "attach";
+        :>> startup.element = ("torso-mc_remapper", "left_arm-mc_remapper");
+        :>> shutdown.phase = "shutdown";
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
     }

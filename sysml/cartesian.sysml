@@ -69,6 +69,6 @@ part cartesian : device {
             :>> elements : String[dimensions] default ("(Kp 1.000)", "(Tz 0.000)", "(Tw 0.000)", "(Zeta 0.000)", "(Td 0.000)");
         }
     }
-    part startup : phase;
+    part startup : actionPhase;	
     part shutdown : phase;
 }

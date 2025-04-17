@@ -75,122 +75,38 @@ class Part:
 
         for key, value in attr.items():
             if value.parent:
-                match value.parent:
-                    case 'calibrator':
-                        for calib in calibrator:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(calib, f"calibrator.{override_key}", override_value.strip('"'))
-                            calib.to_xml(robot_path+'/calibrators/', key+'.xml')
-                    case 'electronics':
-                        for elec in electronics:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(elec, f"electronics.{override_key}", override_value.strip('"'))
-                            elec.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
-                    case 'mechanicals':
-                        for mech in mechanicals:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(mech, f"mechanicals.{override_key}", override_value.strip('"'))
-                            mech.to_xml(robot_path+'/hardware/mechanicals/', key+'.xml')
-                    case 'motorControl':
-                        for motor in motorControl:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(motor, f"motorControl.{override_key}", override_value.strip('"'))
-                            motor.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
-                    case 'service':
-                        for serv in service:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(serv, f"service.{override_key}", override_value.strip('"'))
-                            serv.to_xml(robot_path+'/hardware/motorControl/', key+'.xml')
-                    case 'inertial':
-                        for inert in inertial:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(inert, f"inertials.{override_key}", override_value.strip('"'))
-                            inert.to_xml(robot_path+'/hardware/inertials/', key+'.xml')
-                    case 'ft':
-                        for ft_sensor in ft:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(ft_sensor, f"ft.{override_key}", override_value.strip('"'))
-                            ft_sensor.to_xml(robot_path+'/hardware/FT/', key+'.xml')
-                    case 'PC104':
-                        for pc in pc104:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(pc, f"pc104.{override_key}", override_value.strip('"'))
-                            pc.to_xml(robot_path+'/hardware/electronics/', key+'.xml')
-                    case 'cartesian':
-                        for cart in cartesian:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(cart, f"cartesian.{override_key}", override_value.strip('"'))
-                            cart.to_xml(robot_path+'/cartesian/', key+'.xml')
-                    case 'skin':
-                        for sk in skin:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(sk, f"skin.{override_key}", override_value.strip('"'))
-                            sk.to_xml(robot_path+'/hardware/skin/', key+'.xml')
-                    case 'skinSpec':
-                        for skSpec in skinSpec:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(skSpec, f"skinSpec.{override_key}", override_value.strip('"'))
-                            skSpec.to_xml(robot_path+'/hardware/skin/', key+'.xml')
-                    case 'mais':
-                        for mais_sensor in mais:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(mais_sensor, f"mais.{override_key}", override_value.strip('"'))
-                            mais_sensor.to_xml(robot_path+'/hardware/MAIS/', key+'.xml')
-                    case 'dragonfly':
-                        for camera in dragonfly:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(camera, f"dragonfly.{override_key}", override_value.strip('"'))
-                            camera.to_xml(robot_path+'/camera/', key+'.xml')
-                    case 'realsense':
-                        for realsense_camera in realsense:
-                            for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                                if key == specific_override_key:
-                                    value.parameters.update(specific_override_value)
-                            for override_key, override_value in value.parameters.items():
-                                Utils.update(realsense_camera, f"realsense.{override_key}", override_value.strip('"'))
-                            realsense_camera.to_xml(robot_path+'/camera/', key+'.xml')
-                    case _:
-                        print("No match found for part", value.parent)
-
+                def generate_xml(subclass, prefix, folder):
+                    for item in subclass:                            
+                        for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                            if key == specific_override_key:
+                                value.parameters.update(specific_override_value)
+                        for override_key, override_value in value.parameters.items():
+                            Utils.update(item, f"{prefix}.{override_key}", override_value)
+                        item.to_xml(os.path.join(robot_path, folder), f"{key}.xml")
+ 
+                xml_map = {
+                    'calibrator': (calibrator, 'calibrator', 'calibrators/'),
+                    'electronics': (electronics, 'electronics', 'hardware/electronics/'),
+                    'mechanicals': (mechanicals, 'mechanicals', 'hardware/mechanicals/'),
+                    'motorControl': (motorControl, 'motorControl', 'hardware/motorControl/'),
+                    'service': (service, 'service', 'hardware/motorControl/'),
+                    'inertial': (inertial, 'inertials', 'hardware/inertials/'),
+                    'ft': (ft, 'ft', 'hardware/FT/'),
+                    'PC104': (pc104, 'pc104', 'hardware/electronics/'),
+                    'cartesian': (cartesian, 'cartesian', 'cartesian/'),
+                    'skin': (skin, 'skin', 'hardware/skin/'),
+                    'skinSpec': (skinSpec, 'skinSpec', 'hardware/skin/'),
+                    'mais': (mais, 'mais', 'hardware/MAIS/'),
+                    'dragonfly': (dragonfly, 'dragonfly', 'camera/'),
+                    'realsense': (realsense, 'realsense', 'camera/')
+                }
+ 
+                if value.parent in xml_map:
+                    subclass, prefix, folder = xml_map[value.parent]
+                    generate_xml(subclass, prefix, folder)
+                else:
+                    print("No match found for part", value.parent)
+        
 def main():
     pass
 

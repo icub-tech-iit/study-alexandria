@@ -1,6 +1,7 @@
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
 from phase import Phase
+from action import Action
 from device import Device
 from utils import Utils
 
@@ -8,7 +9,7 @@ class Cartesian(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
-        self.startup = Phase
+        self.startup = Action
         self.shutdown = Phase
     
     @dataclass
@@ -58,9 +59,10 @@ class Cartesian(Device):
                     params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
                                 for param, val in value.parameters.items()}
                     setattr(cartesian, key, subclass(**params))
-            elif key in ['startup', 'shutdown']:
+            elif key in ['shutdown']:
                 setattr(cartesian, key, Phase.from_sysml(root_path))
-        
+            elif key in ['startup']:
+                setattr(cartesian, key, Action.from_sysml(root_path))
         return cartesian
 
     def to_xml(self, root_path, file_name):
@@ -93,7 +95,7 @@ class Cartesian(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
-            if isinstance(attr_value, Phase):
+            if isinstance(attr_value, Phase) or isinstance(attr_value, Action):
                 continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)

@@ -2,6 +2,7 @@ from antlr4 import *
 from SysMLv2Lexer import SysMLv2Lexer
 from SysMLv2Parser import SysMLv2Parser
 from SysMLv2Visitor import SysMLv2Visitor
+import ast
 
 class CustomVisitor(SysMLv2Visitor):
     def __init__(self):
@@ -77,7 +78,11 @@ class CustomVisitor(SysMLv2Visitor):
         part.set_parameter(attribute_name, {"dimension": array_dimension, "type": array_type, "value": default_value})
 
     def visitOverride(self, attribute_name, ctx: SysMLv2Parser.OverrideBodyContext, part):
-        override_value = ctx.defaultValue().getText()
+        override_text = ctx.defaultValue().getText()
+        try:
+            override_value = ast.literal_eval(override_text)
+        except (ValueError, SyntaxError):
+            override_value = override_text
         # print(f"  Overriding attribute: {attribute_name}, with value: {override_value}")
 
         part.set_parameter(attribute_name, override_value)

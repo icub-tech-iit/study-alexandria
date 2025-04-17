@@ -107,7 +107,7 @@ class Mechanicals:
                         param.text = "   ".join(map(str, field_value))
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
+                    param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):

@@ -206,7 +206,7 @@ part def RightArm {
         :>> CONTROLS.speedPid = ("2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL", "2FOC_VEL_CONTROL");
         :>> POS_PID_DEFAULT.kp = (-711.11, -1066.66, -711.11, -1066.66);
         :>> POS_PID_DEFAULT.kd = (0.0, 0.0, 0.0, 0.0);
-        :>> POS_PID_DEFAULT.ki = -(7111.09, -10666.64, -7111.09, -10666.64);
+        :>> POS_PID_DEFAULT.ki = (-7111.09, -10666.64, -7111.09, -10666.64);
         :>> POS_PID_DEFAULT.maxOutput = (8000, 8000, 8000, 8000);
         :>> POS_PID_DEFAULT.maxInt = (200, 200, 200, 1000);
         :>> POS_PID_DEFAULT.stictionUp = (0, 0, 0, 0);
@@ -443,6 +443,7 @@ part def RightArm {
         :>> DRIVER_1.Key = "right_arm";
         :>> startup.level = 15;
         :>> startup.type = "attach";
+        :>> startup.element = ("torso-mc_remapper", "right_arm-mc_remapper");
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
     }
