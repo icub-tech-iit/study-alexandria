@@ -1,6 +1,10 @@
 import ScalarValues::*;
 
 part motorControl : device {
+    attribute includes : Array {
+        :>> dimensions default 4;
+        :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml", "../../hardware/mechanicals/mec.xml", "./mc_service.xml");
+    }
     part LIMITS {
         attribute jntPosMin : Array {
             :>> dimensions default 2; 

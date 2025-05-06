@@ -115,6 +115,7 @@ part def Head {
     }
 
     part face_eb22_j0_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml", "../../hardware/mechanicals/face_eb22_j0_mec.xml", "./face_eb22_j0_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "face-eb22-j0-mc";
         :>> LIMITS.jntPosMin = -5;
@@ -143,11 +144,13 @@ part def Head {
         :>> POS_PID_DEFAULT.kff = 0;
     }
     part head_eb20_j0_1_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb20_j0_1_eln.xml", "../../hardware/mechanicals/head_eb20_j0_1_mec.xml", "./head_eb20_j0_1_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
     }
     part head_eb21_j2_5_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml", "../../hardware/mechanicals/head_eb21_j2_5_mec.xml", "./head_eb21_j2_5_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
@@ -222,6 +225,7 @@ part def Head {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
     part head_inertial :> inertial {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml");
         :>> name = "head-inertial";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";

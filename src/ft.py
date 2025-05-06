@@ -8,6 +8,7 @@ class FT(Device):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.type = str
+        self.includes = str
 
     @dataclass
     class SERVICE:
@@ -57,6 +58,8 @@ class FT(Device):
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
+                if key == 'ft':
+                    ft_sensor.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -70,7 +73,8 @@ class FT(Device):
         return ft_sensor
 
     def to_xml(self, root_path, file_name):
-        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        xi_ns = 'http://www.w3.org/2001/XInclude'
+        nsmap = {'xi': xi_ns}
         root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
@@ -99,6 +103,9 @@ class FT(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'includes':
+                for include in attr_value:
+                    etree.SubElement(root, f'{{{xi_ns}}}include', href=include.strip('"'))
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

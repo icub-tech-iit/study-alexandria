@@ -59,6 +59,7 @@ part def Torso {
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1, 2);
     }
     part torso_eb5_j0_2_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/torso_eb5_j0_2_eln.xml", "../../hardware/mechanicals/torso_eb5_j0_2_mec.xml", "./torso_eb5_j0_2_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "torso-eb5-j0_2-mc";
         :>> LIMITS.jntPosMin = (-50, -30, -20);
@@ -133,6 +134,7 @@ part def Torso {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0);
     }
     part torso_eb22_skin :> skin {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml");
         :>> name = "torso-eb22-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (7, 8, 9, 10);
