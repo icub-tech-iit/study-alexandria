@@ -3,6 +3,8 @@ from lxml import etree
 from utils import Utils
 
 class Electronics:
+    def __init__(self):
+        self.includes = str
     @dataclass
     class ETH_BOARD:
         @dataclass
@@ -43,6 +45,8 @@ class Electronics:
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
+                if key == 'electronics':
+                    board.includes = value.parameters['includes'].strip('"')
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -56,7 +60,8 @@ class Electronics:
         return board
 
     def to_xml(self, root_path, file_name):
-        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        xi_ns = 'http://www.w3.org/2001/XInclude'
+        nsmap = {'xi': xi_ns}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
 
         Utils.check_subfolders_existance(root_path, file_name)
@@ -85,6 +90,8 @@ class Electronics:
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'includes':	
+                etree.SubElement(root, f'{{{xi_ns}}}include', href=attr_value)
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

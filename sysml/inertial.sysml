@@ -1,4 +1,8 @@
 part inertial : device {
+    attribute includes : Array {
+        :>> dimensions default 2;
+        :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml");
+    }
     part SERVICE {
         attribute type : String default "inertial";
         part PROPERTIES {

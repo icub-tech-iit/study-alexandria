@@ -6,6 +6,7 @@ from utils import Utils
 
 class Calibrator(Device):
     def __init__(self, root_path):
+        self.includes = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
@@ -51,13 +52,15 @@ class Calibrator(Device):
                     setattr(calib, key, subclass(**params))
             elif key == 'calibrator':
                 calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('"').split(',')]
+                calib.includes = value.parameters['includes'].strip('"')
             elif key in ['startup', 'interrupt1', 'interrupt3']:
                 setattr(calib, key, Phase.from_sysml(root_path))
         
         return calib
 
     def to_xml(self, root_path, file_name):
-        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        xi_ns = 'http://www.w3.org/2001/XInclude'
+        nsmap = {'xi': xi_ns}
         root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
@@ -86,6 +89,8 @@ class Calibrator(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'includes':	
+                etree.SubElement(root, f'{{{xi_ns}}}include', href=attr_value)
             if isinstance(attr_value, Phase):
                 continue
             if is_dataclass(attr_value):

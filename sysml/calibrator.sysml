@@ -1,5 +1,8 @@
 import ScalarValues::*;
+import Collections::*;
+
 part calibrator : device {
+    attribute includes : String default "../general.xml";
     part GENERAL {
         attribute joints : Integer default 1;
         attribute deviceName : String default "foo";

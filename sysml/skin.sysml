@@ -1,4 +1,8 @@
 part skin : device {
+    attribute includes : Array {
+        :>> dimensions default 2;
+        :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml");
+    }
     part patches {
         attribute skinCanAddrsPatch1 : Array {
             :>> dimensions default 1;

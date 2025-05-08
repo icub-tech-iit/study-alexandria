@@ -8,6 +8,7 @@ class MAIS(Device):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.type = str
+        self.includes = str
 
     @dataclass
     class SERVICE:
@@ -46,10 +47,12 @@ class MAIS(Device):
     @classmethod
     def from_sysml(cls, root_path):
         attr = dict(reversed(Utils.parse_sysml(root_path+'/mais.sysml').part_definitions.items()))
-        ft_sensor = cls(root_path)
+        mais = cls(root_path)
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():
+                if key == 'mais':
+                    mais.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -59,11 +62,12 @@ class MAIS(Device):
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
 
-        set_parameters(ft_sensor, attr)
-        return ft_sensor
+        set_parameters(mais, attr)
+        return mais
 
     def to_xml(self, root_path, file_name):
-        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
+        xi_ns = 'http://www.w3.org/2001/XInclude'
+        nsmap = {'xi': xi_ns}
         root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
@@ -92,6 +96,9 @@ class MAIS(Device):
                     param.text = str(field_value.replace('(', ' ').replace(')', ' ').replace(',', ' '))
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'includes':
+                for include in attr_value:
+                    etree.SubElement(root, f'{{{xi_ns}}}include', href=include.strip('"'))
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

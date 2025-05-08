@@ -1,4 +1,8 @@
 part mais : device {
+    attribute includes : Array {
+        :>> dimensions default 2;
+        :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml");
+    }
     part SERVICE {
         attribute type : String default "eomn_serv_AS_mais";
         part PROPERTIES {

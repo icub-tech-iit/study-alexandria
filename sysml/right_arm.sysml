@@ -186,6 +186,7 @@ part def RightArm {
         :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (3);
     }
     part right_arm_eb3_j0_3_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml", "../../hardware/mechanicals/right_arm_eb3_j0_3_mec.xml", "./right_arm_eb3_j0_3_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "right_arm-eb3-j0_3-mc";
         :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
@@ -244,6 +245,7 @@ part def RightArm {
         :>> _2FOC_VEL_CONTROL.kff = (0, 0, 0, 0);
     }
     part right_arm_eb27_j4_7_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb27_j4_7_eln.xml", "../../hardware/mechanicals/right_arm_eb27_j4_7_mec.xml", "./right_arm_eb27_j4_7_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "right_arm-eb27-j4_7-mc";
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);
@@ -288,6 +290,7 @@ part def RightArm {
         :>> TRQ_PID_DEFAULT.ktau = (1, 0, 0, 0);
     }
     part right_arm_eb28_j8_11_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb28_j8_11_eln.xml", "../../hardware/mechanicals/right_arm_eb28_j8_11_mec.xml", "./right_arm_eb28_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "right_arm-eb28-j8_11-mc";
         :>> LIMITS.jntPosMin = (10, 0, 0, 0);
@@ -316,6 +319,7 @@ part def RightArm {
         :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
     }
     part right_arm_eb29_j12_15_mc :> motorControl {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb28_j8_11_eln.xml", "../../hardware/mechanicals/right_arm_eb28_j8_11_mec.xml", "./right_arm_eb28_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> name = "right_arm-eb29-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
@@ -411,6 +415,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
     part right_arm_eb3_IMU :> inertial {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
         :>> name = "right_arm-eb3-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
@@ -425,6 +430,7 @@ part def RightArm {
         :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft_acc", "r_arm_ft_gyro", "r_arm_ft_mag", "r_arm_ft_eul", "r_arm_ft_status");
     }
     part right_arm_eb3_j0_3_strain :> ft {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
         :>> name = "right_arm-eb3-j0_3-strain";
         :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
@@ -448,6 +454,7 @@ part def RightArm {
         :>> shutdown.type = "detach";
     }
     part right_arm_eb27_j4_7_skin :> skin {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb27_j4_7_eln.xml");
         :>> name = "right_arm-eb27-j4_7-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
@@ -460,6 +467,7 @@ part def RightArm {
         :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
     }
     part right_arm_eb29_j12_15_mais :> mais {
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
         :>> name = "right_arm-eb29-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";
