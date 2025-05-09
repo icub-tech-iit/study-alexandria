@@ -258,4 +258,31 @@ part def Head {
     part realsense_d405 :> realsense {
         :>> HW_DESCRIPTION.clipPlanes = (0.01, 10.0);
     }
+
+    part face_mc_wrapper :> wrapper {
+        :>> type = "controlBoard_nws_yarp";
+        :>> name = "face-mc_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/face";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.element = ("face-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
+    part head_mc_wrapper :> wrapper {
+        :>> type = "controlBoard_nws_yarp";
+        :>> name = "head-mc_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/head";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.element = ("head-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
 }

@@ -149,7 +149,7 @@ part def LeftArm {
         :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (2);
         :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (3);
     }
-    part left_arm_eb25_j8_11_mec :> mechanicals {
+    part left_arm_eb26_j12_15_mec :> mechanicals {
         :>> GENERAL.Joints = 4;
         :>> GENERAL.AxisMap = (0, 1, 2, 3);
         :>> GENERAL.AxisName = ("l_index_distal", "l_middle_proximal", "l_middle_distal", "l_pinky");
@@ -470,5 +470,19 @@ part def LeftArm {
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
         :>> SERVICE.SETTINGS.enabledSensors = "l_hand_mais";
+    }
+
+    part left_arm_mc_wrapper :> wrapper {
+        :>> type = "controlBoard_nws_yarp";
+        :>> name = "left_arm-mc_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/left_arm";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.element = "left_arm-mc_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
     }
 }

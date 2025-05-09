@@ -3,7 +3,7 @@ part def actionPhase {
     attribute level : Integer default 1;
     attribute type : String default "type";
     attribute element : Array {
-        :>> dimensions default 2;
-        :>> elements : String[dimensions] default ("elem1", "elem2");
+        :>> dimensions default 1;
+        :>> elements : String[dimensions] default ("elem1");
     }
 }

@@ -14,6 +14,7 @@ from skinSpec import skinSpec
 from mais import MAIS as mais
 from dragonfly import Dragonfly as dragonfly
 from realsense import Realsense as realsense
+from wrapper import Wrapper as wrapper
 from utils import Utils
 class Part:
     def __init__(self):
@@ -32,6 +33,7 @@ class Part:
         self.mais = [mais]
         self.dragonfly = [dragonfly]
         self.realsense = [realsense]
+        self.wrapper = [wrapper]
 
     @classmethod
     def from_sysml(cls, root_path, part_name):
@@ -72,6 +74,7 @@ class Part:
         mais = self.mais[1:]
         dragonfly = self.dragonfly[1:]
         realsense = self.realsense[1:]
+        wrapper = self.wrapper[1:]
 
         for key, value in attr.items():
             if value.parent:
@@ -98,7 +101,10 @@ class Part:
                     'skinSpec': (skinSpec, 'skinSpec', 'hardware/skin/'),
                     'mais': (mais, 'mais', 'hardware/MAIS/'),
                     'dragonfly': (dragonfly, 'dragonfly', 'camera/'),
-                    'realsense': (realsense, 'realsense', 'camera/')
+                    'realsense': (realsense, 'realsense', 'camera/'),
+                    'wrapper': (wrapper, 'wrapper', 'wrapper/motorControl/'),
+                    # 'wrapper': (wrapper, 'wrapper', 'wrapper/FT/'),
+                    # 'wrapper': (wrapper, 'wrapper', 'wrapper/inertials/'),
                 }
  
                 if value.parent in xml_map:

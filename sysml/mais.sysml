@@ -1,3 +1,4 @@
+import ScalarValues::*;
 part mais : device {
     attribute includes : Array {
         :>> dimensions default 2;

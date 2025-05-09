@@ -141,4 +141,18 @@ part def Torso {
     }
     part torso_eb22_skinSpec :> skinSpec {
     }
+
+    part torso_mc_wrapper :> wrapper {
+        :>> type = "controlBoard_nws_yarp";
+        :>> name = "torso-mc_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/torso";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.element = "torso-mc_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
 }

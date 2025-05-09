@@ -25,9 +25,13 @@ class Action:
     def to_xml(self):
         root = etree.Element('action', {'phase': self.phase.strip('"'), "level": str(self.level).strip('"'), "type": self.type.strip('"')})
         paramlist = etree.SubElement(root, "paramlist", {'name': "networks"})
-        for el in self.element:
-            elem = etree.SubElement(paramlist, "elem", {'name': el.strip('"')})
-            elem.text = el.strip('"')
+        if isinstance(self.element, tuple):
+            for el in self.element:
+                elem = etree.SubElement(paramlist, "elem", {'name': el.strip('"')})
+                elem.text = el.strip('"')
+        else:
+            elem = etree.SubElement(paramlist, "elem", {'name': self.element.strip('"')})
+            elem.text = self.element.strip('"')
         
         return etree.tostring(root, pretty_print=True)
     

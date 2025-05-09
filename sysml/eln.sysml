@@ -1,5 +1,6 @@
 import ScalarValues::*;
 import VectorValues::*;
+import Collections::*;
 part electronics {
     attribute includes : String default "./pc104.xml";
     part ETH_BOARD {

@@ -474,4 +474,18 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
         :>> SERVICE.SETTINGS.enabledSensors = "r_hand_mais";
     }
+
+    part right_arm_mc_wrapper :> wrapper {
+        :>> type = "controlBoard_nws_yarp";
+        :>> name = "right_arm-mc_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/right_arm";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.element = ("right_arm-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
 }
