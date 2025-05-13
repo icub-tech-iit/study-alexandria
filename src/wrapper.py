@@ -52,9 +52,7 @@ class Wrapper(Device):
             writer.write(xml_object)
 
 def main():
-    # pass
-    wrapper = Wrapper.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    wrapper.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'wrapper.xml')
+    pass
 
 if __name__ == "__main__":
     main()

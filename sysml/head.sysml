@@ -285,4 +285,31 @@ part def Head {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 15;
     }
+
+    part head_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "head-mc_remapper";
+        :>> element = ("( 0  1  0  1 )", "( 2  5  0  3 )");
+        :>> joints = 6;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.element = ("head-eb20-j0_1-mc", "head-eb21-j2_5-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
+    part face_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "face-mc_remapper";
+        :>> element = ("( 0  0 0  0 )");
+        :>> joints = 1;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.element = ("face-eb22-j0-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
 }

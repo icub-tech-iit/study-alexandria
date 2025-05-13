@@ -488,4 +488,17 @@ part def RightArm {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 15;
     }
+    part right_arm_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "right_arm-mc_remapper";
+        :>> element = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
+        :>> joints = 16;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.element = ("right_arm-eb3-j0_3-mc", "right_arm-eb27-j4_7-mc", "right_arm-eb28-j8_11-mc", "right_arm-eb29-j12_15-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
 }

@@ -155,4 +155,17 @@ part def Torso {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 15;
     }
+    part torso_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "torso-mc_remapper";
+        :>> element = ("( 0  2  0  2 )");
+        :>> joints = 3;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.element = ("torso-eb5-j0_2-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
 }
