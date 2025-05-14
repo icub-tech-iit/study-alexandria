@@ -34,7 +34,12 @@ class Part:
         self.mais = [mais]
         self.dragonfly = [dragonfly]
         self.realsense = [realsense]
-        self.wrapper = [wrapper]
+        self.wrapper_mc = [wrapper]
+        self.wrapper_ft = [wrapper]
+        self.wrapper_mais = [wrapper]
+        self.wrapper_camera = [wrapper]
+        self.wrapper_realsense = [wrapper]
+        self.wrapper_inertial = [wrapper]
         self.remapper = [remapper]
 
     @classmethod
@@ -76,8 +81,13 @@ class Part:
         mais = self.mais[1:]
         dragonfly = self.dragonfly[1:]
         realsense = self.realsense[1:]
-        wrapper = self.wrapper[1:]
+        wrapper_mc = self.wrapper_mc[1:]
         remapper = self.remapper[1:]
+        wrapper_ft = self.wrapper_ft[1:]
+        wrapper_mais = self.wrapper_mais[1:]
+        wrapper_camera = self.wrapper_camera[1:]
+        wrapper_realsense = self.wrapper_realsense[1:]
+        wrapper_inertial = self.wrapper_inertial[1:]
 
         for key, value in attr.items():
             if value.parent:
@@ -105,10 +115,13 @@ class Part:
                     'mais': (mais, 'mais', 'hardware/MAIS/'),
                     'dragonfly': (dragonfly, 'dragonfly', 'camera/'),
                     'realsense': (realsense, 'realsense', 'camera/'),
-                    'wrapper': (wrapper, 'wrapper', 'wrappers/motorControl/'),
+                    'wrapper_mc': (wrapper_mc, 'wrapper_mc', 'wrappers/motorControl/'),
+                    'wrapper_ft': (wrapper_ft, 'wrapper_ft', 'wrappers/FT/'),
+                    'wrapper_mais': (wrapper_mais, 'wrapper_mais', 'wrappers/MAIS/'),
+                    'wrapper_camera': (wrapper_camera, 'wrapper_camera', 'wrappers/camera/'),
+                    'wrapper_realsense': (wrapper_realsense, 'wrapper_realsense', 'wrappers/camera/'),
+                    'wrapper_inertial': (wrapper_inertial, 'wrapper_inertial', 'wrappers/inertials/'),
                     'remapper': (remapper, 'remapper', 'wrappers/motorControl/'),
-                    # 'wrapper': (wrapper, 'wrapper', 'wrapper/FT/'),
-                    # 'wrapper': (wrapper, 'wrapper', 'wrapper/inertials/'),
                 }
  
                 if value.parent in xml_map:

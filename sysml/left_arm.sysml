@@ -450,7 +450,8 @@ part def LeftArm {
         :>> startup.phase = "startup";
         :>> startup.level = 15;
         :>> startup.type = "attach";
-        :>> startup.element = ("torso-mc_remapper", "left_arm-mc_remapper");
+        :>> startup.elementName = ("torso", "left_arm");
+        :>> startup.elementValue = ("torso-mc_remapper", "left_arm-mc_remapper");
         :>> shutdown.phase = "shutdown";
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
@@ -472,15 +473,16 @@ part def LeftArm {
         :>> SERVICE.SETTINGS.enabledSensors = "l_hand_mais";
     }
 
-    part left_arm_mc_wrapper :> wrapper {
-        :>> type = "controlBoard_nws_yarp";
+    part left_arm_mc_wrapper :> wrapper_mc {
         :>> name = "left_arm-mc_nws_yarp";
+        :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
         :>> portName = "/icub/left_arm";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
-        :>> startup.element = "left_arm-mc_remapper";
+        :>> startup.elementName = "device";
+        :>> startup.elementValue = "left_arm-mc_remapper";
         :>> shutdown.phase = "shutdown";
         :>> shutdown.type = "detach";
         :>> shutdown.level = 15;
@@ -488,14 +490,61 @@ part def LeftArm {
     part left_arm_mc_remapper :> remapper {
         :>> type = "controlboardremapper";
         :>> name = "left_arm-mc_remapper";
-        :>> element = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
+        :>> elementName = ("left_arm_joints1", "left_arm_joints2", "left_arm_joints3", "left_arm_joints4");
+        :>> elementValue = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
         :>> joints = 16;
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
-        :>> startup.element = ("left_arm-eb1-j0_3-mc", "left_arm-eb24-j4_7-mc", "left_arm-eb25-j8_11-mc", "left_arm-eb26-j12_15-mc");
+        :>> startup.elementName = ("left_arm_joints1", "left_arm_joints2", "left_arm_joints3", "left_arm_joints4");
+        :>> startup.elementValue = ("left_arm-eb1-j0_3-mc", "left_arm-eb24-j4_7-mc", "left_arm-eb25-j8_11-mc", "left_arm-eb26-j12_15-mc");
         :>> shutdown.phase = "shutdown";
         :>> shutdown.type = "detach";
         :>> shutdown.level = 20;
+    }
+
+    part left_arm_FT_wrapper :> wrapper_ft {
+        :>> name = "left_arm-FT_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/left_arm/FT";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "FirstStrain";
+        :>> startup.elementValue = "left_arm-eb1-j0_3-strain";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+
+    part left_arm_mais_wrapper :> wrapper_mais {
+        :>> name = "left_arm-mais_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/left_arm/MAIS";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "leftMais";
+        :>> startup.elementValue = "left_arm-eb26-j12_15-mais";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+
+    part left_arm_inertials_wrapper :> wrapper_inertial {
+        :>> name = "left_arm-inertials_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/left_arm/inertials";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "SetOfIMUs";
+        :>> startup.elementValue = "left_arm-inertials_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
     }
 }
