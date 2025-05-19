@@ -4,6 +4,7 @@ from utils import Utils
 
 @dataclass
 class PC104:
+    folder_name: str
     PC104IpAddress: str
     PC104IpPort: int
     PC104TXrate: int
@@ -27,6 +28,8 @@ class PC104:
 
         group_elem = etree.SubElement(root, "group", {"name": self.__class__.__name__})
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'folder_name':
+                continue
             param = etree.SubElement(group_elem, "param", {'name': attr_name})
             param.text = str(attr_value)
         etree.indent(root, space='    ')

@@ -7,6 +7,7 @@ class motorControl(Device):
     def __init__(self, root_path):
         self.root_path = root_path
         self.includes = str
+        self.folder_name = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
 
@@ -108,6 +109,7 @@ class motorControl(Device):
             for key, value in attributes.items():
                 if key == 'motorControl':
                     mc.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
+                    mc.folder_name = value.parameters['folder_name'].strip('"')
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -154,6 +156,8 @@ class motorControl(Device):
             if attr_name == 'includes':
                 for include in attr_value:
                     etree.SubElement(root, f'{{{xi_ns}}}include', href=include.strip('"'))
+            if attr_name == 'folder_name':
+                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

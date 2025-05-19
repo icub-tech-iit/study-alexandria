@@ -1,4 +1,5 @@
 part cartesian : device {
+    attribute folder_name : String default "cartesian/";
     part GENERAL {
         attribute ControllerName : String default "foo";
         attribute ControllerPeriod : Integer default 10;

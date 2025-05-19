@@ -1,4 +1,6 @@
+import ScalarValues::*;
 part mais : device {
+    attribute folder_name : String default "hardware/MAIS/";
     attribute includes : Array {
         :>> dimensions default 2;
         :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml");

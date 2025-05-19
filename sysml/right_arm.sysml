@@ -449,7 +449,8 @@ part def RightArm {
         :>> DRIVER_1.Key = "right_arm";
         :>> startup.level = 15;
         :>> startup.type = "attach";
-        :>> startup.element = ("torso-mc_remapper", "right_arm-mc_remapper");
+        :>> startup.elementName = ("torso", "right_arm");
+        :>> startup.elementValue = ("torso-mc_remapper", "right_arm-mc_remapper");
         :>> shutdown.level = 15;
         :>> shutdown.type = "detach";
     }
@@ -473,5 +474,83 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
         :>> SERVICE.SETTINGS.enabledSensors = "r_hand_mais";
+    }
+
+    part right_arm_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
+        :>> name = "right_arm-mc_nws_yarp";
+        :>> type = "controlBoard_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/right_arm";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.elementName = "device";
+        :>> startup.elementValue = ("right_arm-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
+    part right_arm_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "right_arm-mc_remapper";
+        :>> elementName = ("right_arm_joints1", "right_arm_joints2", "right_arm_joints3", "right_arm_joints4");
+        :>> elementValue = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
+        :>> joints = 16;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = ("right_arm_joints1", "right_arm_joints2", "right_arm_joints3", "right_arm_joints4");
+        :>> startup.elementValue = ("right_arm-eb3-j0_3-mc", "right_arm-eb27-j4_7-mc", "right_arm-eb28-j8_11-mc", "right_arm-eb29-j12_15-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
+
+    part right_arm_FT_wrapper :> wrapper {
+        :>> folder_name = "wrappers/FT/";
+        :>> name = "right_arm-FT_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/right_arm/FT";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "FirstStrain";
+        :>> startup.elementValue = "right_arm-eb3-j0_3-strain";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+    part right_arm_mais_wrapper :> wrapper {
+        :>> folder_name = "wrappers/MAIS/";
+        :>> name = "right_arm-mais_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/right_arm/MAIS";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "rightMais";
+        :>> startup.elementValue = "right_arm-eb29-j12_15-mais";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+
+    part right_arm_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
+        :>> name = "right_arm-inertials_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/right_arm/inertials";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "SetOfIMUs";
+        :>> startup.elementValue = "right_arm-inertials_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
     }
 }

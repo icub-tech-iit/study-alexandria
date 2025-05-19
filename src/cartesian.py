@@ -11,6 +11,7 @@ class Cartesian(Device):
         super().__init__(**device.__dict__)
         self.startup = Action
         self.shutdown = Phase
+        self.folder_name = str
     
     @dataclass
     class GENERAL:
@@ -63,6 +64,8 @@ class Cartesian(Device):
                 setattr(cartesian, key, Phase.from_sysml(root_path))
             elif key in ['startup']:
                 setattr(cartesian, key, Action.from_sysml(root_path))
+            elif key == 'cartesian':
+                cartesian.folder_name = value.parameters['folder_name'].strip('"')
         return cartesian
 
     def to_xml(self, root_path, file_name):
@@ -95,6 +98,8 @@ class Cartesian(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'folder_name':
+                continue
             if isinstance(attr_value, Phase) or isinstance(attr_value, Action):
                 continue
             if is_dataclass(attr_value):

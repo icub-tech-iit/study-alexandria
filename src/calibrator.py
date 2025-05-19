@@ -7,6 +7,7 @@ from utils import Utils
 class Calibrator(Device):
     def __init__(self, root_path):
         self.includes = str
+        self.folder_name = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.CALIB_ORDER = list[float]
@@ -53,9 +54,9 @@ class Calibrator(Device):
             elif key == 'calibrator':
                 calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('"').split(',')]
                 calib.includes = value.parameters['includes'].strip('"')
+                calib.folder_name = value.parameters['folder_name'].strip('"')
             elif key in ['startup', 'interrupt1', 'interrupt3']:
                 setattr(calib, key, Phase.from_sysml(root_path))
-        
         return calib
 
     def to_xml(self, root_path, file_name):
@@ -91,7 +92,7 @@ class Calibrator(Device):
         for attr_name, attr_value in self.__dict__.items():
             if attr_name == 'includes':	
                 etree.SubElement(root, f'{{{xi_ns}}}include', href=attr_value)
-            if isinstance(attr_value, Phase):
+            if isinstance(attr_value, Phase) and attr_name in ['startup', 'interrupt1', 'interrupt3', 'folder_name']:
                 continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)

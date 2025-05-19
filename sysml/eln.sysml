@@ -1,7 +1,9 @@
 import ScalarValues::*;
 import VectorValues::*;
+import Collections::*;
 part electronics {
     attribute includes : String default "./pc104.xml";
+    attribute folder_name : String default "hardware/electronics/";
     part ETH_BOARD {
         part ETH_BOARD_PROPERTIES {
             attribute IpAddress : String default "10.0.1.1";

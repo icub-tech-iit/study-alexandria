@@ -8,6 +8,7 @@ class Skin(Device):
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.includes = str
+        self.folder_name = str
 
     @dataclass
     class patches:
@@ -23,6 +24,7 @@ class Skin(Device):
             for key, value in attributes.items():
                 if key == 'skin':
                     skin.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
+                    skin.folder_name = value.parameters['folder_name'].strip('"')
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -66,6 +68,8 @@ class Skin(Device):
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'folder_name':
+                continue
             if attr_name == 'includes':
                 for include in attr_value:
                     etree.SubElement(root, f'{{{xi_ns}}}include', href=include.strip('"'))

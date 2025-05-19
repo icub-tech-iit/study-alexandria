@@ -47,6 +47,9 @@ class Utils:
             overrides[instance_name][param_name] = value
         return overrides
 
+    def extract_folder_name(self) -> str:
+        return self.folder_name
+
 def main():
     pass
 

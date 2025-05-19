@@ -1,4 +1,5 @@
 part inertial : device {
+    attribute folder_name : String default "hardware/inertials/";
     attribute includes : Array {
         :>> dimensions default 2;
         :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml");

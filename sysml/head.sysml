@@ -249,7 +249,7 @@ part def Head {
         :>> type = "dragonfly2";
         :>> guid = "00b09d010123caca";
     }
-    part realsense :> realsense {
+    part realsense1 :> realsense {
         :>> type = "realsense2";
         :>> name = "realsense2dev";
         :>> SETTINGS.alignmentFrame = "RGB";
@@ -257,5 +257,128 @@ part def Head {
     }
     part realsense_d405 :> realsense {
         :>> HW_DESCRIPTION.clipPlanes = (0.01, 10.0);
+    }
+    part face_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
+        :>> name = "face-mc_nws_yarp";
+        :>> type = "controlBoard_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/face";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.elementName = "device";
+        :>> startup.elementValue = ("face-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
+    part head_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
+        :>> name = "head-mc_nws_yarp";
+        :>> type = "controlBoard_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/head";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.elementName = "device";
+        :>> startup.elementValue = ("head-mc_remapper");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
+
+    part head_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "head-mc_remapper";
+        :>> elementName = ("head_joints1", "head_joints2");
+        :>> elementValue = ("( 0  1  0  1 )", "( 2  5  0  3 )");
+        :>> joints = 6;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = ("head_joints1", "head_joints2");
+        :>> startup.elementValue = ("head-eb20-j0_1-mc", "head-eb21-j2_5-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
+    part face_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "face-mc_remapper";
+        :>> elementName = "face_joints";
+        :>> elementValue = ("( 0  0 0  0 )");
+        :>> joints = 1;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "face_joints";
+        :>> startup.elementValue = ("face-eb22-j0-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
+
+    part left_cam_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
+        :>> name = "left_cam-nws_yarp";
+        :>> type = "frameGrabber_nws_yarp";
+        :>> period = 0.033;
+        :>> portName = "/icub/cam/left";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "subdevicergbd";
+        :>> startup.elementValue = ("dragonfly_left");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+    part right_cam_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
+        :>> name = "right_cam-nws_yarp";
+        :>> type = "frameGrabber_nws_yarp";
+        :>> period = 0.033;
+        :>> portName = "/icub/cam/right";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "subdevicergbd";
+        :>> startup.elementValue = ("dragonfly_right");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+    part realsense_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
+        :>> name = "RGBDWrapperyarp";
+        :>> type = "rgbdSensor_nws_yarp";
+        :>> period = 0.033;
+        :>> portName = "/depthCamera";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "subdevicergbd";
+        :>> startup.elementValue = ("realsense2dev");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
+
+    part head_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
+        :>> name = "head-inertials_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/head/inertials";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "SetOfIMUs";
+        :>> startup.elementValue = ("head-inertial");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
     }
 }

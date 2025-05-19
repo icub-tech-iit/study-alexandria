@@ -2,6 +2,8 @@ from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from utils import Utils
 class skinSpec:
+    def __init__(self):
+        self.folder_name = str
     @dataclass
     class defaultCfgBoard:
         period: int
@@ -52,6 +54,8 @@ class skinSpec:
                         setattr(instance, key, subclass(**params))
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+                if key == 'skinSpec':
+                    skinSpec.folder_name = value.parameters['folder_name'].strip('"')
         set_parameters(skinSpec, attr)
         return skinSpec
     
@@ -85,6 +89,8 @@ class skinSpec:
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'folder_name':
+                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

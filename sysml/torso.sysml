@@ -141,4 +141,50 @@ part def Torso {
     }
     part torso_eb22_skinSpec :> skinSpec {
     }
+
+    part torso_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
+        :>> name = "torso-mc_nws_yarp";
+        :>> type = "controlBoard_nws_yarp";
+        :>> period = 0.01;
+        :>> portName = "/icub/torso";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.elementName = "device";
+        :>> startup.elementValue = "torso-mc_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 15;
+    }
+    part torso_mc_remapper :> remapper {
+        :>> type = "controlboardremapper";
+        :>> name = "torso-mc_remapper";
+        :>> elementName = "torso_joints";
+        :>> elementValue = ("( 0  2  0  2 )");
+        :>> joints = 3;
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "torso_joints";
+        :>> startup.elementValue = ("torso-eb5-j0_2-mc");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 20;
+    }
+    part torso_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
+        :>> name = "torso-inertials_wrapper";
+        :>> type = "multipleanalogsensorsserver";
+        :>> period = 10;
+        :>> portName = "/icub/torso/inertials";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 5;
+        :>> startup.elementName = "SetOfIMUs";
+        :>> startup.elementValue = "torso-inertial_remapper";
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
+        :>> shutdown.level = 5;
+    }
 }
