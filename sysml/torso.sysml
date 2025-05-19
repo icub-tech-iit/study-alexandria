@@ -142,7 +142,8 @@ part def Torso {
     part torso_eb22_skinSpec :> skinSpec {
     }
 
-    part torso_mc_wrapper :> wrapper_mc {
+    part torso_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> name = "torso-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
@@ -171,7 +172,8 @@ part def Torso {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 20;
     }
-    part torso_inertials_wrapper :> wrapper_inertial {
+    part torso_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
         :>> name = "torso-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;

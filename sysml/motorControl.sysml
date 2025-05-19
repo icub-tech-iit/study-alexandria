@@ -1,6 +1,7 @@
 import ScalarValues::*;
 
 part motorControl : device {
+    attribute folder_name : String default "hardware/motorControl/";
     attribute includes : Array {
         :>> dimensions default 4;
         :>> elements : String[dimensions] default ("../../general.xml", "../../hardware/electronics/eln.xml", "../../hardware/mechanicals/mec.xml", "./mc_service.xml");

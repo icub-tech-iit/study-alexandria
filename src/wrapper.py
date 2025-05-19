@@ -10,8 +10,10 @@ class Wrapper(Device):
     period: float
     portName: str
     startup: Action
-    shutdown: Phase    
+    shutdown: Phase
+
     def __init__(self, root_path, **kwargs):
+        self.folder_name = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.__dict__.update(kwargs)
@@ -37,7 +39,7 @@ class Wrapper(Device):
         Utils.check_subfolders_existance(root_path, file_name)
 
         for attr_name, attr_value in self.__dict__.items():
-            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['type', 'name']:
+            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['type', 'name', 'folder_name']:
                 continue
             param = etree.SubElement(root, "param", {'name': attr_name})
             param.text = str(attr_value)

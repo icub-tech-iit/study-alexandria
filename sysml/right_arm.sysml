@@ -476,7 +476,8 @@ part def RightArm {
         :>> SERVICE.SETTINGS.enabledSensors = "r_hand_mais";
     }
 
-    part right_arm_mc_wrapper :> wrapper_mc {
+    part right_arm_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> name = "right_arm-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
@@ -506,7 +507,8 @@ part def RightArm {
         :>> shutdown.level = 20;
     }
 
-    part right_arm_FT_wrapper :> wrapper_ft {
+    part right_arm_FT_wrapper :> wrapper {
+        :>> folder_name = "wrappers/FT/";
         :>> name = "right_arm-FT_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
@@ -520,7 +522,8 @@ part def RightArm {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 5;
     }
-    part right_arm_mais_wrapper :> wrapper_mais {
+    part right_arm_mais_wrapper :> wrapper {
+        :>> folder_name = "wrappers/MAIS/";
         :>> name = "right_arm-mais_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
@@ -535,7 +538,8 @@ part def RightArm {
         :>> shutdown.level = 5;
     }
 
-    part right_arm_inertials_wrapper :> wrapper_inertial {
+    part right_arm_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
         :>> name = "right_arm-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;

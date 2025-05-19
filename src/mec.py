@@ -2,6 +2,8 @@ from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from utils import Utils
 class Mechanicals:
+    def __init__(self):
+        self.folder_name = str
     @dataclass
     class GENERAL:
         MotioncontrolVersion: int
@@ -77,6 +79,8 @@ class Mechanicals:
                         setattr(instance, key, subclass(**params))
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+                elif key == 'mechanicals':
+                    mec.folder_name = value.parameters['folder_name'].strip('"')
         set_parameters(mec, attr)
         return mec
     

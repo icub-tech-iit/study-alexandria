@@ -1,4 +1,5 @@
 part realsense : device {
+    attribute folder_name : String default "camera/";
     part SETTINGS {
         attribute depthResolution : Array {
             :>> dimensions default 2;

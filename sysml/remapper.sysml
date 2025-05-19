@@ -1,4 +1,5 @@
 part remapper : device {
+    attribute folder_name : String default "wrappers/";
     attribute elementName : Array {
         :>> dimensions default 1;
         :>> elements : String[dimensions] default ("elem1");

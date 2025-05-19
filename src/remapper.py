@@ -13,6 +13,7 @@ class Remapper(Device):
     startup: Action
     shutdown: Phase    
     def __init__(self, root_path, **kwargs):
+        self.folder_name = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
         self.__dict__.update(kwargs)
@@ -48,7 +49,7 @@ class Remapper(Device):
             elem.text = elem_value.strip('"')
 
         for attr_name, attr_value in self.__dict__.items():
-            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['type', 'name', 'elementName', 'elementValue']:
+            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['type', 'name', 'elementName', 'elementValue', 'folder_name']:
                 continue
             else:
                 param = etree.SubElement(root, "param", {"name": attr_name})
@@ -64,9 +65,7 @@ class Remapper(Device):
             writer.write(xml_object)
 
 def main():
-    # pass
-    remapper = Remapper.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    remapper.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'remapper.xml')
+    pass
 
 if __name__ == "__main__":
     main()

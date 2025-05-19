@@ -5,6 +5,7 @@ from utils import Utils
 class Electronics:
     def __init__(self):
         self.includes = str
+        self.folder_name = str
     @dataclass
     class ETH_BOARD:
         @dataclass
@@ -47,6 +48,7 @@ class Electronics:
             for key, value in attributes.items():
                 if key == 'electronics':
                     board.includes = value.parameters['includes'].strip('"')
+                    board.folder_name = value.parameters['folder_name'].strip('"')                    
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -92,6 +94,8 @@ class Electronics:
         for attr_name, attr_value in self.__dict__.items():
             if attr_name == 'includes':	
                 etree.SubElement(root, f'{{{xi_ns}}}include', href=attr_value)
+            if attr_name == 'folder_name':
+                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

@@ -9,6 +9,7 @@ class MAIS(Device):
         super().__init__(**device.__dict__)
         self.type = str
         self.includes = str
+        self.folder_name = str
 
     @dataclass
     class SERVICE:
@@ -53,6 +54,7 @@ class MAIS(Device):
             for key, value in attributes.items():
                 if key == 'mais':
                     mais.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
+                    mais.folder_name = value.parameters['folder_name'].strip('"')
                 if hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -99,6 +101,8 @@ class MAIS(Device):
             if attr_name == 'includes':
                 for include in attr_value:
                     etree.SubElement(root, f'{{{xi_ns}}}include', href=include.strip('"'))
+            if attr_name == 'folder_name':
+                continue
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
 

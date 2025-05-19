@@ -249,7 +249,7 @@ part def Head {
         :>> type = "dragonfly2";
         :>> guid = "00b09d010123caca";
     }
-    part realsense :> realsense {
+    part realsense1 :> realsense {
         :>> type = "realsense2";
         :>> name = "realsense2dev";
         :>> SETTINGS.alignmentFrame = "RGB";
@@ -258,8 +258,8 @@ part def Head {
     part realsense_d405 :> realsense {
         :>> HW_DESCRIPTION.clipPlanes = (0.01, 10.0);
     }
-
-    part face_mc_wrapper :> wrapper_mc {
+    part face_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> name = "face-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
@@ -273,7 +273,8 @@ part def Head {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 15;
     }
-    part head_mc_wrapper :> wrapper_mc {
+    part head_mc_wrapper :> wrapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> name = "head-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
@@ -319,7 +320,8 @@ part def Head {
         :>> shutdown.level = 20;
     }
 
-    part left_cam_nws_yarp :> wrapper_camera {
+    part left_cam_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
         :>> name = "left_cam-nws_yarp";
         :>> type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
@@ -333,7 +335,8 @@ part def Head {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 5;
     }
-    part right_cam_nws_yarp :> wrapper_camera {
+    part right_cam_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
         :>> name = "right_cam-nws_yarp";
         :>> type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
@@ -347,7 +350,8 @@ part def Head {
         :>> shutdown.type = "detach";
         :>> shutdown.level = 5;
     }
-    part realsense_nws_yarp :> wrapper_realsense {
+    part realsense_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/camera/";
         :>> name = "RGBDWrapperyarp";
         :>> type = "rgbdSensor_nws_yarp";
         :>> period = 0.033;
@@ -362,7 +366,8 @@ part def Head {
         :>> shutdown.level = 5;
     }
 
-    part head_inertials_wrapper :> wrapper_inertial {
+    part head_inertials_wrapper :> wrapper {
+        :>> folder_name = "wrappers/inertials/";
         :>> name = "head-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;

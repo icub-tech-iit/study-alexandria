@@ -1,4 +1,5 @@
 part dragonfly : device {
+    attribute folder_name : String default "camera/";
     attribute width : Integer default 320;
     attribute height : Integer default 240;
     attribute video_type : Integer default 1;

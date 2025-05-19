@@ -1,5 +1,6 @@
 import Collections::*;
 part service {
+    attribute folder_name : String default "hardware/motorControl/";
     part SERVICE {
         attribute type : Array {
             :>> dimensions default 1; 

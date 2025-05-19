@@ -1,4 +1,5 @@
 part skinSpec {
+    attribute folder_name : String default "hardware/skin/";
     part defaultCfgBoard {
         attribute period : Integer default 50;
         attribute skinType : Integer default 8;

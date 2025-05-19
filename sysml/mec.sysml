@@ -1,5 +1,6 @@
 import ScalarValues::*;
 part mechanicals {
+	attribute folder_name : String default "hardware/mechanicals/";
 	part GENERAL {
 		attribute MotioncontrolVersion : Integer default 6;
 		attribute Joints : Integer default 2;

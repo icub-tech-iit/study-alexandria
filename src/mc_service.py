@@ -6,6 +6,7 @@ from utils import Utils
 class Service:
     def __init__(self, root_path):
         self.root_path = root_path
+        self.folder_name = str
     @dataclass
     class SERVICE:
         type: list[str]
@@ -60,6 +61,8 @@ class Service:
                         setattr(instance, key, subclass(**params))
                     if value.children:
                         set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+                elif key == 'service':
+                    service.folder_name = value.parameters['folder_name'].strip('"')
         set_parameters(service, attr)
         return service
 
@@ -94,6 +97,8 @@ class Service:
         for attr_name, attr_value in self.__dict__.items():
             if is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
+            if attr_name == 'folder_name':
+                continue
 
         etree.indent(root, space='    ')
         doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'

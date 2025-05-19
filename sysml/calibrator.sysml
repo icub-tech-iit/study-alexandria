@@ -3,6 +3,7 @@ import Collections::*;
 
 part calibrator : device {
     attribute includes : String default "../general.xml";
+    attribute folder_name : String default "calibrators/";
     part GENERAL {
         attribute joints : Integer default 1;
         attribute deviceName : String default "foo";
