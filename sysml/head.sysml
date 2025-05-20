@@ -290,6 +290,7 @@ part def Head {
     }
 
     part head_mc_remapper :> remapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
         :>> name = "head-mc_remapper";
         :>> elementName = ("head_joints1", "head_joints2");
@@ -305,6 +306,7 @@ part def Head {
         :>> shutdown.level = 20;
     }
     part face_mc_remapper :> remapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
         :>> name = "face-mc_remapper";
         :>> elementName = "face_joints";

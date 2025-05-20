@@ -158,6 +158,7 @@ part def Torso {
         :>> shutdown.level = 15;
     }
     part torso_mc_remapper :> remapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
         :>> name = "torso-mc_remapper";
         :>> elementName = "torso_joints";

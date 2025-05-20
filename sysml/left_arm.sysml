@@ -489,6 +489,7 @@ part def LeftArm {
         :>> shutdown.level = 15;
     }
     part left_arm_mc_remapper :> remapper {
+        :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
         :>> name = "left_arm-mc_remapper";
         :>> elementName = ("left_arm_joints1", "left_arm_joints2", "left_arm_joints3", "left_arm_joints4");
