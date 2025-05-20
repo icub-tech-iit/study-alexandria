@@ -1,6 +1,6 @@
 from lxml import etree
 from dataclasses import dataclass
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 @dataclass
 class PC104:
@@ -12,7 +12,7 @@ class PC104:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/templates/pc104.sysml').part_definitions        
+        attr = parse_sysml(root_path+'/templates/pc104.sysml').part_definitions        
         attributes = {}
 
         for key, value in attr.items():
@@ -24,7 +24,7 @@ class PC104:
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
 
         group_elem = etree.SubElement(root, "group", {"name": self.__class__.__name__})
         for attr_name, attr_value in self.__dict__.items():

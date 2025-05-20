@@ -1,6 +1,6 @@
 from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 class Electronics:
     def __init__(self):
@@ -41,7 +41,7 @@ class Electronics:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/eln.sysml').part_definitions.items()))
+        attr = dict(reversed(parse_sysml(root_path+'/templates/eln.sysml').part_definitions.items()))
         board = cls()
 
         def set_parameters(instance, attributes):
@@ -66,7 +66,7 @@ class Electronics:
         nsmap = {'xi': xi_ns}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
 
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
 
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})

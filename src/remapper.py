@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from device import Device
 from phase import Phase
 from action import Action
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 @dataclass
 class Remapper(Device):
@@ -20,7 +20,7 @@ class Remapper(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/templates/remapper.sysml').part_definitions
+        attr = parse_sysml(root_path+'/templates/remapper.sysml').part_definitions
         params = {}
         for key, value in attr.items():
             for param in value.parameters:
@@ -36,7 +36,7 @@ class Remapper(Device):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
 
         paramlist = etree.SubElement(root, "paramlist", {'name': "networks"})
         if isinstance(self.elementName, str) and isinstance(self.elementValue, str):

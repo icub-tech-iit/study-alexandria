@@ -1,7 +1,7 @@
 from lxml import etree
 from dataclasses import dataclass, fields, is_dataclass
 from device import Device
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 class Realsense(Device):
     def __init__(self, root_path):
@@ -23,7 +23,7 @@ class Realsense(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/templates/realsense.sysml').part_definitions.items())
+        attr = dict(parse_sysml(root_path+'/templates/realsense.sysml').part_definitions.items())
         realsense_camera = cls(root_path)
 
         def set_parameters(instance, attributes):
@@ -46,7 +46,7 @@ class Realsense(Device):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
 
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})

@@ -9,7 +9,7 @@ setup(
         "antlr4-tools"
     ],
     description="A parser for SysML v2 models",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Martina Gloria",
+    author_email="martina.gloria@iit.it",
     python_requires=">=3.6",
 )

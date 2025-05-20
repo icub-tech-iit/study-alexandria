@@ -1,7 +1,7 @@
 from dataclasses import dataclass, is_dataclass, fields
 from encoder import Encoder
 from lxml import etree
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 class Service:
     def __init__(self, root_path):
@@ -50,7 +50,7 @@ class Service:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/service.sysml').part_definitions.items()))
+        attr = dict(reversed(parse_sysml(root_path+'/templates/service.sysml').part_definitions.items()))
         service = cls(root_path)
 
         def set_parameters(instance, attributes):
@@ -74,7 +74,7 @@ class Service:
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
         
         def _dataclass_to_xml(parent, name, dataclass_instance):
             group_elem = etree.SubElement(parent, "group", {"name": name.upper()})

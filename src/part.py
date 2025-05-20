@@ -1,5 +1,4 @@
 import os
-from utils import Utils
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
 from mec import Mechanicals as mechanicals 
@@ -18,7 +17,7 @@ from wrapper import Wrapper as wrapper
 from remapper import Remapper as remapper
 from general import GENERAL as general
 from xcub_all import Xcub_all as xcub_all
-from utils import Utils
+from utils import extract_overrides, parse_sysml, check_subfolders_existance, update, extract_folder_name
 class Part:
     PART_CLASSES = {
         'calibrator': calibrator,
@@ -47,7 +46,7 @@ class Part:
             setattr(self, attr, [])
     @classmethod
     def from_sysml(cls, root_path, part_name):
-        attr = dict(Utils.parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
+        attr = dict(parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
         part = cls()
         parents = []
 
@@ -58,8 +57,8 @@ class Part:
         return part
 
     def to_xml(self, root_path, part_name, robot_name, overr_params):
-        attr = dict(Utils.parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
-        Utils.check_subfolders_existance(root_path, robot_name)
+        attr = dict(parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
+        check_subfolders_existance(root_path, robot_name)
         robot_path = os.path.join(root_path, robot_name)
 
         for key, value in attr.items():
@@ -69,12 +68,12 @@ class Part:
                     instance = part_class.from_sysml(root_path)
                 else:
                     instance = part_class()
-                for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                for specific_override_key, specific_override_value in extract_overrides(overr_params).items():
                     if key == specific_override_key:
                         value.parameters.update(specific_override_value)
                 for override_key, override_value in value.parameters.items():
-                    Utils.update(instance, f"{value.parent}.{override_key}", override_value)
-                instance.to_xml(os.path.join(robot_path, Utils.extract_folder_name(instance)), f"{key}.xml")
+                    update(instance, f"{value.parent}.{override_key}", override_value)
+                instance.to_xml(os.path.join(robot_path, extract_folder_name(instance)), f"{key}.xml")
             elif value.parent:
                 print("No match found for part", value.parent)
         

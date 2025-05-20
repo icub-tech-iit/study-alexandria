@@ -1,7 +1,7 @@
 from lxml import etree
 from dataclasses import dataclass, field, is_dataclass
 from device import Device
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 
 @dataclass
 class Dragonfly(Device):
@@ -29,7 +29,7 @@ class Dragonfly(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path + '/templates/dragonfly.sysml').part_definitions.items()))
+        attr = dict(reversed(parse_sysml(root_path + '/templates/dragonfly.sysml').part_definitions.items()))
 
         for key, value in attr.items():
             for param in value.parameters:
@@ -41,7 +41,7 @@ class Dragonfly(Device):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
         root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
 
         for attr_name, attr_value in self.__dict__.items():
             if attr_name in ['type', 'device_name', 'folder_name']: #TODO: fix to skip Device class members
