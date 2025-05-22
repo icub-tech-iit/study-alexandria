@@ -1,7 +1,7 @@
 part def LeftArm {
     part left_arm_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "left_arm-calibrator";
+        :>> device_name = "left_arm-calibrator";
         :>> GENERAL.joints = 16;
         :>> GENERAL.deviceName = "Left_Arm_Calibrator";
         :>> HOME.positionHome = (-30, 30, 0, 45, 0, 0, 0, 35, 65, 0, 0, 0, 0, 0, 0, 0);
@@ -188,7 +188,7 @@ part def LeftArm {
     part left_arm_eb1_j0_3_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml", "../../hardware/mechanicals/left_arm_eb1_j0_3_mec.xml", "./left_arm_eb1_j0_3_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb1-j0_3-mc";
+        :>> device_name = "left_arm-eb1-j0_3-mc";
         :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
         :>> LIMITS.jntPosMax = (8, 160, 80, 106);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -247,7 +247,7 @@ part def LeftArm {
     part left_arm_eb24_j4_7_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb24_j4_7_eln.xml", "../../hardware/mechanicals/left_arm_eb24_j4_7_mec.xml", "./left_arm_eb24_j4_7_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb24-j4_7-mc";
+        :>> device_name = "left_arm-eb24-j4_7-mc";
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);
         :>> LIMITS.jntPosMax = (85, 25, 35, 60);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -292,7 +292,7 @@ part def LeftArm {
     part left_arm_eb25_j8_11_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb25_j8_11_eln.xml", "../../hardware/mechanicals/left_arm_eb25_j8_11_mec.xml", "./left_arm_eb25_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb25-j8_11-mc";
+        :>> device_name = "left_arm-eb25-j8_11-mc";
         :>> LIMITS.jntPosMin = (10, 0, 0, 0);
         :>> LIMITS.jntPosMax = (90, 90, 180, 90);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -321,7 +321,7 @@ part def LeftArm {
     part left_arm_eb26_j12_15_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb26_j12_15_eln.xml", "../../hardware/mechanicals/left_arm_eb26_j12_15_mec.xml", "./left_arm_eb26_j12_15_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb26-j12_15-mc";
+        :>> device_name = "left_arm-eb26-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
         :>> LIMITS.jntPosMax = (180, 90, 180, 270);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -416,7 +416,7 @@ part def LeftArm {
     }
     part left_arm_eb1_IMU :> inertial {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb1-imu";
+        :>> device_name = "left_arm-eb1-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "eobrd_strain2";
@@ -431,7 +431,7 @@ part def LeftArm {
     }
     part left_arm_eb1_j0_3_strain :> ft {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb1-j0_3-strain";
+        :>> device_name = "left_arm-eb1-j0_3-strain";
         :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
@@ -441,7 +441,7 @@ part def LeftArm {
         :>> SERVICE.SETTINGS.enabledSensors = ("l_arm_ft");
     }
     part left_arm_cartesian :> cartesian {
-        :>> name = "left_arm-cartesian";
+        :>> device_name = "left_arm-cartesian";
         :>> type = "cartesiancontrollerserver";
         :>> GENERAL.ControllerName = "icub/cartesianController/left_arm";
         :>> GENERAL.SolverNameToConnect = "cartesianSolver/left_arm";
@@ -458,7 +458,7 @@ part def LeftArm {
     }
     part left_arm_eb24_j4_7_skin :> skin {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb24_j4_7_eln.xml");
-        :>> name = "left_arm-eb24-j4_7-skin";
+        :>> device_name = "left_arm-eb24-j4_7-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
     }
@@ -466,7 +466,7 @@ part def LeftArm {
     }
     part left_arm_eb26_j12_15_mais :> mais {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb26-j12_15-mais";
+        :>> device_name = "left_arm-eb26-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
@@ -475,10 +475,10 @@ part def LeftArm {
 
     part left_arm_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "left_arm-mc_nws_yarp";
+        :>> device_name = "left_arm-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/left_arm";
+        :>> name = "/icub/left_arm";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -491,7 +491,7 @@ part def LeftArm {
     part left_arm_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "left_arm-mc_remapper";
+        :>> device_name = "left_arm-mc_remapper";
         :>> elementName = ("left_arm_joints1", "left_arm_joints2", "left_arm_joints3", "left_arm_joints4");
         :>> elementValue = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
         :>> joints = 16;
@@ -507,10 +507,10 @@ part def LeftArm {
 
     part left_arm_FT_wrapper :> wrapper {
         :>> folder_name = "wrappers/FT/";
-        :>> name = "left_arm-FT_wrapper";
+        :>> device_name = "left_arm-FT_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/FT";
+        :>> name = "/icub/left_arm/FT";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -523,10 +523,10 @@ part def LeftArm {
 
     part left_arm_mais_wrapper :> wrapper {
         :>> folder_name = "wrappers/MAIS/";
-        :>> name = "left_arm-mais_wrapper";
+        :>> device_name = "left_arm-mais_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/MAIS";
+        :>> name = "/icub/left_arm/MAIS";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -539,10 +539,10 @@ part def LeftArm {
 
     part left_arm_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
-        :>> name = "left_arm-inertials_wrapper";
+        :>> device_name = "left_arm-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/inertials";
+        :>> name = "/icub/left_arm/inertials";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;

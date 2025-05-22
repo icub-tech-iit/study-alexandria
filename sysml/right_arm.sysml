@@ -1,7 +1,7 @@
 part def RightArm {
     part right_arm_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "right_arm-calibrator";
+        :>> device_name = "right_arm-calibrator";
         :>> GENERAL.joints = 16;
         :>> GENERAL.deviceName = "Right_Arm_Calibrator";
         :>> HOME.positionHome = (-30, 30, 0, 45, 0, 0, 0, 35, 65, 0, 0, 0, 0, 0, 0, 0);
@@ -188,7 +188,7 @@ part def RightArm {
     part right_arm_eb3_j0_3_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml", "../../hardware/mechanicals/right_arm_eb3_j0_3_mec.xml", "./right_arm_eb3_j0_3_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "right_arm-eb3-j0_3-mc";
+        :>> device_name = "right_arm-eb3-j0_3-mc";
         :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
         :>> LIMITS.jntPosMax = (8, 160, 80, 106);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -247,7 +247,7 @@ part def RightArm {
     part right_arm_eb27_j4_7_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb27_j4_7_eln.xml", "../../hardware/mechanicals/right_arm_eb27_j4_7_mec.xml", "./right_arm_eb27_j4_7_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "right_arm-eb27-j4_7-mc";
+        :>> device_name = "right_arm-eb27-j4_7-mc";
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);
         :>> LIMITS.jntPosMax = (85, 25, 35, 60);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -292,7 +292,7 @@ part def RightArm {
     part right_arm_eb28_j8_11_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb28_j8_11_eln.xml", "../../hardware/mechanicals/right_arm_eb28_j8_11_mec.xml", "./right_arm_eb28_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "right_arm-eb28-j8_11-mc";
+        :>> device_name = "right_arm-eb28-j8_11-mc";
         :>> LIMITS.jntPosMin = (10, 0, 0, 0);
         :>> LIMITS.jntPosMax = (90, 90, 180, 90);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -321,7 +321,7 @@ part def RightArm {
     part right_arm_eb29_j12_15_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb28_j8_11_eln.xml", "../../hardware/mechanicals/right_arm_eb28_j8_11_mec.xml", "./right_arm_eb28_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "right_arm-eb29-j12_15-mc";
+        :>> device_name = "right_arm-eb29-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
         :>> LIMITS.jntPosMax = (180, 90, 180, 270);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -416,7 +416,7 @@ part def RightArm {
     }
     part right_arm_eb3_IMU :> inertial {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
-        :>> name = "right_arm-eb3-imu";
+        :>> device_name = "right_arm-eb3-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "eobrd_strain2";
@@ -431,7 +431,7 @@ part def RightArm {
     }
     part right_arm_eb3_j0_3_strain :> ft {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
-        :>> name = "right_arm-eb3-j0_3-strain";
+        :>> device_name = "right_arm-eb3-j0_3-strain";
         :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
@@ -441,7 +441,7 @@ part def RightArm {
         :>> SERVICE.SETTINGS.enabledSensors = ("r_arm_ft");
     }
     part right_arm_cartesian :> cartesian {
-        :>> name = "right_arm-cartesian";
+        :>> device_name = "right_arm-cartesian";
         :>> type = "cartesiancontrollerserver";
         :>> GENERAL.ControllerName = "icub/cartesianController/right_arm";
         :>> GENERAL.SolverNameToConnect = "cartesianSolver/right_arm";
@@ -456,7 +456,7 @@ part def RightArm {
     }
     part right_arm_eb27_j4_7_skin :> skin {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb27_j4_7_eln.xml");
-        :>> name = "right_arm-eb27-j4_7-skin";
+        :>> device_name = "right_arm-eb27-j4_7-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
     }
@@ -469,7 +469,7 @@ part def RightArm {
     }
     part right_arm_eb29_j12_15_mais :> mais {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
-        :>> name = "right_arm-eb29-j12_15-mais";
+        :>> device_name = "right_arm-eb29-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
@@ -478,10 +478,10 @@ part def RightArm {
 
     part right_arm_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "right_arm-mc_nws_yarp";
+        :>> device_name = "right_arm-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/right_arm";
+        :>> name = "/icub/right_arm";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -494,7 +494,7 @@ part def RightArm {
     part right_arm_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "right_arm-mc_remapper";
+        :>> device_name = "right_arm-mc_remapper";
         :>> elementName = ("right_arm_joints1", "right_arm_joints2", "right_arm_joints3", "right_arm_joints4");
         :>> elementValue = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
         :>> joints = 16;
@@ -510,10 +510,10 @@ part def RightArm {
 
     part right_arm_FT_wrapper :> wrapper {
         :>> folder_name = "wrappers/FT/";
-        :>> name = "right_arm-FT_wrapper";
+        :>> device_name = "right_arm-FT_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/right_arm/FT";
+        :>> name = "/icub/right_arm/FT";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -525,10 +525,10 @@ part def RightArm {
     }
     part right_arm_mais_wrapper :> wrapper {
         :>> folder_name = "wrappers/MAIS/";
-        :>> name = "right_arm-mais_wrapper";
+        :>> device_name = "right_arm-mais_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/right_arm/MAIS";
+        :>> name = "/icub/right_arm/MAIS";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -541,10 +541,10 @@ part def RightArm {
 
     part right_arm_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
-        :>> name = "right_arm-inertials_wrapper";
+        :>> device_name = "right_arm-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/right_arm/inertials";
+        :>> name = "/icub/right_arm/inertials";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
