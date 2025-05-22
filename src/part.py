@@ -51,15 +51,6 @@ class Part:
             if value.parent:
                 if hasattr(part, value.parent):
                     parents.append(value.parent)
-
-        for parent in parents:
-            if hasattr(part, parent):
-                part_class = cls.PART_CLASSES[parent]
-                if hasattr(part_class, 'from_sysml'):
-                    instance = part_class.from_sysml(root_path)
-                else:
-                    instance = part_class()
-                getattr(part, parent).append(instance)
         return part
 
     def to_xml(self, root_path, part_name, robot_name, overr_params):
@@ -69,14 +60,17 @@ class Part:
 
         for key, value in attr.items():
             if value.parent and value.parent in self.PART_CLASSES:
-                subclass = getattr(self, value.parent)
-                for item in subclass:
-                    for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
-                        if key == specific_override_key:
-                            value.parameters.update(specific_override_value)
-                    for override_key, override_value in value.parameters.items():
-                        Utils.update(item, f"{value.parent}.{override_key}", override_value)
-                    item.to_xml(os.path.join(robot_path, Utils.extract_folder_name(item)), f"{key}.xml")
+                part_class = self.PART_CLASSES[value.parent]
+                if hasattr(part_class, 'from_sysml'):
+                    instance = part_class.from_sysml(root_path)
+                else:
+                    instance = part_class()
+                for specific_override_key, specific_override_value in Utils.extract_overrides(overr_params).items():
+                    if key == specific_override_key:
+                        value.parameters.update(specific_override_value)
+                for override_key, override_value in value.parameters.items():
+                    Utils.update(instance, f"{value.parent}.{override_key}", override_value)
+                instance.to_xml(os.path.join(robot_path, Utils.extract_folder_name(instance)), f"{key}.xml")
             elif value.parent:
                 print("No match found for part", value.parent)
         
