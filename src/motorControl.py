@@ -135,19 +135,12 @@ class motorControl(Device):
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
-                
+
                 if is_dataclass(field_value):
-                    _dataclass_to_xml(group_elem, field_name, field_value) 
+                    _dataclass_to_xml(group_elem, field_name, field_value)
                 elif isinstance(field_value, list):
-                    if any(isinstance(i, list) for i in field_value):
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        formatted_text = "\n".join(
-                            "   ".join(map(str, row)) for row in field_value
-                        )
-                        param.text = f"\n{formatted_text}\n"
-                    else:
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "   ".join(map(str, field_value))
+                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param.text = ' '.join(val.strip('"') if isinstance(val, str) else str(val) for val in field_value)
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)

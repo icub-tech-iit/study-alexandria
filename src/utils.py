@@ -23,6 +23,9 @@ class Utils:
             obj = getattr(obj, part, None)
             if obj is None:
                 raise AttributeError(f"Attribute {part} not found in {key}")
+        if isinstance(value, tuple):
+            value = [elem.strip('"') if isinstance(elem, str) else elem
+                for elem in value]
         if obj is not None:
             setattr(obj, parts[-1], value)
 
