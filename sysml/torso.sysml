@@ -27,8 +27,8 @@ part def Torso {
     }
         part torso_eb5_j0_2_mec :> mechanicals {
         :>> GENERAL.Joints = 3;
-        :>> GENERAL.AxisMap = (0, 1, 2);
-        :>> GENERAL.AxisName = ("torso_roll", "torso_pitch", "torso_yaw");
+        :>> GENERAL.AxisMap = (2, 0, 1);
+        :>> GENERAL.AxisName = ("torso_yaw", "torso_roll", "torso_pitch");
         :>> GENERAL.AxisType = ("revolute", "revolute", "revolute");
         :>> GENERAL.Encoder = (182.044, 182.044, 182.044);
         :>> GENERAL.fullscalePWM = (32000, 32000, 32000);
@@ -37,8 +37,8 @@ part def Torso {
         :>> GENERAL.Gearbox_E2J = (1, 1, 1);
         :>> GENERAL.useMotorSpeedFbk = (1, 1, 1);
         :>> GENERAL.MotorType = ("BLL_MOOG", "BLL_MOOG", "BLL_MOOG");
-        :>> LIMITS.hardwareJntPosMin = (-30, -20, -50);
-        :>> LIMITS.hardwareJntPosMax = (30, 70, 50);
+        :>> LIMITS.hardwareJntPosMin = (-50, -30, -20);
+        :>> LIMITS.hardwareJntPosMax = (50, 30, 70);
         :>> LIMITS.rotorPosMin = (0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0);
         :>> _2FOC.HasHallSensor = (1, 1, 1);
@@ -120,6 +120,7 @@ part def Torso {
     part torso_eb5_j0_2_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_foc";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "ems4";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "foc";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("eomc_act_foc", "foc", "foc");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("eomc_enc_aea", "aea", "aea");

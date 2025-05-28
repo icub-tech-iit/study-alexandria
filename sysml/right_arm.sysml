@@ -189,7 +189,7 @@ part def RightArm {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml", "../../hardware/mechanicals/right_arm_eb3_j0_3_mec.xml", "./right_arm_eb3_j0_3_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> device_name = "right_arm-eb3-j0_3-mc";
-        :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
+        :>> LIMITS.jntPosMin = (-95.5, 0, -32, 15);
         :>> LIMITS.jntPosMax = (8, 160, 80, 106);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (15000, 15000, 15000, 15000);
@@ -237,7 +237,7 @@ part def RightArm {
         :>> _2FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000, 32000);
         :>> _2FOC_CUR_CONTROL.kff = (0, 0, 0, 0);
         :>> _2FOC_VEL_CONTROL.kp = (12, 12, 12, 12);
-        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0,0);
+        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0.0);
         :>> _2FOC_VEL_CONTROL.ki = (16, 16, 16, 16);
         :>> _2FOC_VEL_CONTROL.shift = (10, 10, 10, 10);
         :>> _2FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
@@ -252,7 +252,7 @@ part def RightArm {
         :>> LIMITS.jntPosMax = (85, 25, 35, 60);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (10000, 2000, 2000, 2000);
-        :>> LIMITS.motorNominalCurrents = (5000, 5000, 1000, 600);
+        :>> LIMITS.motorNominalCurrents = (5000, 1000, 1000, 600);
         :>> LIMITS.motorPeakCurrents = (5000, 2000, 2000, 1000);
         :>> LIMITS.motorPwmLimit = (3360, 3360, 3360, 3360);
         :>> TIMEOUTS.velocity = (100, 100, 100, 100);
@@ -319,7 +319,7 @@ part def RightArm {
         :>> POS_PID_DEFAULT.kff = (0, 0, 0, 0);
     }
     part right_arm_eb29_j12_15_mc :> motorControl {
-        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb28_j8_11_eln.xml", "../../hardware/mechanicals/right_arm_eb28_j8_11_mec.xml", "./right_arm_eb28_j8_11_mc_service.xml");
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb29_j12_15_eln.xml", "../../hardware/mechanicals/right_arm_eb29_j12_15_mec.xml", "./right_arm_eb29_j12_15_mc_service.xml");
         :>> type = "embObjMotionControl";
         :>> device_name = "right_arm-eb29-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
@@ -384,6 +384,7 @@ part def RightArm {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
+        :>> SERVICE.PROPERTIES.MAIS.location = "CAN1:14";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("absanalog", "mais", "mais", "mais");
@@ -401,6 +402,7 @@ part def RightArm {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
+        :>> SERVICE.PROPERTIES.MAIS.location = "CAN1:14";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("mais", "mais", "mais", "mais");

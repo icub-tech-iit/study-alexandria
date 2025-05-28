@@ -30,6 +30,9 @@ class Service:
                 PROTOCOL: PROTOCOL
                 FIRMWARE: FIRMWARE
             @dataclass
+            class MAIS:
+                location: str
+            @dataclass
             class JOINTMAPPING:
                 @dataclass
                 class ACTUATOR:
@@ -40,6 +43,7 @@ class Service:
                 ENCODER2: Encoder = None
             ETHBOARD: ETHBOARD
             CANBOARDS: CANBOARDS
+            MAIS: MAIS
             JOINTMAPPING: JOINTMAPPING
         PROPERTIES: PROPERTIES
     SERVICE: SERVICE

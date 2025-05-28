@@ -87,7 +87,8 @@ class FT(Device):
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
-
+                if field_name == 'temperature_acquisitionRate':
+                    field_name = 'temperature-acquisitionRate'
                 if is_dataclass(field_value):
                     _dataclass_to_xml(group_elem, field_name, field_value)
                 elif isinstance(field_value, list):

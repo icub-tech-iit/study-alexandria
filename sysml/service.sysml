@@ -43,6 +43,9 @@ part service {
                         }
                 }
             }
+            part MAIS {
+                attribute location : String default "none";
+            }
             part JOINTMAPPING {
                 part ACTUATOR {
                     attribute type : Array {
