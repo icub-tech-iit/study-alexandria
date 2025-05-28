@@ -49,7 +49,7 @@ part service {
                         :>> dimensions default 1; 
                         :>> elements : String[dimensions] default ("pwm"); 
                         }
-                    attribute portName : Array {
+                    attribute _port : Array {
                         :>> dimensions default 1; 
                         :>> elements : String[dimensions] default ("portName"); 
                         }

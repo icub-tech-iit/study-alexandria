@@ -121,14 +121,14 @@ part def Torso {
         :>> SERVICE.type = "eomn_serv_MC_foc";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "ems4";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("eomc_act_foc", "foc", "foc");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("eomc_enc_aea", "aea", "aea");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P6", "CONN:P7", "CONN:P8");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P6", "CONN:P7", "CONN:P8");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("eomc_pos_atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, 4096, 4096);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703, 0.703);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("roie", "roie", "roie");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (-14400, -14400, -14400);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0);

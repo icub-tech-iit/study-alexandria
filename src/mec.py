@@ -45,19 +45,19 @@ class Mechanicals:
         @dataclass
         class JOINTSET_0:
             listofjoints: list[int]
-            constraintName: str
+            _constraint: str
             param1: int
             param2: int
         @dataclass
         class JOINTSET_1:
             listofjoints: list[int]
-            constraintName: str
+            _constraint: str
             param1: int
             param2: int
         @dataclass
         class JOINTSET_2:
             listofjoints: list[int]
-            constraintName: str
+            _constraint: str
             param1: int
             param2: int
         JOINTSET_0: JOINTSET_0
@@ -101,16 +101,16 @@ class Mechanicals:
                     _dataclass_to_xml(group_elem, field_name, field_value) 
                 elif isinstance(field_value, list):
                     if any(isinstance(i, list) for i in field_value):
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                         formatted_text = "\n".join(
                             "   ".join(map(str, row)) for row in field_value
                         )
                         param.text = f"\n{formatted_text}\n"
                     else:
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                         param.text = "   ".join(map(str, field_value))
                 else:
-                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():

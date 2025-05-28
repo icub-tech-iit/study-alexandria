@@ -124,7 +124,7 @@ part mechanicals {
 				:>> dimensions default 2; 
 				:>> elements : Integer[dimensions] default (0, 1); 
 			}
-			attribute constraintName : String default "none";
+			attribute _constraint : String default "none";
 			attribute param1 : Integer default 0;
 			attribute param2 : Integer default 0;
 		}
@@ -133,7 +133,7 @@ part mechanicals {
 				:>> dimensions default 2; 
 				:>> elements : Integer[dimensions] default (0, 1); 
 			}
-			attribute constraintName : String default "none";
+			attribute _constraint : String default "none";
 			attribute param1 : Integer default 0;
 			attribute param2 : Integer default 0;
 		}
@@ -142,7 +142,7 @@ part mechanicals {
 				:>> dimensions default 2; 
 				:>> elements : Integer[dimensions] default (0, 1); 
 			}
-			attribute constraintName : String default "none";
+			attribute _constraint : String default "none";
 			attribute param1 : Integer default 0;
 			attribute param2 : Integer default 0;
 		}
