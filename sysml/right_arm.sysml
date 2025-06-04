@@ -138,7 +138,7 @@ part def RightArm {
         :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         -1.000, 1.000, 0.000, 0.000,
-        0.000, -1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
         :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
         1.000, 1.000, 0.000, 0.000,
@@ -173,8 +173,8 @@ part def RightArm {
         :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
         :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
-        -1.000, 1.000, 0.000, 0.000,
-        0.000, -1.000, 0.000, 0.000,
+        0.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
         :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
         1.000, 1.000, 0.000, 0.000,
@@ -392,7 +392,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (65535, 65535, 65535, 65535);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0, 0, 0);
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("none", "qenc", "qenc", "qenc");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:none", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (1, 40, 40, 40);

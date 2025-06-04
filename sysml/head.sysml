@@ -89,6 +89,14 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+22, +20);
         :>> LIMITS.rotorPosMin = (0, 0);
         :>> LIMITS.rotorPosMax = (0, 0);
+        :>> COUPLINGS.matrixJ2M = (1.000, 1.000, 0.000, 0.000,
+        -1.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
+        0.000, 0.000, 0.000, 1.000);
+        :>> COUPLINGS.matrixM2J = (0.500, 0.500, 0.000, 0.000,
+        0.500, 0.500, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
+        0.000, 0.000, 0.000, 1.000);
         :>> JOINTSET_CFG.numberofsets = 1;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1);
     }
@@ -108,6 +116,14 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+45, +30, +45, +45);
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
+        :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
+        0.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, -1.000,
+        0.000, 0.000, 1.000, 1.000);
+        :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
+        0.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 0.500, 0.500,
+        0.000, 0.000, -1.000, 1.000);
         :>> JOINTSET_CFG.numberofsets = 3;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0);
         :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (1);
@@ -154,7 +170,7 @@ part def Head {
         :>> type = "embObjMotionControl";
         :>> device_name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
-        :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
+        :>> LIMITS.jntPosMax = (+45, +30, +30, +45);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (2000, 2000, 2500, 2500);
         :>> LIMITS.motorNominalCurrents = (700, 700, 700, 700);
@@ -213,7 +229,7 @@ part def Head {
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea", "aea", "aea");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea", "none", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P11", "CONN:P10", "CONN:none", "CONN:none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "none", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, 4096, 0, 0);
