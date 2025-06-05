@@ -1,7 +1,7 @@
 part def LeftArm {
     part left_arm_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "left_arm-calibrator";
+        :>> device_name = "left_arm-calibrator";
         :>> GENERAL.joints = 16;
         :>> GENERAL.deviceName = "Left_Arm_Calibrator";
         :>> HOME.positionHome = (-30, 30, 0, 45, 0, 0, 0, 35, 65, 0, 0, 0, 0, 0, 0, 0);
@@ -138,7 +138,7 @@ part def LeftArm {
         :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
         -1.000, 1.000, 0.000, 0.000,
-        0.000, -1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
         :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
         1.000, 1.000, 0.000, 0.000,
@@ -173,8 +173,8 @@ part def LeftArm {
         :>> _2FOC.RotorIndexOffset = (0, 0, 0, 0);
         :>> _2FOC.MotorPoles = (8, 8, 8, 8);
         :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
-        -1.000, 1.000, 0.000, 0.000,
-        0.000, -1.000, 0.000, 0.000,
+        1.000, 0.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
         :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
         1.000, 1.000, 0.000, 0.000,
@@ -188,8 +188,8 @@ part def LeftArm {
     part left_arm_eb1_j0_3_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml", "../../hardware/mechanicals/left_arm_eb1_j0_3_mec.xml", "./left_arm_eb1_j0_3_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb1-j0_3-mc";
-        :>> LIMITS.jntPosMin = (-95.5, 0 -32, 15);
+        :>> device_name = "left_arm-eb1-j0_3-mc";
+        :>> LIMITS.jntPosMin = (-95.5, 0, -32, 15);
         :>> LIMITS.jntPosMax = (8, 160, 80, 106);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (15000, 15000, 15000, 15000);
@@ -237,7 +237,7 @@ part def LeftArm {
         :>> _2FOC_CUR_CONTROL.maxInt = (32000, 32000, 32000, 32000);
         :>> _2FOC_CUR_CONTROL.kff = (0, 0, 0, 0);
         :>> _2FOC_VEL_CONTROL.kp = (12, 12, 12, 12);
-        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0,0);
+        :>> _2FOC_VEL_CONTROL.kd = (0.0, 0.0, 0.0, 0.0);
         :>> _2FOC_VEL_CONTROL.ki = (16, 16, 16, 16);
         :>> _2FOC_VEL_CONTROL.shift = (10, 10, 10, 10);
         :>> _2FOC_VEL_CONTROL.maxOutput = (32000, 32000, 32000, 32000);
@@ -247,12 +247,12 @@ part def LeftArm {
     part left_arm_eb24_j4_7_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb24_j4_7_eln.xml", "../../hardware/mechanicals/left_arm_eb24_j4_7_mec.xml", "./left_arm_eb24_j4_7_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb24-j4_7-mc";
+        :>> device_name = "left_arm-eb24-j4_7-mc";
         :>> LIMITS.jntPosMin = (-85, -70, -15, 10);
         :>> LIMITS.jntPosMax = (85, 25, 35, 60);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (10000, 2000, 2000, 2000);
-        :>> LIMITS.motorNominalCurrents = (5000, 5000, 1000, 600);
+        :>> LIMITS.motorNominalCurrents = (5000, 1000, 1000, 600);
         :>> LIMITS.motorPeakCurrents = (5000, 2000, 2000, 1000);
         :>> LIMITS.motorPwmLimit = (3360, 3360, 3360, 3360);
         :>> TIMEOUTS.velocity = (100, 100, 100, 100);
@@ -292,7 +292,7 @@ part def LeftArm {
     part left_arm_eb25_j8_11_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb25_j8_11_eln.xml", "../../hardware/mechanicals/left_arm_eb25_j8_11_mec.xml", "./left_arm_eb25_j8_11_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb25-j8_11-mc";
+        :>> device_name = "left_arm-eb25-j8_11-mc";
         :>> LIMITS.jntPosMin = (10, 0, 0, 0);
         :>> LIMITS.jntPosMax = (90, 90, 180, 90);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -321,7 +321,7 @@ part def LeftArm {
     part left_arm_eb26_j12_15_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb26_j12_15_eln.xml", "../../hardware/mechanicals/left_arm_eb26_j12_15_mec.xml", "./left_arm_eb26_j12_15_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "left_arm-eb26-j12_15-mc";
+        :>> device_name = "left_arm-eb26-j12_15-mc";
         :>> LIMITS.jntPosMin = (0, 0, 0, 0);
         :>> LIMITS.jntPosMax = (180, 90, 180, 270);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
@@ -352,14 +352,14 @@ part def LeftArm {
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "ems4";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "foc";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("eomc_act_foc", "foc", "foc", "foc");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CAN1:1:0", "CAN1:2:0", "CAN1:3:0", "CAN1:4:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CAN1:1:0", "CAN1:2:0", "CAN1:3:0", "CAN1:4:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("eomc_enc_aea", "aea", "aea", "aea");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P6", "CONN:P7", "CONN:P8", "CONN:P9");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P6", "CONN:P7", "CONN:P8", "CONN:P9");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("eomc_pos_atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (-4096, -4096, 4096, -4096);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703, 0.703, 0.703);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("roie", "roie", "roie", "roie");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CAN1:1:0", "CAN1:2:0", "CAN1:3:0", "CAN1:4:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CAN1:1:0", "CAN1:2:0", "CAN1:3:0", "CAN1:4:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (-14400, -14400, -14400, -14400);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
@@ -368,14 +368,14 @@ part def LeftArm {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P5", "CONN:P2", "CONN:P4", "CONN:P3");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P5", "CONN:P2", "CONN:P4", "CONN:P3");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("qenc", "aea", "aea", "absanalog");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P5", "CONN:P10", "CONN:P11", "CONN:P3");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P5", "CONN:P10", "CONN:P11", "CONN:P3");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (1, -4096, 4096, 65535);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0.703, 0.703, 0);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "none");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P5", "CONN:P2", "CONN:P4", "CONN:none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:P5", "CONN:P2", "CONN:P4", "CONN:none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (-2048, 1600, 1600, 1);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
@@ -384,15 +384,16 @@ part def LeftArm {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
+        :>> SERVICE.PROPERTIES.MAIS.location = "CAN1:14";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("absanalog", "mais", "mais", "mais");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P3", "MAIS:thumbproximal", "MAIS:thumbdistal", "MAIS:indexproximal");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P3", "MAIS:thumbproximal", "MAIS:thumbdistal", "MAIS:indexproximal");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (65535, 65535, 65535, 65535);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0, 0, 0);
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "none");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:none", "CONN:P2", "CONN:P4", "CONN:P5");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("none", "qenc", "qenc", "qenc");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:none", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (1, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
@@ -401,22 +402,23 @@ part def LeftArm {
         :>> SERVICE.type = "eomn_serv_MC_mc4plusmais";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "mais";
+        :>> SERVICE.PROPERTIES.MAIS.location = "CAN1:14";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("mais", "mais", "mais", "mais");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("MAIS:indexdistal", "MAIS:mediumproximal", "MAIS:mediumdistal", "MAIS:littlefingers");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("MAIS:indexdistal", "MAIS:mediumproximal", "MAIS:mediumdistal", "MAIS:littlefingers");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (65535, 65535, 65535, 65535);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0, 0, 0);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "none");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (40, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
     part left_arm_eb1_IMU :> inertial {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb1-imu";
+        :>> device_name = "left_arm-eb1-imu";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "eobrd_strain2";
@@ -431,7 +433,7 @@ part def LeftArm {
     }
     part left_arm_eb1_j0_3_strain :> ft {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb1-j0_3-strain";
+        :>> device_name = "left_arm-eb1-j0_3-strain";
         :>> type = "embObjFTsensor";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "strain2";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
@@ -441,7 +443,7 @@ part def LeftArm {
         :>> SERVICE.SETTINGS.enabledSensors = ("l_arm_ft");
     }
     part left_arm_cartesian :> cartesian {
-        :>> name = "left_arm-cartesian";
+        :>> device_name = "left_arm-cartesian";
         :>> type = "cartesiancontrollerserver";
         :>> GENERAL.ControllerName = "icub/cartesianController/left_arm";
         :>> GENERAL.SolverNameToConnect = "cartesianSolver/left_arm";
@@ -458,7 +460,7 @@ part def LeftArm {
     }
     part left_arm_eb24_j4_7_skin :> skin {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb24_j4_7_eln.xml");
-        :>> name = "left_arm-eb24-j4_7-skin";
+        :>> device_name = "left_arm-eb24-j4_7-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
     }
@@ -466,7 +468,7 @@ part def LeftArm {
     }
     part left_arm_eb26_j12_15_mais :> mais {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
-        :>> name = "left_arm-eb26-j12_15-mais";
+        :>> device_name = "left_arm-eb26-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";
         :>> SERVICE.PROPERTIES.SENSORS.location = "CAN1:14";
@@ -475,10 +477,10 @@ part def LeftArm {
 
     part left_arm_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "left_arm-mc_nws_yarp";
+        :>> device_name = "left_arm-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/left_arm";
+        :>> name = "/icub/left_arm";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -491,7 +493,7 @@ part def LeftArm {
     part left_arm_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "left_arm-mc_remapper";
+        :>> device_name = "left_arm-mc_remapper";
         :>> elementName = ("left_arm_joints1", "left_arm_joints2", "left_arm_joints3", "left_arm_joints4");
         :>> elementValue = ("( 0  3  0  3 )", "( 4  7  0  3 )", "( 8 11  0  3 )", "(12 15  0  3 )");
         :>> joints = 16;
@@ -507,10 +509,10 @@ part def LeftArm {
 
     part left_arm_FT_wrapper :> wrapper {
         :>> folder_name = "wrappers/FT/";
-        :>> name = "left_arm-FT_wrapper";
+        :>> device_name = "left_arm-FT_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/FT";
+        :>> name = "/icub/left_arm/FT";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -523,10 +525,10 @@ part def LeftArm {
 
     part left_arm_mais_wrapper :> wrapper {
         :>> folder_name = "wrappers/MAIS/";
-        :>> name = "left_arm-mais_wrapper";
+        :>> device_name = "left_arm-mais_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/MAIS";
+        :>> name = "/icub/left_arm/MAIS";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -539,10 +541,10 @@ part def LeftArm {
 
     part left_arm_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
-        :>> name = "left_arm-inertials_wrapper";
+        :>> device_name = "left_arm-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/left_arm/inertials";
+        :>> name = "/icub/left_arm/inertials";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;

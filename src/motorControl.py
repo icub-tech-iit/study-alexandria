@@ -125,7 +125,7 @@ class motorControl(Device):
     def to_xml(self, root_path, file_name):
         xi_ns = 'http://www.w3.org/2001/XInclude'
         nsmap = {'xi': xi_ns}
-        root = etree.Element('device', {'name': str(self.name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
+        root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
         
         Utils.check_subfolders_existance(root_path, file_name)
         
@@ -135,19 +135,12 @@ class motorControl(Device):
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
-                
+
                 if is_dataclass(field_value):
-                    _dataclass_to_xml(group_elem, field_name, field_value) 
+                    _dataclass_to_xml(group_elem, field_name, field_value)
                 elif isinstance(field_value, list):
-                    if any(isinstance(i, list) for i in field_value):
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        formatted_text = "\n".join(
-                            "   ".join(map(str, row)) for row in field_value
-                        )
-                        param.text = f"\n{formatted_text}\n"
-                    else:
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "   ".join(map(str, field_value))
+                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param.text = ' '.join(val.strip('"') if isinstance(val, str) else str(val) for val in field_value)
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name})
                     param.text = str(field_value)

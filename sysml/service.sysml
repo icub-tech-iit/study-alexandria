@@ -43,13 +43,16 @@ part service {
                         }
                 }
             }
+            part MAIS {
+                attribute location : String default "none";
+            }
             part JOINTMAPPING {
                 part ACTUATOR {
                     attribute type : Array {
                         :>> dimensions default 1; 
                         :>> elements : String[dimensions] default ("pwm"); 
                         }
-                    attribute portName : Array {
+                    attribute _port : Array {
                         :>> dimensions default 1; 
                         :>> elements : String[dimensions] default ("portName"); 
                         }

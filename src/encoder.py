@@ -5,7 +5,7 @@ from lxml import etree
 @dataclass
 class Encoder:
     type: list[str]
-    portName: list[str]
+    _port: list[str]
     position: list[str]
     resolution: list[int]
     tolerance: list[float]
@@ -13,7 +13,6 @@ class Encoder:
     @classmethod
     def from_sysml(cls, root_path):
         attr = dict(reversed(Utils.parse_sysml(root_path+'/encoder.sysml').part_definitions.items()))     
-        attributes = {}
 
         for key, value in attr.items():
             for param in value.parameters:
@@ -25,8 +24,8 @@ class Encoder:
         encoder_name = self.__class__.__name__ if encoder_name is None else encoder_name
         group_elem = etree.Element("group", {"name": encoder_name})
         for attr_name, attr_value in self.__dict__.items():
-            param = etree.SubElement(group_elem, "param", {'name': attr_name})
-            param.text = str(attr_value).replace('(', ' ').replace(')', ' ').replace(',', ' ')
+            param = etree.SubElement(group_elem, "param", {'name': attr_name.strip('_')})
+            param.text = ' '.join(val.strip('"') if isinstance(val, str) else str(val) for val in attr_value)
         etree.indent(group_elem, space='    ')
         
         return etree.tostring(group_elem, pretty_print=True)

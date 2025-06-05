@@ -1,7 +1,7 @@
 part def Torso {
     part torso_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "torso-calibrator";
+        :>> device_name = "torso-calibrator";
         :>> GENERAL.joints = 3;
         :>> GENERAL.deviceName = "Torso_Calibrator";
         :>> HOME.positionHome = (0, 0, -20);
@@ -27,8 +27,8 @@ part def Torso {
     }
         part torso_eb5_j0_2_mec :> mechanicals {
         :>> GENERAL.Joints = 3;
-        :>> GENERAL.AxisMap = (0, 1, 2);
-        :>> GENERAL.AxisName = ("torso_roll", "torso_pitch", "torso_yaw");
+        :>> GENERAL.AxisMap = (2, 0, 1);
+        :>> GENERAL.AxisName = ("torso_yaw", "torso_roll", "torso_pitch");
         :>> GENERAL.AxisType = ("revolute", "revolute", "revolute");
         :>> GENERAL.Encoder = (182.044, 182.044, 182.044);
         :>> GENERAL.fullscalePWM = (32000, 32000, 32000);
@@ -37,8 +37,8 @@ part def Torso {
         :>> GENERAL.Gearbox_E2J = (1, 1, 1);
         :>> GENERAL.useMotorSpeedFbk = (1, 1, 1);
         :>> GENERAL.MotorType = ("BLL_MOOG", "BLL_MOOG", "BLL_MOOG");
-        :>> LIMITS.hardwareJntPosMin = (-30, -20, -50);
-        :>> LIMITS.hardwareJntPosMax = (30, 70, 50);
+        :>> LIMITS.hardwareJntPosMin = (-50, -30, -20);
+        :>> LIMITS.hardwareJntPosMax = (50, 30, 70);
         :>> LIMITS.rotorPosMin = (0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0);
         :>> _2FOC.HasHallSensor = (1, 1, 1);
@@ -61,7 +61,7 @@ part def Torso {
     part torso_eb5_j0_2_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/torso_eb5_j0_2_eln.xml", "../../hardware/mechanicals/torso_eb5_j0_2_mec.xml", "./torso_eb5_j0_2_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "torso-eb5-j0_2-mc";
+        :>> device_name = "torso-eb5-j0_2-mc";
         :>> LIMITS.jntPosMin = (-50, -30, -20);
         :>> LIMITS.jntPosMax = (50, 30, 70);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000);
@@ -120,22 +120,23 @@ part def Torso {
     part torso_eb5_j0_2_mc_service :> service {
         :>> SERVICE.type = "eomn_serv_MC_foc";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "ems4";
+        :>> SERVICE.PROPERTIES.CANBOARDS.type = "foc";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("eomc_act_foc", "foc", "foc");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("eomc_enc_aea", "aea", "aea");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P6", "CONN:P7", "CONN:P8");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P6", "CONN:P7", "CONN:P8");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("eomc_pos_atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, 4096, 4096);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703, 0.703);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("roie", "roie", "roie");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CAN1:3:0", "CAN1:4:0", "CAN1:1:0");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (-14400, -14400, -14400);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0);
     }
     part torso_eb22_skin :> skin {
         :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml");
-        :>> name = "torso-eb22-skin";
+        :>> device_name = "torso-eb22-skin";
         :>> type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (7, 8, 9, 10);
     }
@@ -144,10 +145,10 @@ part def Torso {
 
     part torso_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "torso-mc_nws_yarp";
+        :>> device_name = "torso-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/torso";
+        :>> name = "/icub/torso";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -160,7 +161,7 @@ part def Torso {
     part torso_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "torso-mc_remapper";
+        :>> device_name = "torso-mc_remapper";
         :>> elementName = "torso_joints";
         :>> elementValue = ("( 0  2  0  2 )");
         :>> joints = 3;
@@ -175,10 +176,10 @@ part def Torso {
     }
     part torso_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
-        :>> name = "torso-inertials_wrapper";
+        :>> device_name = "torso-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/torso/inertials";
+        :>> name = "/icub/torso/inertials";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;

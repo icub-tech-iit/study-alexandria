@@ -4,7 +4,7 @@ from utils import Utils
 @dataclass
 class Device:
     type: str
-    name: str
+    device_name: str
 
     @classmethod
     def from_sysml(cls, root_path):

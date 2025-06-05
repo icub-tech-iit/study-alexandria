@@ -5,7 +5,7 @@ part ENCODER {
         :>> dimensions default 1; 
         :>> elements : String[dimensions] default ("aea"); 
         }
-    attribute portName : Array {
+    attribute _port : Array {
         :>> dimensions default 1; 
         :>> elements : String[dimensions] default ("CONN:P1"); 
         }

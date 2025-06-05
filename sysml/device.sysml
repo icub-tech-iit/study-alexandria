@@ -1,4 +1,4 @@
 part def device {
 	attribute type : String default "dev";
-	attribute name : String default "dev_name";
+	attribute device_name : String default "dev_name";
 }

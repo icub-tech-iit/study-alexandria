@@ -1,7 +1,7 @@
 part def Head {
     part face_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "face-calibrator";
+        :>> device_name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
         :>> CALIBRATION.calibrationType = 12;
         :>> startup.phase = "startup";
@@ -17,7 +17,7 @@ part def Head {
     }
     part head_calib :> calibrator {
         :>> type = "parametricCalibratorEth";
-        :>> name = "head-calibrator";
+        :>> device_name = "head-calibrator";
         :>> GENERAL.joints = 6;
         :>> GENERAL.deviceName = "HeadV3_Calibrator";
         :>> HOME.positionHome = (0, 0, 0, 0, 0, 0);
@@ -89,6 +89,14 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+22, +20);
         :>> LIMITS.rotorPosMin = (0, 0);
         :>> LIMITS.rotorPosMax = (0, 0);
+        :>> COUPLINGS.matrixJ2M = (1.000, 1.000, 0.000, 0.000,
+        -1.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
+        0.000, 0.000, 0.000, 1.000);
+        :>> COUPLINGS.matrixM2J = (0.500, 0.500, 0.000, 0.000,
+        0.500, 0.500, 0.000, 0.000,
+        0.000, 0.000, 1.000, 0.000,
+        0.000, 0.000, 0.000, 1.000);
         :>> JOINTSET_CFG.numberofsets = 1;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1);
     }
@@ -108,6 +116,14 @@ part def Head {
         :>> LIMITS.hardwareJntPosMax = (+45, +30, +45, +45);
         :>> LIMITS.rotorPosMin = (0, 0, 0, 0);
         :>> LIMITS.rotorPosMax = (0, 0, 0, 0);
+        :>> COUPLINGS.matrixJ2M = (1.000, 0.000, 0.000, 0.000,
+        0.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 1.000, -1.000,
+        0.000, 0.000, 1.000, 1.000);
+        :>> COUPLINGS.matrixM2J = (1.000, 0.000, 0.000, 0.000,
+        0.000, 1.000, 0.000, 0.000,
+        0.000, 0.000, 0.500, 0.500,
+        0.000, 0.000, -1.000, 1.000);
         :>> JOINTSET_CFG.numberofsets = 3;
         :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0);
         :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (1);
@@ -117,7 +133,7 @@ part def Head {
     part face_eb22_j0_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml", "../../hardware/mechanicals/face_eb22_j0_mec.xml", "./face_eb22_j0_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "face-eb22-j0-mc";
+        :>> device_name = "face-eb22-j0-mc";
         :>> LIMITS.jntPosMin = -5;
         :>> LIMITS.jntPosMax = +65;
         :>> LIMITS.motorOverloadCurrents = 2000;
@@ -146,15 +162,15 @@ part def Head {
     part head_eb20_j0_1_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb20_j0_1_eln.xml", "../../hardware/mechanicals/head_eb20_j0_1_mec.xml", "./head_eb20_j0_1_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "head-eb20-j0_1-mc";
+        :>> device_name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
     }
     part head_eb21_j2_5_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml", "../../hardware/mechanicals/head_eb21_j2_5_mec.xml", "./head_eb21_j2_5_mc_service.xml");
         :>> type = "embObjMotionControl";
-        :>> name = "head-eb21-j2_5-mc";
+        :>> device_name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
-        :>> LIMITS.jntPosMax = (+45, +30, +30, +20);
+        :>> LIMITS.jntPosMax = (+45, +30, +30, +45);
         :>> LIMITS.jntVelMax = (1000, 1000, 1000, 1000);
         :>> LIMITS.motorOverloadCurrents = (2000, 2000, 2500, 2500);
         :>> LIMITS.motorNominalCurrents = (700, 700, 700, 700);
@@ -183,11 +199,11 @@ part def Head {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = "pwm";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = "CONN:P2";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = "CONN:P10";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = "CONN:P2";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = "CONN:P10";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = -4096;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = "none";
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = "none";
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = "none";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = "none";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = 0;
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = 0;
@@ -196,14 +212,14 @@ part def Head {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P4");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P11", "CONN:P10");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P11", "CONN:P10");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, -4096);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P3", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:P3", "CONN:P4");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0);
@@ -212,21 +228,21 @@ part def Head {
         :>> SERVICE.type = "eomn_serv_MC_mc4plus";
         :>> SERVICE.PROPERTIES.ETHBOARD.type = "mc4plus";
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.type = ("pwm", "pwm", "pwm", "pwm");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR.portName = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea", "aea", "aea");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.portName = ("CONN:P11", "CONN:P10", "CONN:none", "CONN:none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ACTUATOR._port = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.type = ("aea", "aea", "none", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1._port = ("CONN:P11", "CONN:P10", "CONN:none", "CONN:none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "none", "none");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (4096, 4096, 0, 0);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0.703, 0.703, 0, 0);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "qenc");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.portName = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:P3", "CONN:P2", "CONN:P5", "CONN:P4");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (2048, 2048, 2048, 2048);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
     part head_inertial :> inertial {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml");
-        :>> name = "head-inertial";
+        :>> device_name = "head-inertial";
         :>> type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "rfe";
@@ -240,18 +256,18 @@ part def Head {
         :>> SERVICE.SETTINGS.enabledSensors = ("rfeimu_acc", "rfeimu_gyro", "rfeimu_mag", "rfeimu_eul", "rfeimu_status");
     }
     part dragonfly2_config_right :> dragonfly {
-        :>> name = "dragonfly_right";
+        :>> device_name = "dragonfly_right";
         :>> type = "dragonfly2";
         :>> guid = "00b09d010123cacb";
     }
     part dragonfly2_config_left :> dragonfly {
-        :>> name = "dragonfly_left";
+        :>> device_name = "dragonfly_left";
         :>> type = "dragonfly2";
         :>> guid = "00b09d010123caca";
     }
     part realsense1 :> realsense {
         :>> type = "realsense2";
-        :>> name = "realsense2dev";
+        :>> device_name = "realsense2dev";
         :>> SETTINGS.alignmentFrame = "RGB";
         :>> HW_DESCRIPTION.clipPlanes = (0.2, 10.0);
     }
@@ -260,10 +276,10 @@ part def Head {
     }
     part face_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "face-mc_nws_yarp";
+        :>> device_name = "face-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/face";
+        :>> name = "/icub/face";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -275,10 +291,10 @@ part def Head {
     }
     part head_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> name = "head-mc_nws_yarp";
+        :>> device_name = "head-mc_nws_yarp";
         :>> type = "controlBoard_nws_yarp";
         :>> period = 0.01;
-        :>> portName = "/icub/head";
+        :>> name = "/icub/head";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
@@ -292,7 +308,7 @@ part def Head {
     part head_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "head-mc_remapper";
+        :>> device_name = "head-mc_remapper";
         :>> elementName = ("head_joints1", "head_joints2");
         :>> elementValue = ("( 0  1  0  1 )", "( 2  5  0  3 )");
         :>> joints = 6;
@@ -308,7 +324,7 @@ part def Head {
     part face_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> type = "controlboardremapper";
-        :>> name = "face-mc_remapper";
+        :>> device_name = "face-mc_remapper";
         :>> elementName = "face_joints";
         :>> elementValue = ("( 0  0 0  0 )");
         :>> joints = 1;
@@ -324,10 +340,10 @@ part def Head {
 
     part left_cam_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
-        :>> name = "left_cam-nws_yarp";
+        :>> device_name = "left_cam-nws_yarp";
         :>> type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
-        :>> portName = "/icub/cam/left";
+        :>> name = "/icub/cam/left";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -339,10 +355,10 @@ part def Head {
     }
     part right_cam_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
-        :>> name = "right_cam-nws_yarp";
+        :>> device_name = "right_cam-nws_yarp";
         :>> type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
-        :>> portName = "/icub/cam/right";
+        :>> name = "/icub/cam/right";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -354,10 +370,10 @@ part def Head {
     }
     part realsense_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
-        :>> name = "RGBDWrapperyarp";
+        :>> device_name = "RGBDWrapperyarp";
         :>> type = "rgbdSensor_nws_yarp";
         :>> period = 0.033;
-        :>> portName = "/depthCamera";
+        :>> name = "/depthCamera";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
@@ -370,10 +386,10 @@ part def Head {
 
     part head_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
-        :>> name = "head-inertials_wrapper";
+        :>> device_name = "head-inertials_wrapper";
         :>> type = "multipleanalogsensorsserver";
         :>> period = 10;
-        :>> portName = "/icub/head/inertials";
+        :>> name = "/icub/head/inertials";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 5;
