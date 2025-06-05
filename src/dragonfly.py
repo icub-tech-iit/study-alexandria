@@ -38,21 +38,9 @@ class Dragonfly(Device):
         return cls(root_path, **params)
 
     def to_xml(self, root_path, file_name):
-        nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
-        
-        check_subfolders_existance(root_path, file_name)
+        root = super().to_xml(root_path, file_name)
 
-        for attr_name, attr_value in self.__dict__.items():
-            if attr_name in ['type', 'device_name', 'folder_name']: #TODO: fix to skip Device class members
-                continue
-            param = etree.SubElement(root, "param", {'name': attr_name})
-            param.text = str(attr_value)
-        etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
-        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'/'+file_name, "wb") as writer:
-            writer.write(xml_object)
+        self._generate_xml(root, root_path, file_name)
 
 def main():
     pass

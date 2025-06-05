@@ -4,6 +4,7 @@ from lxml import etree
 from utils import check_subfolders_existance
 from dataclasses import fields, is_dataclass
 from phase import Phase
+from action import Action
 
 @dataclass
 class Device:
@@ -47,28 +48,28 @@ class Device:
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
-            print(f"Processing attribute: {attr_name} with value: {attr_value}")
-            if self._skip_cases(attr_name) or isinstance(attr_value, Phase):
+            if self._skip_cases(attr_name) or isinstance(attr_value, Phase) or isinstance(attr_value, Action):
                 continue
             elif attr_name == 'includes':	
-                self._add_includes(attr_value)
-            if is_dataclass(attr_value):
+                self._add_includes(attr_value, root)
+            elif is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
             else:
                 param = etree.SubElement(root, "param", {"name": attr_name})
-                param.text = "".join(map(str, attr_value)) 
+                param.text = "".join(map(str, attr_value)) if isinstance(attr_value, list) else str(attr_value)
 
         return root
     
     def _skip_cases(self, attr_name):
         return attr_name in ['type', 'device_name', 'folder_name']
 
-    def _add_includes(self, includes):
-        root, xi_ns = self._define_root()
-        return etree.SubElement(root, f'{{{xi_ns}}}include', href=includes)
-    
+    def _add_includes(self, includes, root):
+        xi_ns = 'http://www.w3.org/2001/XInclude'
+        if isinstance(includes, list):
+            return [etree.SubElement(root, f'{{{xi_ns}}}include', href=inc) for inc in includes]
+        else:
+            return etree.SubElement(root, f'{{{xi_ns}}}include', href=includes)    
     def _extra_attributes(self, extra_attr):
-        print(etree.XML(extra_attr.to_xml()))
         return etree.XML(extra_attr.to_xml())
     
     def _define_root(self):

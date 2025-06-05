@@ -12,7 +12,6 @@ class Calibrator(Device):
         self.folder_name = str
         device = Device.from_sysml(root_path)
         super().__init__(**device.__dict__)
-        # self.CALIB_ORDER = list[float]
         self.startup = Phase
         self.interrupt1 = Phase
         self.interrupt3 = Phase
@@ -71,9 +70,7 @@ class Calibrator(Device):
         self._generate_xml(root, root_path, file_name)
 
 def main():
-    # pass
-    cal = Calibrator.from_sysml('/home/mgloria/iit/study-alexandria/sysml')
-    cal.to_xml('/home/mgloria/iit/study-alexandria/sysml', 'calibrator.xml')
+    pass
 
 if __name__ == "__main__":
     main()
