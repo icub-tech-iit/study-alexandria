@@ -55,6 +55,10 @@ part def Head {
         
     }
 
+    part general :> GENERAL {
+
+    }
+
     part face_eb22_j0_mec :> mechanicals {
         :>> GENERAL.Joints = 1;
         :>> GENERAL.AxisMap = 0;

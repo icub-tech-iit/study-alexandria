@@ -16,6 +16,7 @@ from dragonfly import Dragonfly as dragonfly
 from realsense import Realsense as realsense
 from wrapper import Wrapper as wrapper
 from remapper import Remapper as remapper
+from general import GENERAL as general
 from utils import Utils
 class Part:
     PART_CLASSES = {
@@ -35,6 +36,7 @@ class Part:
         'realsense': realsense,
         'wrapper': wrapper,
         'remapper': remapper,
+        'GENERAL': general,
     }
 
     def __init__(self):

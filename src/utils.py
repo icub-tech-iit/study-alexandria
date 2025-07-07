@@ -12,9 +12,11 @@ class Utils:
     def check_subfolders_existance(root_path, file_path):
         full_path = os.path.join(root_path, file_path)
         directory_path = os.path.dirname(full_path)
-
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path, exist_ok=True)
+        directory_path = os.path.normpath(directory_path)
+        
+        if directory_path not in (".", root_path, os.path.normpath(root_path)):
+            if not os.path.exists(directory_path):
+                os.makedirs(directory_path, exist_ok=True)
             
     def update(self, key, value):
         parts = key.split('.')
