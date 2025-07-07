@@ -14,9 +14,8 @@ class Utils:
         directory_path = os.path.dirname(full_path)
         directory_path = os.path.normpath(directory_path)
         
-        if directory_path not in (".", root_path, os.path.normpath(root_path)):
-            if not os.path.exists(directory_path):
-                os.makedirs(directory_path, exist_ok=True)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path, exist_ok=True)
             
     def update(self, key, value):
         parts = key.split('.')
@@ -53,7 +52,7 @@ class Utils:
         return overrides
 
     def extract_folder_name(self) -> str:
-        return self.folder_name
+        return self.folder_name.strip('"')
 
 def main():
     pass

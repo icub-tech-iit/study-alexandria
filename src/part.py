@@ -17,6 +17,7 @@ from realsense import Realsense as realsense
 from wrapper import Wrapper as wrapper
 from remapper import Remapper as remapper
 from general import GENERAL as general
+from xcub_all import Xcub_all as xcub_all
 from utils import Utils
 class Part:
     PART_CLASSES = {
@@ -37,6 +38,7 @@ class Part:
         'wrapper': wrapper,
         'remapper': remapper,
         'GENERAL': general,
+        'xcub_all': xcub_all        
     }
 
     def __init__(self):

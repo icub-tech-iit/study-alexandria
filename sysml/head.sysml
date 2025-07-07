@@ -59,6 +59,10 @@ part def Head {
 
     }
 
+    part icub_all :> xcub_all {
+
+    }
+    
     part face_eb22_j0_mec :> mechanicals {
         :>> GENERAL.Joints = 1;
         :>> GENERAL.AxisMap = 0;
