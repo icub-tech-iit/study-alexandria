@@ -80,4 +80,5 @@ package iCubGenova11 {
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.minor = 3;
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.build = 3;
     }
+    part extra : Extra {}
 }
