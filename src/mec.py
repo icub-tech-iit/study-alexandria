@@ -60,9 +60,16 @@ class Mechanicals:
             _constraint: str
             param1: int
             param2: int
+        @dataclass
+        class JOINTSET_3:
+            listofjoints: list[int]
+            _constraint: str
+            param1: int
+            param2: int
         JOINTSET_0: JOINTSET_0
         JOINTSET_1: JOINTSET_1
         JOINTSET_2: JOINTSET_2
+        JOINTSET_3: JOINTSET_3
 
     @classmethod
     def from_sysml(cls, root_path):
