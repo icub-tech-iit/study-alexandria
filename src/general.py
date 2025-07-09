@@ -3,16 +3,16 @@ from dataclasses import dataclass
 from utils import Utils
 
 @dataclass
-class PC104:
+class GENERAL:
     folder_name: str
-    PC104IpAddress: str
-    PC104IpPort: int
-    PC104TXrate: int
-    PC104RXrate: int
+    skipCalibration: bool
+    useRawEncoderData: bool
+    useLimitedPWM: bool
+    verbose: bool
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/templates/pc104.sysml').part_definitions        
+        attr = Utils.parse_sysml(root_path+'/templates/general.sysml').part_definitions        
         attributes = {}
 
         for key, value in attr.items():
@@ -22,8 +22,7 @@ class PC104:
     
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
-        
+        root = etree.Element('params', {'portprefix': '', 'build': '1'}, nsmap=nsmap)
         Utils.check_subfolders_existance(root_path, file_name)
 
         group_elem = etree.SubElement(root, "group", {"name": self.__class__.__name__})

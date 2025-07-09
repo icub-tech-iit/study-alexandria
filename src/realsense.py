@@ -23,7 +23,7 @@ class Realsense(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/realsense.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/templates/realsense.sysml').part_definitions.items())
         realsense_camera = cls(root_path)
 
         def set_parameters(instance, attributes):

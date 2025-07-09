@@ -12,7 +12,8 @@ class Utils:
     def check_subfolders_existance(root_path, file_path):
         full_path = os.path.join(root_path, file_path)
         directory_path = os.path.dirname(full_path)
-
+        directory_path = os.path.normpath(directory_path)
+        
         if not os.path.exists(directory_path):
             os.makedirs(directory_path, exist_ok=True)
             
@@ -51,7 +52,7 @@ class Utils:
         return overrides
 
     def extract_folder_name(self) -> str:
-        return self.folder_name
+        return self.folder_name.strip('"')
 
 def main():
     pass

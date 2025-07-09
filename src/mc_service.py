@@ -50,7 +50,7 @@ class Service:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/service.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/service.sysml').part_definitions.items()))
         service = cls(root_path)
 
         def set_parameters(instance, attributes):

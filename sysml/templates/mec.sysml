@@ -146,5 +146,14 @@ part mechanicals {
 			attribute param1 : Integer default 0;
 			attribute param2 : Integer default 0;
 		}
+		part JOINTSET_3 {
+			attribute listofjoints : Array {
+				:>> dimensions default 2; 
+				:>> elements : Integer[dimensions] default (0, 1); 
+			}
+			attribute _constraint : String default "none";
+			attribute param1 : Integer default 0;
+			attribute param2 : Integer default 0;
+		}
 	}
 }

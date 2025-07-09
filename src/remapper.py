@@ -20,7 +20,7 @@ class Remapper(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/remapper.sysml').part_definitions
+        attr = Utils.parse_sysml(root_path+'/templates/remapper.sysml').part_definitions
         params = {}
         for key, value in attr.items():
             for param in value.parameters:

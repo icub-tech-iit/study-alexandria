@@ -56,6 +56,7 @@ package iCubGenova11 {
         :>> left_arm_calib.CALIBRATION.startupVelocity = (10, 10, 10, 10, 30, 30, 30, 60, 100, 100, 100, 100, 100, 100, 100, 100);
         :>> left_arm_calib.CALIBRATION.startupMaxPwm = (3000, 3000, 3000, 3000, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         :>> left_arm_calib.CALIBRATION.startupPosThreshold = (2, 2, 2, 2, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90);
+        :>> left_arm_calib.CALIB_ORDER = "(0 1 2 3) (4) (5 6) (8 9 11 13) (10 12 14)";
         :>> left_arm_eb1_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 1;
         :>> left_arm_eb1_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.minor = 6;
         :>> left_arm_eb1_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.major = 3;
@@ -74,10 +75,12 @@ package iCubGenova11 {
         :>> right_arm_calib.CALIBRATION.startupVelocity = (10, 10, 10, 10, 30, 30, 30, 60, 100, 100, 100, 100, 100, 100, 100, 100);
         :>> right_arm_calib.CALIBRATION.startupMaxPwm = (3000, 3000, 3000, 3000, 3000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         :>> right_arm_calib.CALIBRATION.startupPosThreshold = (5, 2, 2, 2, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90, 90);
+        :>> right_arm_calib.CALIB_ORDER = "(0 1 2 3) (4) (5 6) (8 9 11 13) (10 12 14)";
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 1;
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.minor = 6;
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.major = 3;
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.minor = 3;
         :>> right_arm_eb3_j0_3_mc_service.SERVICE.PROPERTIES.CANBOARDS.FIRMWARE.build = 3;
     }
+    part extra : Extra {}
 }

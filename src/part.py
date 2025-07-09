@@ -16,6 +16,8 @@ from dragonfly import Dragonfly as dragonfly
 from realsense import Realsense as realsense
 from wrapper import Wrapper as wrapper
 from remapper import Remapper as remapper
+from general import GENERAL as general
+from xcub_all import Xcub_all as xcub_all
 from utils import Utils
 class Part:
     PART_CLASSES = {
@@ -35,6 +37,8 @@ class Part:
         'realsense': realsense,
         'wrapper': wrapper,
         'remapper': remapper,
+        'GENERAL': general,
+        'xcub_all': xcub_all        
     }
 
     def __init__(self):
@@ -43,7 +47,7 @@ class Part:
             setattr(self, attr, [])
     @classmethod
     def from_sysml(cls, root_path, part_name):
-        attr = dict(Utils.parse_sysml(root_path+'/'+part_name+'.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
         part = cls()
         parents = []
 
@@ -54,7 +58,7 @@ class Part:
         return part
 
     def to_xml(self, root_path, part_name, robot_name, overr_params):
-        attr = dict(Utils.parse_sysml(root_path+'/'+part_name+'.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/parts/'+part_name+'.sysml').part_definitions.items())
         Utils.check_subfolders_existance(root_path, robot_name)
         robot_path = os.path.join(root_path, robot_name)
 

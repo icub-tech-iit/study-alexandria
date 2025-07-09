@@ -41,7 +41,7 @@ class skinSpec:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/skinSpec.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/templates/skinSpec.sysml').part_definitions.items())
         skinSpec = cls()
 
         def set_parameters(instance, attributes):

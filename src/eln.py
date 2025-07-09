@@ -41,7 +41,7 @@ class Electronics:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/eln.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/eln.sysml').part_definitions.items()))
         board = cls()
 
         def set_parameters(instance, attributes):

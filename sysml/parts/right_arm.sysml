@@ -180,10 +180,11 @@ part def RightArm {
         1.000, 1.000, 0.000, 0.000,
         0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
-        :>> JOINTSET_CFG.numberofsets = 3;
-        :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0, 1);
-        :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (2);
-        :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (3);
+        :>> JOINTSET_CFG.numberofsets = 4;
+        :>> JOINTSET_CFG.JOINTSET_0.listofjoints = (0);
+        :>> JOINTSET_CFG.JOINTSET_1.listofjoints = (1);
+        :>> JOINTSET_CFG.JOINTSET_2.listofjoints = (2);
+        :>> JOINTSET_CFG.JOINTSET_3.listofjoints = (3);
     }
     part right_arm_eb3_j0_3_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml", "../../hardware/mechanicals/right_arm_eb3_j0_3_mec.xml", "./right_arm_eb3_j0_3_mc_service.xml");
@@ -394,7 +395,7 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0, 0, 0);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("none", "qenc", "qenc", "qenc");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:none", "CONN:P2", "CONN:P4", "CONN:P5");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (1, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }
@@ -410,9 +411,9 @@ part def RightArm {
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.position = ("atjoint", "atjoint", "atjoint", "atjoint");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.resolution = (65535, 65535, 65535, 65535);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER1.tolerance = (0, 0, 0, 0);
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.type = ("qenc", "qenc", "qenc", "qenc");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2._port = ("CONN:P3", "CONN:P2", "CONN:P4", "CONN:P5");
-        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("none", "atmotor", "atmotor", "none");
+        :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.position = ("atmotor", "atmotor", "atmotor", "atmotor");
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.resolution = (40, 40, 40, 40);
         :>> SERVICE.PROPERTIES.JOINTMAPPING.ENCODER2.tolerance = (0, 0, 0, 0);
     }

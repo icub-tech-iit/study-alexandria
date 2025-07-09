@@ -60,13 +60,20 @@ class Mechanicals:
             _constraint: str
             param1: int
             param2: int
+        @dataclass
+        class JOINTSET_3:
+            listofjoints: list[int]
+            _constraint: str
+            param1: int
+            param2: int
         JOINTSET_0: JOINTSET_0
         JOINTSET_1: JOINTSET_1
         JOINTSET_2: JOINTSET_2
+        JOINTSET_3: JOINTSET_3
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/mec.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/templates/mec.sysml').part_definitions.items())
         mec = cls()
 
         def set_parameters(instance, attributes):

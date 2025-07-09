@@ -12,7 +12,7 @@ class Encoder:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/encoder.sysml').part_definitions.items()))     
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/encoder.sysml').part_definitions.items()))     
 
         for key, value in attr.items():
             for param in value.parameters:

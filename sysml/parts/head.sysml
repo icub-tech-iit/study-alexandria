@@ -50,11 +50,7 @@ part def Head {
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.Name = "head-eb21-j2_5";
         :>> ETH_BOARD.ETH_BOARD_SETTINGS.RUNNINGMODE.TXrateOfRegularROPs = 5;
     }
-
-    part pc104 :> PC104 {
-        
-    }
-
+    
     part face_eb22_j0_mec :> mechanicals {
         :>> GENERAL.Joints = 1;
         :>> GENERAL.AxisMap = 0;
