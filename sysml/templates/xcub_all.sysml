@@ -1,5 +1,9 @@
 part xcub_all {
     attribute folder_name : String default "./";
+    attribute pc104 : Array {
+        :>> dimensions default 1;
+        :>> elements : String[dimensions] default ("hardware/electronics/pc104.xml");
+    }
     attribute cartesian : Array {
         :>> dimensions default 2;
         :>> elements : String[dimensions] default ("cartesian/left_arm_cartesian.xml", "cartesian/right_arm_cartesian.xml");

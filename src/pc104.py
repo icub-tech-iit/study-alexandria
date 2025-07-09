@@ -12,7 +12,7 @@ class PC104:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/pc104.sysml').part_definitions        
+        attr = Utils.parse_sysml(root_path+'/templates/pc104.sysml').part_definitions        
         attributes = {}
 
         for key, value in attr.items():

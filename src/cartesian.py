@@ -50,7 +50,7 @@ class Cartesian(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/cartesian.sysml').part_definitions
+        attr = Utils.parse_sysml(root_path+'/templates/cartesian.sysml').part_definitions
         cartesian = cls(root_path)
 
         for key, value in attr.items():

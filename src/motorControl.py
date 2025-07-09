@@ -102,7 +102,7 @@ class motorControl(Device):
         
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/motorControl.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/templates/motorControl.sysml').part_definitions.items())
         mc = cls(root_path)
 
         def set_parameters(instance, attributes):

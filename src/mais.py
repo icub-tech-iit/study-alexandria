@@ -47,7 +47,7 @@ class MAIS(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/mais.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/mais.sysml').part_definitions.items()))
         mais = cls(root_path)
 
         def set_parameters(instance, attributes):

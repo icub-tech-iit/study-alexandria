@@ -29,7 +29,7 @@ class Dragonfly(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path + '/dragonfly.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path + '/templates/dragonfly.sysml').part_definitions.items()))
 
         for key, value in attr.items():
             for param in value.parameters:

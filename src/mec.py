@@ -66,7 +66,7 @@ class Mechanicals:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(Utils.parse_sysml(root_path+'/mec.sysml').part_definitions.items())
+        attr = dict(Utils.parse_sysml(root_path+'/templates/mec.sysml').part_definitions.items())
         mec = cls()
 
         def set_parameters(instance, attributes):

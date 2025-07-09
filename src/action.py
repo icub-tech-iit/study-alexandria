@@ -12,7 +12,7 @@ class Action:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/action.sysml').part_definitions    
+        attr = Utils.parse_sysml(root_path+'/templates/action.sysml').part_definitions    
         attributes = {}
 
         for key, value in attr.items():

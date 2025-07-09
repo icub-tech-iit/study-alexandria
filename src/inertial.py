@@ -49,7 +49,7 @@ class Inertial(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/inertial.sysml').part_definitions.items()))
+        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/inertial.sysml').part_definitions.items()))
         inertial = cls(root_path)
 
         def set_parameters(instance, attributes):
