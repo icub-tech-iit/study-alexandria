@@ -1,12 +1,13 @@
 from dataclasses import dataclass, is_dataclass, fields
 from encoder import Encoder
+from base import BaseClass
 from lxml import etree
 from utils import parse_sysml, check_subfolders_existance
 
-class Service:
-    def __init__(self, root_path):
-        self.root_path = root_path
-        self.folder_name = str
+class Service(BaseClass):
+    def __post_init__(self):
+        super().__init__()
+        self.is_device = False
     @dataclass
     class SERVICE:
         type: list[str]
@@ -51,7 +52,7 @@ class Service:
     @classmethod
     def from_sysml(cls, root_path):
         attr = dict(reversed(parse_sysml(root_path+'/templates/service.sysml').part_definitions.items()))
-        service = cls(root_path)
+        service = cls()
 
         def set_parameters(instance, attributes):
             for key, value in attributes.items():

@@ -468,7 +468,7 @@ part def LeftArm {
     part left_arm_eb24_j4_7_skinSpec :> skinSpec {
     }
     part left_arm_eb26_j12_15_mais :> mais {
-        :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb1_j0_3_eln.xml");
+        :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb26_j12_15_eln.xml");
         :>> device_name = "left_arm-eb26-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "l_hand_mais";

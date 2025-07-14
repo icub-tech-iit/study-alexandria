@@ -1,14 +1,15 @@
-from dataclasses import dataclass, is_dataclass, asdict, fields
+from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from device import Device
-from utils import parse_sysml, check_subfolders_existance
+from utils import parse_sysml
 
 class motorControl(Device):
     def __init__(self, root_path):
-        self.includes = str
-        self.folder_name = str
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
 
     @dataclass
     class LIMITS:
@@ -124,13 +125,13 @@ class motorControl(Device):
     def to_xml(self, root_path, file_name):
         root = super().to_xml(root_path, file_name)
 
-        self._generate_xml(root, root_path, file_name)
+        self.generate_xml(root, root_path, file_name)
 
-        etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
-        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+'/'+file_name, "wb") as writer:
-            writer.write(xml_object)
+        # etree.indent(root, space='    ')
+        # doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        # xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
+        # with open(root_path+'/'+file_name, "wb") as writer:
+        #     writer.write(xml_object)
 def main():
     pass
 

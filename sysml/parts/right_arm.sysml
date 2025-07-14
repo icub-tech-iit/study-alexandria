@@ -473,7 +473,7 @@ part def RightArm {
         :>> specialCfgTriangles.triangleSetCfg15 = (1, 10, 0, 1, 1, 2, "0x2200");
     }
     part right_arm_eb29_j12_15_mais :> mais {
-        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb3_j0_3_eln.xml");
+        :>> includes = ("../../general.xml", "../../hardware/electronics/right_arm_eb29_j12_15_eln.xml");
         :>> device_name = "right_arm-eb29-j12_15-mais";
         :>> type = "embObjMais";
         :>> SERVICE.PROPERTIES.SENSORS.id = "r_hand_mais";

@@ -1,9 +1,11 @@
 from dataclasses import dataclass, is_dataclass, fields
 from lxml import etree
 from utils import parse_sysml, check_subfolders_existance
-class Mechanicals:
-    def __init__(self):
-        self.folder_name = str
+from base import BaseClass
+class Mechanicals(BaseClass):
+    def __post_init__(self):
+        super().__init__()
+        self.is_device = False
     @dataclass
     class GENERAL:
         MotioncontrolVersion: int

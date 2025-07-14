@@ -1,16 +1,15 @@
-from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import dataclass, is_dataclass, fields
 from device import Device
-from utils import parse_sysml, check_subfolders_existance
+from utils import parse_sysml
 
-@dataclass
 class Inertial(Device):
-    type: str
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.includes = str
-        self.folder_name = str
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
+        self.type = str
 
     @dataclass
     class SERVICE:
@@ -50,30 +49,12 @@ class Inertial(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(parse_sysml(root_path+'/templates/inertial.sysml').part_definitions.items()))
-        inertial = cls(root_path)
-
-        def set_parameters(instance, attributes):
-            for key, value in attributes.items():
-                if key == 'inertial':
-                    inertial.includes = [include for include in value.parameters['includes']['value'].strip('()').split(',')]
-                    inertial.folder_name = value.parameters['folder_name'].strip('"')
-                if hasattr(instance, key):
-                    subclass = getattr(instance, key)
-                    if is_dataclass(subclass):
-                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                                for param, val in value.parameters.items()}
-                        setattr(instance, key, subclass(**params))
-                    if value.children:
-                        set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
-
-        set_parameters(inertial, attr)
-        return inertial
+        return super().from_sysml(root_path)
 
     def to_xml(self, root_path, file_name):
         root = super().to_xml(root_path, file_name)
 
-        self._generate_xml(root, root_path, file_name)
+        self.generate_xml(root, root_path, file_name)
 
 def main():
     pass

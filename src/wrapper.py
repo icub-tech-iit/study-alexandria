@@ -1,36 +1,41 @@
-from lxml import etree
-from dataclasses import dataclass
+from dataclasses import dataclass, fields, is_dataclass
 from device import Device
 from phase import Phase
 from action import Action
-from utils import parse_sysml, check_subfolders_existance
+from utils import parse_sysml
 
-@dataclass
 class Wrapper(Device):
-    period: float
-    name: str
-    startup: Action
-    shutdown: Phase
-
     def __init__(self, root_path, **kwargs):
-        self.folder_name = str
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.__dict__.update(kwargs)
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
+
+        self.period = float
+        self.name = str
+        self.startup = Action
+        self.shutdown = Phase
 
     @classmethod
     def from_sysml(cls, root_path):
         attr = parse_sysml(root_path+'/templates/wrapper.sysml').part_definitions
-        params = {}
+        wrapper = cls(root_path)
+
         for key, value in attr.items():
-            for param in value.parameters:
-                params.update({param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                    for param, val in value.parameters.items()})
-            if key == 'startup':
-                params.update({key: Action.from_sysml(root_path)})
+            if hasattr(cls, key):
+                subclass = getattr(cls, key)
+                if is_dataclass(subclass):
+                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                              for param, val in value.parameters.items()}
+                    setattr(wrapper, key, subclass(**params))
+            elif key == 'wrapper':
+                wrapper.folder_name = value.parameters['folder_name'].strip('"')
+            elif key == 'startup':
+                wrapper.startup = Action.from_sysml(root_path)
             elif key == 'shutdown':
-                params.update({key: Phase.from_sysml(root_path)})
-        return cls(root_path, **params)
+                wrapper.shutdown = Phase.from_sysml(root_path)
+        return wrapper
 
     def to_xml(self, root_path, file_name):
         root = super().to_xml(root_path, file_name)
@@ -39,7 +44,7 @@ class Wrapper(Device):
         for attr in extra_attrs:
             root.append(super()._extra_attributes(attr))
 
-        self._generate_xml(root, root_path, file_name)
+        self.generate_xml(root, root_path, file_name)
 
 def main():
     pass

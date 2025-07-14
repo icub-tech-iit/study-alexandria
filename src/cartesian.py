@@ -1,17 +1,18 @@
-from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import dataclass, is_dataclass, fields
 from phase import Phase
 from action import Action
 from device import Device
-from utils import parse_sysml, check_subfolders_existance
+from utils import parse_sysml
 
 class Cartesian(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
         self.startup = Action
         self.shutdown = Phase
-        self.folder_name = str
     
     @dataclass
     class GENERAL:
@@ -48,25 +49,8 @@ class Cartesian(Device):
         joint_8: list[str]
         joint_9: list[str]
 
-    @classmethod
     def from_sysml(cls, root_path):
-        attr = parse_sysml(root_path+'/templates/cartesian.sysml').part_definitions
-        cartesian = cls(root_path)
-
-        for key, value in attr.items():
-            if hasattr(cls, key):
-                subclass = getattr(cls, key)
-                if is_dataclass(subclass):
-                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                                for param, val in value.parameters.items()}
-                    setattr(cartesian, key, subclass(**params))
-            elif key in ['shutdown']:
-                setattr(cartesian, key, Phase.from_sysml(root_path))
-            elif key in ['startup']:
-                setattr(cartesian, key, Action.from_sysml(root_path))
-            elif key == 'cartesian':
-                cartesian.folder_name = value.parameters['folder_name'].strip('"')
-        return cartesian
+        return super().from_sysml(root_path)
 
     def to_xml(self, root_path, file_name):
         root = super().to_xml(root_path, file_name)
@@ -75,7 +59,7 @@ class Cartesian(Device):
         for attr in extra_attrs:
             root.append(super()._extra_attributes(attr))
 
-        self._generate_xml(root, root_path, file_name)
+        self.generate_xml(root, root_path, file_name)
 
 def main():
     pass

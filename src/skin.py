@@ -1,14 +1,14 @@
-from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import dataclass, is_dataclass, fields
 from device import Device
-from utils import parse_sysml, check_subfolders_existance
+from utils import parse_sysml
 
 class Skin(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.includes = str
-        self.folder_name = str
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
 
     @dataclass
     class patches:
@@ -40,7 +40,7 @@ class Skin(Device):
     def to_xml(self, root_path, file_name):
         root = super().to_xml(root_path, file_name)
 
-        self._generate_xml(root, root_path, file_name)
+        self.generate_xml(root, root_path, file_name)
 
 def main():
     pass

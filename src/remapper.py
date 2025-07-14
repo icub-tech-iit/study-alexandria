@@ -1,36 +1,43 @@
 from lxml import etree
-from dataclasses import dataclass
+from dataclasses import dataclass, fields, is_dataclass
 from device import Device
 from phase import Phase
 from action import Action
 from utils import parse_sysml, check_subfolders_existance
 
-@dataclass
-class Remapper(Device):
-    elementName: list[str]
-    elementValue: list[str]
-    joints: int
-    startup: Action
-    shutdown: Phase    
+class Remapper(Device):   
     def __init__(self, root_path, **kwargs):
-        self.folder_name = str
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.__dict__.update(kwargs)
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
+
+        self.elementName = list[str]
+        self.elementValue = list[str]
+        self.joints = int
+        self.startup = Action
+        self.shutdown = Phase
 
     @classmethod
     def from_sysml(cls, root_path):
         attr = parse_sysml(root_path+'/templates/remapper.sysml').part_definitions
-        params = {}
+        remapper = cls(root_path)
+
         for key, value in attr.items():
-            for param in value.parameters:
-                params.update({param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                    for param, val in value.parameters.items()})
-            if key == 'startup':
-                params.update({key: Action.from_sysml(root_path)})
+            if hasattr(cls, key):
+                subclass = getattr(cls, key)
+                if is_dataclass(subclass):
+                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                              for param, val in value.parameters.items()}
+                    setattr(remapper, key, subclass(**params))
+            elif key == 'remapper':
+                remapper.folder_name = value.parameters['folder_name'].strip('"')
+            elif key == 'startup':
+                remapper.startup = Action.from_sysml(root_path)
             elif key == 'shutdown':
-                params.update({key: Phase.from_sysml(root_path)})
-        return cls(root_path, **params)
+                remapper.shutdown = Phase.from_sysml(root_path)
+        return remapper
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
@@ -59,7 +66,7 @@ class Remapper(Device):
         root.append(etree.XML(self.shutdown.to_xml()))
 
         etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE params PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
+        doctype = '<!DOCTYPE devices PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
         xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
         with open(root_path+'/'+file_name, "wb") as writer:
             writer.write(xml_object)
