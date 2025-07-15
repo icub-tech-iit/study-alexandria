@@ -44,7 +44,7 @@ class skinSpec(BaseClass):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(parse_sysml(root_path+'/templates/skinSpec.sysml').part_definitions.items())
+        attr = dict(parse_sysml(root_path+'templates/skinspec.sysml').part_definitions.items())
         skinSpec = cls()
 
         def set_parameters(instance, attributes):

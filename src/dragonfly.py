@@ -1,6 +1,5 @@
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import fields
 from device import Device
-from utils import parse_sysml
 
 class Dragonfly(Device):
     def __init__(self, root_path):

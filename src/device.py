@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-# from utils import parse_sysml
 from base import BaseClass
 
 @dataclass

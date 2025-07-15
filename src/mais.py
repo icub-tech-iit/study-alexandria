@@ -1,6 +1,5 @@
-from dataclasses import dataclass, is_dataclass, fields
+from dataclasses import dataclass, fields
 from device import Device
-from utils import parse_sysml
 
 class MAIS(Device):
     def __init__(self, root_path):

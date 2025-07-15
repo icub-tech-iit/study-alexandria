@@ -1,7 +1,6 @@
-from dataclasses import dataclass, is_dataclass, fields
+from dataclasses import dataclass, fields
 from phase import Phase
 from device import Device
-from utils import parse_sysml
 
 class Calibrator(Device):
     def __init__(self, root_path):

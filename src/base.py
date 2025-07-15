@@ -14,30 +14,34 @@ class BaseClass:
     def from_sysml(cls, root_path):
         class_name = cls.__name__.lower()
         template_file = f'{root_path}templates/{class_name}.sysml'
-        attr = parse_sysml(template_file).part_definitions        
-        instance = cls(root_path)
+        attr = parse_sysml(template_file).part_definitions
+        phase_keys = ['startup', 'interrupt1', 'interrupt3']
+        action_keys = ['shutdown']
+        cls_instance = cls(root_path)
 
-        for key, value in attr.items():
-            if hasattr(cls, key):
-                subclass = getattr(cls, key)
-                if is_dataclass(subclass):
-                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                                for param, val in value.parameters.items()}
-                    setattr(instance, key, subclass(**params))
-            elif key == class_name:
-                for param, param_value in value.parameters.items():
-                    if isinstance(param_value, dict) and 'value' in param_value:
-                        setattr(instance, param, [x.strip() for x in param_value['value'].strip("()").split(',')])
-                    else:
-                        setattr(instance, param, param_value.strip('"'))
-            else:
-                phase_keys = ['startup', 'interrupt1', 'interrupt3']
-                action_keys = ['shutdown']
+        def _set_parameters(instance, attributes):
+            for key, value in attributes.items():
                 if key in phase_keys:
                     setattr(instance, key, Phase.from_sysml(root_path))
                 elif key in action_keys:
                     setattr(instance, key, Action.from_sysml(root_path))
-        return instance
+                elif hasattr(instance, key):
+                    subclass = getattr(instance, key)
+                    if is_dataclass(subclass):
+                        params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
+                                    for param, val in value.parameters.items()}
+                        setattr(instance, key, subclass(**params))
+                    if value.children:
+                        _set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
+                elif key == class_name:
+                    for param, param_value in value.parameters.items():
+                        if isinstance(param_value, dict) and 'value' in param_value:
+                            setattr(instance, param, [x.strip() for x in param_value['value'].strip("()").split(',')])
+                        else:
+                            setattr(instance, param, param_value.strip('"'))
+
+        _set_parameters(cls_instance, attr)
+        return cls_instance
 
     def to_xml(self, root_path, file_name):
         root, xi_ns = self._define_root()
@@ -94,7 +98,7 @@ class BaseClass:
         xi_ns = 'http://www.w3.org/2001/XInclude'
         nsmap = {'xi': xi_ns}
         if self.is_device:
-            root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
+            root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.device_type).strip('"')}, nsmap=nsmap)
         else:
             root = etree.Element('params', {'robot': '', 'build': '1'}, nsmap=nsmap)
         return root, xi_ns

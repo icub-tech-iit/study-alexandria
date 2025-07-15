@@ -1,8 +1,7 @@
-from dataclasses import dataclass, is_dataclass, fields
+from dataclasses import dataclass, fields
 from phase import Phase
 from action import Action
 from device import Device
-from utils import parse_sysml
 
 class Cartesian(Device):
     def __init__(self, root_path):
@@ -48,7 +47,8 @@ class Cartesian(Device):
         joint_7: list[str]
         joint_8: list[str]
         joint_9: list[str]
-
+    
+    @classmethod
     def from_sysml(cls, root_path):
         return super().from_sysml(root_path)
 

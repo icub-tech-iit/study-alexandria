@@ -1,6 +1,5 @@
-from dataclasses import dataclass, is_dataclass, fields
+from dataclasses import dataclass, fields
 from device import Device
-from utils import parse_sysml
 
 class FT(Device):
     def __init__(self, root_path):
@@ -62,9 +61,7 @@ class FT(Device):
         self.generate_xml(root, root_path, file_name)
 
 def main():
-    # pass
-    ft = FT.from_sysml('/home/mgloria/iit/study-alexandria/sysml/')
-    print(ft)
+    pass
 
 if __name__ == "__main__":
     main()
