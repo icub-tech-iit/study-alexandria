@@ -8,7 +8,6 @@ class FT(Device):
         init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
 
         super().__init__(**init_args)
-        self.type = str
 
     @dataclass
     class SERVICE:

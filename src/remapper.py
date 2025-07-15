@@ -25,7 +25,7 @@ class Remapper(Device):
 
     def to_xml(self, root_path, file_name):
         nsmap = {'xi': 'http://www.w3.org/2001/XInclude'}
-        root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
+        root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.device_type).strip('"')}, nsmap=nsmap)
         
         check_subfolders_existance(root_path, file_name)
 
@@ -40,7 +40,7 @@ class Remapper(Device):
             elem.text = elem_value.strip('"')
 
         for attr_name, attr_value in self.__dict__.items():
-            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['type', 'device_name', 'elementName', 'elementValue', 'folder_name']:
+            if isinstance(attr_value, Action) or isinstance(attr_value, Phase) or attr_name in ['device_type', 'device_name', 'elementName', 'elementValue', 'folder_name']:
                 continue
             else:
                 param = etree.SubElement(root, "param", {"name": attr_name})

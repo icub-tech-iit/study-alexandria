@@ -1,6 +1,6 @@
 part def Torso {
     part torso_calib :> calibrator {
-        :>> type = "parametricCalibratorEth";
+        :>> device_type = "parametricCalibratorEth";
         :>> device_name = "torso-calibrator";
         :>> GENERAL.joints = 3;
         :>> GENERAL.deviceName = "Torso_Calibrator";
@@ -60,7 +60,7 @@ part def Torso {
     }
     part torso_eb5_j0_2_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/torso_eb5_j0_2_eln.xml", "../../hardware/mechanicals/torso_eb5_j0_2_mec.xml", "./torso_eb5_j0_2_mc_service.xml");
-        :>> type = "embObjMotionControl";
+        :>> device_type = "embObjMotionControl";
         :>> device_name = "torso-eb5-j0_2-mc";
         :>> LIMITS.jntPosMin = (-50, -30, -20);
         :>> LIMITS.jntPosMax = (50, 30, 70);
@@ -137,7 +137,7 @@ part def Torso {
     part torso_eb22_skin :> skin {
         :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml");
         :>> device_name = "torso-eb22-skin";
-        :>> type = "embObjSkin";
+        :>> device_type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (7, 8, 9, 10);
     }
     part torso_eb22_skinSpec :> skinSpec {
@@ -146,7 +146,7 @@ part def Torso {
     part torso_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> device_name = "torso-mc_nws_yarp";
-        :>> type = "controlBoard_nws_yarp";
+        :>> device_type = "controlBoard_nws_yarp";
         :>> period = 0.01;
         :>> name = "/icub/torso";
         :>> startup.phase = "startup";
@@ -160,7 +160,7 @@ part def Torso {
     }
     part torso_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> type = "controlboardremapper";
+        :>> device_type = "controlboardremapper";
         :>> device_name = "torso-mc_remapper";
         :>> elementName = "torso_joints";
         :>> elementValue = ("( 0  2  0  2 )");
@@ -177,7 +177,7 @@ part def Torso {
     part torso_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
         :>> device_name = "torso-inertials_wrapper";
-        :>> type = "multipleanalogsensorsserver";
+        :>> device_type = "multipleanalogsensorsserver";
         :>> period = 10;
         :>> name = "/icub/torso/inertials";
         :>> startup.phase = "startup";

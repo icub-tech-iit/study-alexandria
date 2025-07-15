@@ -2,7 +2,7 @@ import os
 from calibrator import Calibrator as calibrator
 from eln import Electronics as electronics
 from mec import Mechanicals as mechanicals 
-from motorControl import motorControl
+from motorControl import MotorControl as motorControl
 from mc_service import Service as service
 from inertial import Inertial as inertials
 from pc104 import PC104 as pc104

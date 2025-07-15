@@ -2,6 +2,7 @@ from lxml import etree
 from dataclasses import fields, is_dataclass
 from phase import Phase
 from action import Action
+from encoder import Encoder
 from utils import check_subfolders_existance, parse_sysml
 
 class BaseClass:
@@ -13,10 +14,11 @@ class BaseClass:
     @classmethod
     def from_sysml(cls, root_path):
         class_name = cls.__name__.lower()
-        template_file = f'{root_path}templates/{class_name}.sysml'
-        attr = parse_sysml(template_file).part_definitions
+        template_file = f'{root_path}/templates/{class_name}.sysml'
+        attr = dict(parse_sysml(template_file).part_definitions.items())
         phase_keys = ['startup', 'interrupt1', 'interrupt3']
         action_keys = ['shutdown']
+        encoder_keys = ['ENCODER1', 'ENCODER2']
         cls_instance = cls(root_path)
 
         def _set_parameters(instance, attributes):
@@ -25,6 +27,8 @@ class BaseClass:
                     setattr(instance, key, Phase.from_sysml(root_path))
                 elif key in action_keys:
                     setattr(instance, key, Action.from_sysml(root_path))
+                elif key in encoder_keys:
+                    setattr(instance, key, Encoder.from_sysml(root_path))
                 elif hasattr(instance, key):
                     subclass = getattr(instance, key)
                     if is_dataclass(subclass):
@@ -33,7 +37,7 @@ class BaseClass:
                         setattr(instance, key, subclass(**params))
                     if value.children:
                         _set_parameters(getattr(instance, key), {child: value.children[child] for child in value.children})
-                elif key == class_name:
+                elif key.lower() == class_name:
                     for param, param_value in value.parameters.items():
                         if isinstance(param_value, dict) and 'value' in param_value:
                             setattr(instance, param, [x.strip() for x in param_value['value'].strip("()").split(',')])
@@ -48,7 +52,7 @@ class BaseClass:
         check_subfolders_existance(root_path, file_name)
 
         def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
+            group_elem = etree.SubElement(parent, "group", {"name": name.strip('_')})
             for field in fields(dataclass_instance):
                 field_name = field.name
                 field_value = getattr(dataclass_instance, field_name)
@@ -57,27 +61,27 @@ class BaseClass:
                     _dataclass_to_xml(group_elem, field_name, field_value) 
                 elif isinstance(field_value, list):
                     if any(isinstance(i, list) for i in field_value):
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                         formatted_text = "\n".join(
                             "   ".join(map(str, row)) for row in field_value
                         )
                         param.text = f"\n{formatted_text}\n"
                     else:
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
+                        param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                         param.text = "   ".join(map(str, field_value))
                 else:
-                    param = etree.SubElement(group_elem, "param", {"name": field_name})
+                    param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                     param.text = str(field_value)
 
         for attr_name, attr_value in self.__dict__.items():
-            if self._skip_cases(attr_name) or isinstance(attr_value, Phase) or isinstance(attr_value, Action):
+            if self._skip_cases(attr_name) or isinstance(attr_value, Phase) or isinstance(attr_value, Action) or isinstance(attr_value, Encoder):
                 continue
             elif attr_name == 'includes':	
                 self._add_includes(attr_value, root)
             elif is_dataclass(attr_value):
                 _dataclass_to_xml(root, attr_name, attr_value)
             else:
-                param = etree.SubElement(root, "param", {"name": attr_name})
+                param = etree.SubElement(root, "param", {"name": attr_name.strip('_')})
                 param.text = "".join(map(str, attr_value)) if isinstance(attr_value, list) else str(attr_value)
 
         return root
@@ -88,9 +92,9 @@ class BaseClass:
     def _add_includes(self, includes, root):
         xi_ns = 'http://www.w3.org/2001/XInclude'
         if isinstance(includes, list):
-            return [etree.SubElement(root, f'{{{xi_ns}}}include', href=inc) for inc in includes]
+            return [etree.SubElement(root, f'{{{xi_ns}}}include', href=inc.strip('"')) for inc in includes]
         else:
-            return etree.SubElement(root, f'{{{xi_ns}}}include', href=includes)    
+            return etree.SubElement(root, f'{{{xi_ns}}}include', href=includes.strip('"'))    
     def _extra_attributes(self, extra_attr):
         return etree.XML(extra_attr.to_xml())
     

@@ -1,8 +1,7 @@
 from dataclasses import dataclass, fields
-from lxml import etree
 from device import Device
 
-class motorControl(Device):
+class MotorControl(Device):
     def __init__(self, root_path):
         device = Device.from_sysml(root_path)
         device_fields = {f.name for f in fields(Device)}
