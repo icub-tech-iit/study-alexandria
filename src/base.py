@@ -91,8 +91,7 @@ class BaseClass:
         return root
     
     def _skip_cases(self, attr_name):
-        return attr_name in ['device_type', 'device_name', 'folder_name', 'is_device']
-
+        return attr_name in ['device_type', 'device_name', 'folder_name', 'is_device', 'elementName', 'elementValue']
     def _add_includes(self, includes, root):
         xi_ns = 'http://www.w3.org/2001/XInclude'
         if isinstance(includes, list):
