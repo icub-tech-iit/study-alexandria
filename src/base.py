@@ -83,7 +83,7 @@ class BaseClass:
                 _dataclass_to_xml(root, attr_name, attr_value)
             else:
                 param = etree.SubElement(root, "param", {"name": attr_name.strip('_')})
-                param.text = "".join(map(str, attr_value)) if isinstance(attr_value, list) else str(attr_value)
+                param.text = "   ".join(map(str, attr_value)) if isinstance(attr_value, list) else str(attr_value)
 
         return root
     
