@@ -70,6 +70,9 @@ class BaseClass:
                     else:
                         param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                         param.text = "   ".join(map(str, field_value))
+                elif field_name == 'temperature_acquisitionRate': # Special case since sysml doesn't support - in attribute names
+                    param = etree.SubElement(group_elem, "param", {"name": 'temperature-acquisitionRate'})
+                    param.text = str(field_value)
                 else:
                     param = etree.SubElement(group_elem, "param", {"name": field_name.strip('_')})
                     param.text = str(field_value)
