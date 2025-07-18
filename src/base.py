@@ -16,17 +16,18 @@ class BaseClass:
         class_name = cls.__name__.lower()
         template_file = f'{root_path}/templates/{class_name}.sysml'
         attr = dict(parse_sysml(template_file).part_definitions.items())
-        phase_keys = ['startup', 'interrupt1', 'interrupt3']
-        action_keys = ['shutdown']
+        phase_keys = ['startup', 'interrupt1', 'interrupt3', 'shutdown']
         encoder_keys = ['ENCODER1', 'ENCODER2']
         cls_instance = cls(root_path)
 
         def _set_parameters(instance, attributes):
             for key, value in attributes.items():
-                if key in phase_keys:
-                    setattr(instance, key, Phase.from_sysml(root_path))
-                elif key in action_keys:
-                    setattr(instance, key, Action.from_sysml(root_path))
+                if hasattr(instance, key) and key in phase_keys:
+                    phase_instance = getattr(instance, key)
+                    if phase_instance is Action:
+                        setattr(instance, key, Action.from_sysml(root_path))
+                    elif phase_instance is Phase:
+                        setattr(instance, key, Phase.from_sysml(root_path))
                 elif key in encoder_keys:
                     setattr(instance, key, Encoder.from_sysml(root_path))
                 elif hasattr(instance, key):
