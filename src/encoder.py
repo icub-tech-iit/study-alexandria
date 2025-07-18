@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from utils import Utils
+from utils import parse_sysml
 from lxml import etree
 
 @dataclass
@@ -12,7 +12,8 @@ class Encoder:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = dict(reversed(Utils.parse_sysml(root_path+'/templates/encoder.sysml').part_definitions.items()))     
+        attr = dict(reversed(parse_sysml(root_path+'/templates/encoder.sysml').part_definitions.items()))     
+        attributes = {}
 
         for key, value in attr.items():
             for param in value.parameters:

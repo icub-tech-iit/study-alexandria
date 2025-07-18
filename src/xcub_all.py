@@ -1,6 +1,5 @@
-from utils import Utils
+from utils import parse_sysml, check_subfolders_existance
 from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
 
 class Xcub_all:
     def __init__(self, root_path):
@@ -15,7 +14,7 @@ class Xcub_all:
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path + '/templates/xcub_all.sysml').part_definitions
+        attr = parse_sysml(root_path + '/templates/xcub_all.sysml').part_definitions
         all_instance = cls(root_path)
 
         for key, value in attr.items():
@@ -35,7 +34,7 @@ class Xcub_all:
         nsmap = {'xi': xi_ns}
         root = etree.Element('robot', {'name': '', 'portprefix': '', 'build': "1"}, nsmap=nsmap)
 
-        Utils.check_subfolders_existance(root_path, file_name)
+        check_subfolders_existance(root_path, file_name)
         param = etree.SubElement(root, "params")
         device = etree.SubElement(root, "devices")
         for attr_name, attr_value in self.__dict__.items():

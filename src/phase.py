@@ -1,23 +1,22 @@
 import lxml.etree as etree
-from dataclasses import dataclass
-from utils import Utils
+from utils import parse_sysml
 
-@dataclass
 class Phase:
-    phase: str
-    level: int
-    type: str
-    target: str
+    def __init__(self):
+        self.phase = str
+        self.level = int
+        self.type = str
+        self.target = str
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/templates/phase.sysml').part_definitions        
-        attributes = {}
+        attr = parse_sysml(root_path+'/templates/phase.sysml').part_definitions        
+        phase_class = cls()
 
         for key, value in attr.items():
             for param in value.parameters:
-                attributes[param] = value.parameters[param].strip('"')
-        return cls(**attributes)
+                setattr(phase_class, param, value.parameters[param].strip('"'))
+        return phase_class  
         
     def to_xml(self):
         root = etree.Element('action', {'phase': self.phase.strip('"'), "level": str(self.level).strip('"'), "type": self.type.strip('"')})

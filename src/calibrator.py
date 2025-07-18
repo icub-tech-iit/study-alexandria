@@ -1,16 +1,16 @@
-from lxml import etree
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import dataclass, fields
 from phase import Phase
 from device import Device
-from utils import Utils
 
 class Calibrator(Device):
     def __init__(self, root_path):
-        self.includes = str
-        self.folder_name = str
         device = Device.from_sysml(root_path)
-        super().__init__(**device.__dict__)
-        self.CALIB_ORDER = list[float]
+        device_fields = {f.name for f in fields(Device)}
+        init_args = {k: v for k, v in device.__dict__.items() if k in device_fields}
+
+        super().__init__(**init_args)
+
+        self.CALIB_ORDER = []
         self.startup = Phase
         self.interrupt1 = Phase
         self.interrupt3 = Phase
@@ -23,7 +23,6 @@ class Calibrator(Device):
     class HOME:
         positionHome: list[float]
         velocityHome: list[float]
-
     @dataclass
     class CALIBRATION:
         calibrationType: list[float]
@@ -41,74 +40,15 @@ class Calibrator(Device):
 
     @classmethod
     def from_sysml(cls, root_path):
-        attr = Utils.parse_sysml(root_path+'/templates/calibrator.sysml').part_definitions
-        calib = cls(root_path)
-
-        for key, value in attr.items():
-            if hasattr(cls, key):
-                subclass = getattr(cls, key)
-                if is_dataclass(subclass):
-                    params = {param: [x for x in val['value'].strip("()").split(',')] if isinstance(val, dict) else val.strip('"')
-                                for param, val in value.parameters.items()}
-                    setattr(calib, key, subclass(**params))
-            elif key == 'calibrator':
-                calib.CALIB_ORDER = [x for x in value.parameters['CALIB_ORDER'].strip('"').split(',')]
-                calib.includes = value.parameters['includes'].strip('"')
-                calib.folder_name = value.parameters['folder_name'].strip('"')
-            elif key in ['startup', 'interrupt1', 'interrupt3']:
-                setattr(calib, key, Phase.from_sysml(root_path))
-        return calib
-
+        return super().from_sysml(root_path)
+    
     def to_xml(self, root_path, file_name):
-        xi_ns = 'http://www.w3.org/2001/XInclude'
-        nsmap = {'xi': xi_ns}
-        root = etree.Element('device', {'name': str(self.device_name).strip('"'), 'type': str(self.type).strip('"')}, nsmap=nsmap)
-        
-        Utils.check_subfolders_existance(root_path, file_name)
+        root = super().to_xml(root_path, file_name)
+        extra_attrs = [self.startup, self.interrupt1, self.interrupt3]
+        for attr in extra_attrs:
+            root.append(super()._extra_attributes(attr))
 
-        def _dataclass_to_xml(parent, name, dataclass_instance):
-            group_elem = etree.SubElement(parent, "group", {"name": name.upper()})
-
-            for field in fields(dataclass_instance):
-                field_name = field.name
-                field_value = getattr(dataclass_instance, field_name)
-                
-                if is_dataclass(field_value):
-                    _dataclass_to_xml(group_elem, field_name, field_value) 
-                elif isinstance(field_value, list):
-                    if any(isinstance(i, list) for i in field_value):
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        formatted_text = "\n".join(
-                            "   ".join(map(str, row)) for row in field_value
-                        )
-                        param.text = f"\n{formatted_text}\n"
-                    else:
-                        param = etree.SubElement(group_elem, "param", {"name": field_name})
-                        param.text = "   ".join(map(str, field_value))
-                else:
-                    param = etree.SubElement(group_elem, "param", {"name": field_name})
-                    param.text = str(field_value)
-
-        for attr_name, attr_value in self.__dict__.items():
-            if attr_name == 'includes':	
-                etree.SubElement(root, f'{{{xi_ns}}}include', href=attr_value)
-            if isinstance(attr_value, Phase) and attr_name in ['startup', 'interrupt1', 'interrupt3', 'folder_name']:
-                continue
-            if is_dataclass(attr_value):
-                _dataclass_to_xml(root, attr_name, attr_value)
-        
-        calib_order = etree.SubElement(root, "param", {"name": "CALIB_ORDER"})
-        calib_order.text = "".join(map(str, self.CALIB_ORDER))
-
-        root.append(etree.XML(self.startup.to_xml()))
-        root.append(etree.XML(self.interrupt1.to_xml()))
-        root.append(etree.XML(self.interrupt3.to_xml()))
-
-        etree.indent(root, space='    ')
-        doctype = '<!DOCTYPE devices PUBLIC "-//YARP//DTD yarprobotinterface 3.0//EN" "http://www.yarp.it/DTD/yarprobotinterfaceV3.0.dtd">'
-        xml_object = etree.tostring(root, pretty_print=True, xml_declaration=True, encoding='UTF-8', doctype=doctype)
-        with open(root_path+"/"+file_name, "wb") as writer:
-            writer.write(xml_object)
+        self.generate_xml(root, root_path, file_name)
 
 def main():
     pass

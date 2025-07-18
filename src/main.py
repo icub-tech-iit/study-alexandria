@@ -1,5 +1,5 @@
 from part import Part
-from utils import Utils
+from utils import parse_sysml
 import argparse
 
 
@@ -11,14 +11,14 @@ class Robot:
 
     @classmethod
     def from_sysml(cls, root_path, robot_name):
-        attr = dict(Utils.parse_sysml(root_path+'/robots/'+robot_name+'.sysml').part_definitions.items())
+        attr = dict(parse_sysml(root_path+'/robots/'+robot_name+'.sysml').part_definitions.items())
         robot = cls()
 
         robot.parts = [Part.from_sysml(root_path, key) for key, value in attr.items()]
         return robot
 
     def to_xml(self, root_path, robot_name):
-        attr = dict(Utils.parse_sysml(root_path+'/robots/'+robot_name+'.sysml').part_definitions.items())
+        attr = dict(parse_sysml(root_path+'/robots/'+robot_name+'.sysml').part_definitions.items())
         override_values = []
         
         for key, value in attr.items():

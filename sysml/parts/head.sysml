@@ -1,6 +1,6 @@
 part def Head {
     part face_calib :> calibrator {
-        :>> type = "parametricCalibratorEth";
+        :>> device_type = "parametricCalibratorEth";
         :>> device_name = "face-calibrator";
         :>> GENERAL.deviceName = "FaceV3_Calibrator";
         :>> CALIBRATION.calibrationType = 12;
@@ -16,7 +16,7 @@ part def Head {
         :>> interrupt3.type = "abort";
     }
     part head_calib :> calibrator {
-        :>> type = "parametricCalibratorEth";
+        :>> device_type = "parametricCalibratorEth";
         :>> device_name = "head-calibrator";
         :>> GENERAL.joints = 6;
         :>> GENERAL.deviceName = "HeadV3_Calibrator";
@@ -128,7 +128,7 @@ part def Head {
 
     part face_eb22_j0_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/face_eb22_j0_eln.xml", "../../hardware/mechanicals/face_eb22_j0_mec.xml", "./face_eb22_j0_mc_service.xml");
-        :>> type = "embObjMotionControl";
+        :>> device_type = "embObjMotionControl";
         :>> device_name = "face-eb22-j0-mc";
         :>> LIMITS.jntPosMin = -5;
         :>> LIMITS.jntPosMax = +65;
@@ -157,13 +157,13 @@ part def Head {
     }
     part head_eb20_j0_1_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb20_j0_1_eln.xml", "../../hardware/mechanicals/head_eb20_j0_1_mec.xml", "./head_eb20_j0_1_mc_service.xml");
-        :>> type = "embObjMotionControl";
+        :>> device_type = "embObjMotionControl";
         :>> device_name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
     }
     part head_eb21_j2_5_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml", "../../hardware/mechanicals/head_eb21_j2_5_mec.xml", "./head_eb21_j2_5_mc_service.xml");
-        :>> type = "embObjMotionControl";
+        :>> device_type = "embObjMotionControl";
         :>> device_name = "head-eb21-j2_5-mc";
         :>> LIMITS.jntPosMin = (-45, -30, -30, 0);
         :>> LIMITS.jntPosMax = (+45, +30, +30, +45);
@@ -239,7 +239,7 @@ part def Head {
     part head_inertial :> inertial {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml");
         :>> device_name = "head-inertial";
-        :>> type = "embObjIMU";
+        :>> device_type = "embObjIMU";
         :>> SERVICE.type = "eomn_serv_AS_inertials3";
         :>> SERVICE.PROPERTIES.CANBOARDS.type = "rfe";
         :>> SERVICE.PROPERTIES.CANBOARDS.PROTOCOL.major = 2;
@@ -253,16 +253,16 @@ part def Head {
     }
     part dragonfly2_config_right :> dragonfly {
         :>> device_name = "dragonfly_right";
-        :>> type = "dragonfly2";
+        :>> device_type = "dragonfly2";
         :>> guid = "00b09d010123cacb";
     }
     part dragonfly2_config_left :> dragonfly {
         :>> device_name = "dragonfly_left";
-        :>> type = "dragonfly2";
+        :>> device_type = "dragonfly2";
         :>> guid = "00b09d010123caca";
     }
     part realsense1 :> realsense {
-        :>> type = "realsense2";
+        :>> device_type = "realsense2";
         :>> device_name = "realsense2dev";
         :>> SETTINGS.alignmentFrame = "RGB";
         :>> HW_DESCRIPTION.clipPlanes = (0.2, 10.0);
@@ -273,7 +273,7 @@ part def Head {
     part face_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> device_name = "face-mc_nws_yarp";
-        :>> type = "controlBoard_nws_yarp";
+        :>> device_type = "controlBoard_nws_yarp";
         :>> period = 0.01;
         :>> name = "/icub/face";
         :>> startup.phase = "startup";
@@ -288,7 +288,7 @@ part def Head {
     part head_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> device_name = "head-mc_nws_yarp";
-        :>> type = "controlBoard_nws_yarp";
+        :>> device_type = "controlBoard_nws_yarp";
         :>> period = 0.01;
         :>> name = "/icub/head";
         :>> startup.phase = "startup";
@@ -303,7 +303,7 @@ part def Head {
 
     part head_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> type = "controlboardremapper";
+        :>> device_type = "controlboardremapper";
         :>> device_name = "head-mc_remapper";
         :>> elementName = ("head_joints1", "head_joints2");
         :>> elementValue = ("( 0  1  0  1 )", "( 2  5  0  3 )");
@@ -319,7 +319,7 @@ part def Head {
     }
     part face_mc_remapper :> remapper {
         :>> folder_name = "wrappers/motorControl/";
-        :>> type = "controlboardremapper";
+        :>> device_type = "controlboardremapper";
         :>> device_name = "face-mc_remapper";
         :>> elementName = "face_joints";
         :>> elementValue = ("( 0  0 0  0 )");
@@ -337,7 +337,7 @@ part def Head {
     part left_cam_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
         :>> device_name = "left_cam-nws_yarp";
-        :>> type = "frameGrabber_nws_yarp";
+        :>> device_type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
         :>> name = "/icub/cam/left";
         :>> startup.phase = "startup";
@@ -352,7 +352,7 @@ part def Head {
     part right_cam_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
         :>> device_name = "right_cam-nws_yarp";
-        :>> type = "frameGrabber_nws_yarp";
+        :>> device_type = "frameGrabber_nws_yarp";
         :>> period = 0.033;
         :>> name = "/icub/cam/right";
         :>> startup.phase = "startup";
@@ -367,7 +367,7 @@ part def Head {
     part realsense_nws_yarp :> wrapper {
         :>> folder_name = "wrappers/camera/";
         :>> device_name = "RGBDWrapperyarp";
-        :>> type = "rgbdSensor_nws_yarp";
+        :>> device_type = "rgbdSensor_nws_yarp";
         :>> period = 0.033;
         :>> name = "/depthCamera";
         :>> startup.phase = "startup";
@@ -383,7 +383,7 @@ part def Head {
     part head_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
         :>> device_name = "head-inertials_wrapper";
-        :>> type = "multipleanalogsensorsserver";
+        :>> device_type = "multipleanalogsensorsserver";
         :>> period = 10;
         :>> name = "/icub/head/inertials";
         :>> startup.phase = "startup";
