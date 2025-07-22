@@ -59,11 +59,11 @@ part motorControl : device {
         }
         attribute velocityControl : Array {
             :>> dimensions default 2;
-            :>> elements : String[dimensions] default ("POS_PID_DEFAULT, POS_PID_DEFAULT");
+            :>> elements : String[dimensions] default ("POS_PID_DEFAULT", "POS_PID_DEFAULT");
         }
         attribute mixedControl : Array {
             :>> dimensions default 2;
-            :>> elements : String[dimensions] default ("POS_PID_DEFAULT, POS_PID_DEFAULT");
+            :>> elements : String[dimensions] default ("POS_PID_DEFAULT", "POS_PID_DEFAULT");
         }
         attribute torqueControl : Array {
             :>> dimensions default 2;
