@@ -97,17 +97,17 @@ part mechanicals {
 	part COUPLINGS {
 		attribute matrixJ2M : Array {
 			:>> dimensions default 3; 
-			:>> elements : Real[dimensions] default (0.000, 0.000, 0.000, 0.000, 
-			0.000, 0.000, 0.000, 0.000,
-			0.000, 0.000, 0.000, 0.000,
-			0.000, 0.000, 0.000, 0.000); 
+			:>> elements : Real[dimensions] default (1.000, 0.000, 0.000, 0.000, 
+			0.000, 1.000, 0.000, 0.000,
+			0.000, 0.000, 1.000, 0.000,
+			0.000, 0.000, 0.000, 1.000); 
 		}
 		attribute matrixM2J : Array {
 			:>> dimensions default 3; 
-			:>> elements : Real[dimensions] default (0.000, 0.000, 0.000, 0.000, 
-			0.000, 0.000, 0.000, 0.000,
-			0.000, 0.000, 0.000, 0.000,
-			0.000, 0.000, 0.000, 0.000); 
+			:>> elements : Real[dimensions] default (1.000, 0.000, 0.000, 0.000, 
+			0.000, 1.000, 0.000, 0.000,
+			0.000, 0.000, 1.000, 0.000,
+			0.000, 0.000, 0.000, 1.000); 
 		}
 		attribute matrixE2J : Array {
 			:>> dimensions default 3; 

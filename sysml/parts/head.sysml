@@ -89,7 +89,7 @@ part def Head {
         -1.000, 1.000, 0.000, 0.000,
         0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
-        :>> COUPLINGS.matrixM2J = (0.500, 0.500, 0.000, 0.000,
+        :>> COUPLINGS.matrixM2J = (0.500, -0.500, 0.000, 0.000,
         0.500, 0.500, 0.000, 0.000,
         0.000, 0.000, 1.000, 0.000,
         0.000, 0.000, 0.000, 1.000);
@@ -160,6 +160,11 @@ part def Head {
         :>> device_type = "embObjMotionControl";
         :>> device_name = "head-eb20-j0_1-mc";
         :>> LIMITS.jntPosMax = (+22, +20);
+        :>> LIMITS.motorOverloadCurrents = (6000, 6000);
+        :>> LIMITS.motorPeakCurrents = (4000, 4000);
+        :>> POS_PID_DEFAULT.kp = (-645, +547);
+        :>> POS_PID_DEFAULT.kd = (-19, +16);
+        :>> POS_PID_DEFAULT.ki = (-2983, +2879);
     }
     part head_eb21_j2_5_mc :> motorControl {
         :>> includes = ("../../general.xml", "../../hardware/electronics/head_eb21_j2_5_eln.xml", "../../hardware/mechanicals/head_eb21_j2_5_mec.xml", "./head_eb21_j2_5_mc_service.xml");
@@ -181,7 +186,7 @@ part def Head {
         :>> CONTROLS.torqueControl = ("none", "none", "none", "none");
         :>> CONTROLS.currentPid = ("none", "none", "none", "none");
         :>> CONTROLS.speedPid = ("none", "none", "none", "none");
-        :>> POS_PID_DEFAULT.kp = (1100.0, -1000, 3500, 4500);
+        :>> POS_PID_DEFAULT.kp = (1100.0, -1000, 3500, 3500);
         :>> POS_PID_DEFAULT.kd = (0.0, 0.0, 0.0, 0.0);
         :>> POS_PID_DEFAULT.ki = (0.0, -100, 600.0, 600.0);
         :>> POS_PID_DEFAULT.maxOutput = (3360, 3360, 3360, 3360);
