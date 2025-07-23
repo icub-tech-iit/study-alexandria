@@ -98,6 +98,15 @@ class SysMLv2Listener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by SysMLv2Parser#bool.
+    def enterBool(self, ctx:SysMLv2Parser.BoolContext):
+        pass
+
+    # Exit a parse tree produced by SysMLv2Parser#bool.
+    def exitBool(self, ctx:SysMLv2Parser.BoolContext):
+        pass
+
+
     # Enter a parse tree produced by SysMLv2Parser#vector.
     def enterVector(self, ctx:SysMLv2Parser.VectorContext):
         pass

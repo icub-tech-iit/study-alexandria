@@ -59,6 +59,11 @@ class SysMLv2Visitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by SysMLv2Parser#bool.
+    def visitBool(self, ctx:SysMLv2Parser.BoolContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by SysMLv2Parser#vector.
     def visitVector(self, ctx:SysMLv2Parser.VectorContext):
         return self.visitChildren(ctx)

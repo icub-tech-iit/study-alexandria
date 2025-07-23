@@ -140,8 +140,7 @@ part def Torso {
         :>> device_type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (7, 8, 9, 10);
     }
-    part torso_eb22_skinSpec :> skinSpec {
-    }
+    part torso_eb22_skinSpec :> skinSpec;
 
     part torso_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";

@@ -465,8 +465,8 @@ part def LeftArm {
         :>> device_type = "embObjSkin";
         :>> patches.skinCanAddrsPatch1 = (14, 13, 12, 11, 10, 9, 8);
     }
-    part left_arm_eb24_j4_7_skinSpec :> skinSpec {
-    }
+    part left_arm_eb24_j4_7_skinSpec :> skinSpec;
+    
     part left_arm_eb26_j12_15_mais :> mais {
         :>> includes = ("../../general.xml", "../../hardware/electronics/left_arm_eb26_j12_15_eln.xml");
         :>> device_name = "left_arm-eb26-j12_15-mais";
