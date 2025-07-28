@@ -1,0 +1,22 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools>=42", 
+    "wheel",
+    "setuptools_scm[toml]>=6.0"
+]
+
+[project]
+name = "alexandria"
+dynamic = ["version"]
+description = "Where all the knowledge of robots-configuration is"
+requires-python = ">=3.8"
+readme = "README.md"
+authors = [{ name="Martina Gloria", email="martina.gloria@iit.it" }]
+dependencies = ["lxml"]
+
+[tool.setuptools_scm]
+local_scheme = "dirty-tag"
+
+[tool.cibuildwheel]
+build-frontend = "build"
