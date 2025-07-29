@@ -39,13 +39,21 @@ If you don't have Python installed yet, follow the instructions based on your OS
     conda activate myenv
     ```
 
-To install Python packages instead, [`pip`](https://pip.pypa.io/en/stable/installation/) is typically used (if you want to avoid conflicts between package versions, please use a virtual environment).
+To install Python packages instead, [`pip`](https://pip.pypa.io/en/stable/installation/) is typically used. If you want to avoid conflicts between package versions, please create and use a virtual environment:
 
-```console
+```sh
+pip install virtualenv
 python3 -m venv alexandriaenv
 source alexandriaenv/bin/activate
-pip install lxml
+```
+
+Inside the virtual environment, clone the repository and install the project:
+
+```sh
+git clone https://github.com/icub-tech-iit/study-alexandria.git
+cd study-alexandria
 pip install -e sysmlv2parser
+pip install .
 ```
 
 ### sysmlv2parser
