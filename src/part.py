@@ -17,6 +17,7 @@ from wrapper import Wrapper as wrapper
 from remapper import Remapper as remapper
 from general import GENERAL as general
 from xcub_all import Xcub_all as xcub_all
+from lidar import Lidar as lidar
 from utils import extract_overrides, parse_sysml, check_subfolders_existance, update, extract_folder_name
 class Part:
     PART_CLASSES = {
@@ -37,7 +38,8 @@ class Part:
         'wrapper': wrapper,
         'remapper': remapper,
         'GENERAL': general,
-        'xcub_all': xcub_all        
+        'xcub_all': xcub_all,
+        'lidar': lidar
     }
 
     def __init__(self):
