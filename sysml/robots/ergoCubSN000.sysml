@@ -27,4 +27,17 @@ package ergoCubSN000 {
         :>> torso_calib.CALIBRATION.startupMaxPwm = (5500, 5500, 5500);
         :>> torso_calib.CALIBRATION.startupPosThreshold = (2, 2, 2);
     }
+    part left_arm : ErgoCubLeftArm {
+        :>> left_arm_calib.CALIBRATION.calibration1 = (4000, -3000, -3000, 4000, 1127, 24927, 7183, 0, 300, 0, 300, 300, 300);
+        :>> left_arm_calib.CALIBRATION.calibration2 = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibration3 = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibration4 = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibration5 = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibrationZero = (35, -15, -52, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.calibrationDelta = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.startupPosition = (34, 50, -10, 90, 0.0, 0.0, 0.0, 0.0, 4.0, 0.0, 4.0, 4.0, 4.0);
+        :>> left_arm_calib.CALIBRATION.startupVelocity = (10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 100.0, 100.0, 0.0, 100.0, 100.0, 100.0);
+        :>> left_arm_calib.CALIBRATION.startupMaxPwm = (8000, 8000, 8000, 8000, 16000, 16000, 16000, 0, 0, 0, 0, 0, 0);
+        :>> left_arm_calib.CALIBRATION.startupPosThreshold = (2, 2, 2, 2, 2, 2, 2, 90, 5, 90, 5, 5, 5);
+    }
 }
