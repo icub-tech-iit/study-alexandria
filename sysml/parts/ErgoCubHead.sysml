@@ -162,6 +162,11 @@ part def ErgoCubHead {
         :>> SETTINGS.alignmentFrame = "RGB";
         :>> HW_DESCRIPTION.clipPlanes = (0.2, 10.0);
     }
+    part rplidar :> lidar {
+        :>> device_name = "rpLidarS2";
+        :>> device_type = "rpLidar4";
+    }
+
     part head_mc_wrapper :> wrapper {
         :>> folder_name = "wrappers/motorControl/";
         :>> device_name = "head-mc_nws_yarp";
@@ -194,19 +199,33 @@ part def ErgoCubHead {
         :>> shutdown.level = 20;
     }
     part realsense_nws_yarp :> wrapper {
-        :>> folder_name = "wrappers/camera/";
-        :>> device_name = "RGBDWrapperyarp";
-        :>> device_type = "rgbdSensor_nws_yarp";
-        :>> period = 0.03;
-        :>> name = "/depthCamera";
+        :>> folder_name = "wrappers/sensors/";
+        :>> device_name = "rangefinder2D_nws_yarp";
+        :>> device_type = "laser_wrapper_yarp";
+        :>> period = 0.01;
+        :>> name = "/ergocub/laser:o";
         :>> startup.phase = "startup";
         :>> startup.type = "attach";
         :>> startup.level = 10;
-        :>> startup.elementName = "subdevicergbd";
-        :>> startup.elementValue = ("realsenseD450");
+        :>> startup.elementName = "laser";
+        :>> startup.elementValue = ("rpLidarS2");
         :>> shutdown.phase = "shutdown";
         :>> shutdown.type = "detach";
-        :>> shutdown.level = 13;
+        :>> shutdown.level = 15;
+    }
+    part rplidar_nws_yarp :> wrapper {
+        :>> folder_name = "wrappers/sensors/";
+        :>> device_name = "RPLidarWrapperyarp";
+        :>> device_type = "rplidar_nws_yarp";
+        :>> period = 0.03;
+        :>> name = "/rplidar";
+        :>> startup.phase = "startup";
+        :>> startup.type = "attach";
+        :>> startup.level = 10;
+        :>> startup.elementName = "subdevicerplidar";
+        :>> startup.elementValue = ("rplidar");
+        :>> shutdown.phase = "shutdown";
+        :>> shutdown.type = "detach";
     }
     part head_inertials_wrapper :> wrapper {
         :>> folder_name = "wrappers/inertials/";
